@@ -151,11 +151,6 @@
                                                         <u>{{ $pengawas->pengawas2 }}</u>
                                                         <br>Pengawas 2
                                                     </td>
-                                                    <td>
-                                                        <u>Sunyoto</u>
-                                                        <br>Pendamping
-                                                        <br>
-                                                    </td>
                                                     <td class="text-right">
                                                         <u>{{ $pengawas->nama_subkon }}</u>
                                                         <br>Subkont
@@ -196,11 +191,6 @@
                                                         <u>{{ $pengawas->pengawas2 }}</u>
                                                         <br>Pengawas 2
                                                     </td>
-                                                    <td class="text-right">
-                                                        <u>Sunyoto</u>
-                                                        <br>Pendamping
-                                                        <br>
-                                                    </td>
                                                 </tr>
                                             </table>
                                         @endif
@@ -219,11 +209,6 @@
                                                     <td>
                                                         <u>{{ $pengawas->pengawas2 }}</u>
                                                         <br>Pengawas 2
-                                                    </td>
-                                                    <td>
-                                                        <u>Sunyoto</u>
-                                                        <br>Pendamping
-                                                        <br>
                                                     </td>
                                                     <td class="text-right">
                                                         <u>{{ $pengawas->nama_subkon }}</u>

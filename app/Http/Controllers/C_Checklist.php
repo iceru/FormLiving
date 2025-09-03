@@ -112,11 +112,10 @@ class C_Checklist extends Controller
             } else {
                 $getChecklist = DB::table('checklist as a')
                     ->selectRaw("SUM(subbobot) as percentase,  a.*, r.*, jl.*, sub.*, clus.*,
-        IF(a.id_pengawas1 IS NULL,'N/A',c.nama_ua) as pengawas1,
-        IF(a.id_pengawas2 IS NULL,'N/A',b.nama_ua) as pengawas2")
+                        IF(a.id_pengawas1 IS NULL,'N/A',c.nama_ua) as pengawas1,
+                        IF(a.id_pengawas2 IS NULL,'N/A',b.nama_ua) as pengawas2")
                     ->where([
                         'r.id_projek' => $getProjek->id_projek,
-
                     ])
                     ->leftJoin('user_admin as b', 'b.id_user_admin', '=', 'a.id_pengawas2')
                     ->leftJoin('user_admin as c', 'c.id_user_admin', '=', 'a.id_pengawas1')
@@ -212,7 +211,6 @@ class C_Checklist extends Controller
 
     public function nextTermin($projek, $id_rumah)
     {
-
         $decryptedID = Crypt::decrypt($id_rumah);
 
         $lantai = DB::table('checklist')
@@ -223,49 +221,48 @@ class C_Checklist extends Controller
             ])
             ->orderByDesc('id_checklist')
             ->first();
-
         // dd($lantai);
+        if (!$lantai) {
+            return redirect()->back()->with('error', 'Checklist tidak ditemukan!');
+        }
 
         $setTermin = $lantai->termin_jl + 1;
         if ($lantai->termin_jl == 5) {
-
             return redirect()->back()->with('error', 'Termin sudah selesai!');
         }
 
+        $monthsToAdd = $lantai->lantai_jl == 1 ? 1 : 2;
+        $nextMonth = date("Y-m-d", strtotime("+{$monthsToAdd} month"));
 
-        $rumah = DB::table('rumah')->where('id_rumah', $id_rumah)->get();
+        // 1. Find checklist IDs & joblist IDs that match the criteria
+        $records = DB::table('checklist')
+            ->join('joblist', 'checklist.id_joblist', '=', 'joblist.id_joblist')
+            ->where('checklist.id_rumah', $decryptedID)
+            ->where('joblist.termin_jl', $setTermin)
+            ->where('checklist.status_checklist', 'terkunci')
+            ->select('checklist.id_checklist', 'joblist.id_joblist')
+            ->get();
+        // dd($records);
 
-        if ($lantai->lantai_jl == 1) {
-            $nextMonth = date("Y-m-d", strtotime("+1 month"));
+        $checklistIds = $records->pluck('id_checklist');
+        $joblistIds = $records->pluck('id_joblist');
+
+        // 2. Update checklist table
+        if ($checklistIds->isNotEmpty()) {
             DB::table('checklist')
-                ->join('joblist', 'checklist.id_joblist', 'joblist.id_joblist')
-                ->where([
-                    'checklist.id_rumah' => $decryptedID,
-                    'joblist.termin_jl' =>  $setTermin,
-                    'checklist.status_checklist' => "terkunci"
-                ])
+                ->whereIn('id_checklist', $checklistIds)
                 ->update([
-                    'checklist.status_checklist' => "progress",
-                    'checklist.tgl_deadline' => $nextMonth
+                    'status_checklist' => 'progress',
+                    'tgl_deadline' => $nextMonth
                 ]);
         }
-        if ($lantai->lantai_jl == 2) {
-            $nextMonth = date("Y-m-d", strtotime("+2 month"));
-            DB::table('checklist')
-                ->join('joblist', 'checklist.id_joblist', 'joblist.id_joblist')
-                ->where([
-                    'checklist.id_rumah' => $decryptedID,
-                    'joblist.termin_jl' =>  $setTermin,
-                    'checklist.status_checklist' => "terkunci"
-                ])
-                ->update([
-                    'checklist.status_checklist' => "progress",
-                    'checklist.tgl_deadline' => $nextMonth
-                ]);
+        // dd($joblistIds);
+        // 3. Increment termin_jl in joblist table
+        if ($joblistIds->isNotEmpty()) {
+            DB::table('joblist')
+                ->whereIn('id_joblist', $joblistIds)
+                ->increment('termin_jl', 1);
         }
-
-
-
         return redirect()->back()->with('success', 'Termin sudah menjadi termin ' . $setTermin);
     }
 

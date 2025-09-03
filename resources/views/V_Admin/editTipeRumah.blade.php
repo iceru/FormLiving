@@ -166,7 +166,7 @@
 
                 </div>
                 <div class="form-group">
-                    <label for="Sanitary"></label>
+                    <label for="Sanitary">Sanitary</label>
                     <input type="text" name="sanitary[]" value="{{ $getTipeRumah->sanitary_tr }}" id=""
                         class="form-control" placeholder="Masukan sanitary" aria-describedby="helpId">
 
@@ -240,7 +240,7 @@
                                     <div class="product-listing">
 
                                         @foreach ($getGambar as $gambar)
-                                        @if ($gambar->jenis_img == 'denah')
+                                        @if ($gambar && $gambar->jenis_img == 'denah')
                                         <div class="product__item">
 
 
@@ -346,6 +346,7 @@
                     <button class="btn btn-primary" type="submit">Submit</button>
             </form>
             @foreach ($getGambar as $gambar)
+            @if($gambar)
             <div class="modal modal-form fade" id="tipeRumah{{ $gambar->id_gambar_rumah }}" data-backdrop="static"
                 data-keyboard="false" tabindex="-1" aria-labelledby="order-informationLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -440,8 +441,6 @@
 
                         </div>
                     </div>
-
-
                     <div class="modal modal-form fade" id="tipeRumah{{ $gambar->id_gambar_rumah }}"
                         data-backdrop="static" data-keyboard="false" tabindex="-1"
                         aria-labelledby="order-informationLabel" aria-hidden="true">
@@ -538,10 +537,10 @@
 
 
                     </div>
-                    @endforeach
-
                 </div>
             </div>
+            @endif
+            @endforeach
         </div>
 
 
