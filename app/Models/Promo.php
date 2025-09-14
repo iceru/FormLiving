@@ -49,15 +49,12 @@ class Promo extends Model{
             return Promo::select('*')
             ->join('list_promo','promo.id_promo','list_promo.id_promo')
             ->where('status', '=', "aktif")
-            ->where('tipe_promo', '=', "special")
             ->where('kuota_promo','!=',0)
-            // ->where('tgl_aktif', '<=', NOW())
-            ->where('tgl_berakhir', '>=', NOW())
+            ->where('tgl_berakhir', '<=', NOW())
             ->where([
-                'list_promo.id_rumah'   => $id_rumah,
+                'list_promo.id_rumah' => $id_rumah,
                 'promo.kode_promo' => $kode_promo,
         ])->first();
-
     }
     public function firstPromo($select,$where) {
         return Promo::select($select)

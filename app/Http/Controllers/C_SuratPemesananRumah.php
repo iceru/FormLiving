@@ -281,7 +281,6 @@ class C_SuratPemesananRumah extends Controller
             $getPromo = '';
         }
         $dataPembayaranUpdate = array();
-
         for ($i = 0; $i < count($request->input('id_pembayaran')); $i++) {
             // if ($request->in) {
             //     # code...
@@ -295,7 +294,6 @@ class C_SuratPemesananRumah extends Controller
             );
         }
 
-
         // Now perform the update on the database
         foreach ($dataPembayaranUpdate as $data) {
             DB::table('pembayaran_rumah')
@@ -307,21 +305,21 @@ class C_SuratPemesananRumah extends Controller
                     'sisa_pr'   => $data['sisa_pr']
                 ]);
         }
-        $dataPembayaranNew = array();
-        for ($k = 0; $k < count($request->input('tipePembayaran')); $k++){
-            $dataPembayaranNew[] = array(
-                'id_rumah' => $getFormulirPesanan->id_rumah,
-                'id_formulir' => $getFormulirPesanan->id_formulir,
-                'id_pelanggan' => $getFormulirPesanan->id_pelanggan,
-                'detail_pr'     => $request->input('tipePembayaran')[$k],
-                'tgl_pr'       => $request->input('tglPembayaranBaru')[$k],
-                'harga_pr'     => removePeriods($request->input('nominalBaru')[$k]),
-                'sisa_pr'      => removePeriods($request->input('nominalBaru')[$k]),
-            );
+        if($request->input('tipePembayaran') != null){
+            $dataPembayaranNew = array();
+            for ($k = 0; $k < count($request->input('tipePembayaran')); $k++){
+                $dataPembayaranNew[] = array(
+                    'id_rumah' => $getFormulirPesanan->id_rumah,
+                    'id_formulir' => $decryptedID,
+                    'detail_pr'    => $request->input('keteranganNew')[$k],
+                    'tgl_pr'       => $request->input('tglPembayaranNew')[$k],
+                    'harga_pr'     => removePeriods($request->input('nominalNew')[$k]),
+                    'sisa_pr'      => removePeriods($request->input('nominalNew')[$k]),
+                    'type_pr'      => $request->input('tipePembayaran')[$k],
+                );
+            }
+            $this->pembayaranRumah->insertPembayaranRumah($dataPembayaranNew);
         }
-        // dd($dataPembayaranNew); // This is for debugging to see the array structure
-        $this->pembayaranRumah->insertPembayaranRumah($dataPembayaranNew);
-        // dd($request->input('keterangan'));
         $getPembayaranRumah = $this->pembayaranRumah->getPembayaranRumahWhereAll('*', 'id_formulir', '=', $decryptedID);
 
         if (session()->has('user')) {

@@ -386,7 +386,6 @@ class C_Simulasi extends Controller
             $dataInputKalkulator = '';
             $kodePromo = "Tidak Ada Promo";
             if ($request->jenis == 'KPR') {
-
                 if ($rumah->status_stock == 'Inden') {
                     if (empty($getPromo)) {
                         $dataInputKalkulator = [
@@ -487,20 +486,9 @@ class C_Simulasi extends Controller
                     ];
                 }
             }
-            // dd($kodePromo);
-
-            // echo "<pre>";
-            // print_r ($tipeRumah->harga_tr * ($request->persentase / 100));
-            // echo "</pre>";
-
-            // dd($dataInputKalkulator);
             $getIDKalkulator = $this->kalkulatorKPR->insertGetIDKalkulatorKPR($dataInputKalkulator);
 
             return redirect()->route('simulasiPelanggan', [$id_rumah, $id_tipe, $getIDKalkulator, $request->jenis, $kodePromo])->with('success', 'silahkan lanjutkan proses');
-            // dd($dataInputKalkulator);
-
-            // dd($user);
-            // die();
         }
         if (session()->has('guest')) {
             $userPelanggan = $this->userPelanggan->firstUserPelangganWhere(
@@ -745,7 +733,6 @@ class C_Simulasi extends Controller
     {
         $kodePromo = $request->input('kodePromo');
         $promo = $this->promo->firstPromoDataPelanggan($id_rumah, $kodePromo);
-        // dd($promo);
         // die();
         return response()->json($promo);
     }
