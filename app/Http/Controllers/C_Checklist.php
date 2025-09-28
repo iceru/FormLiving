@@ -22,8 +22,6 @@ use App\Models\Checklist;
 
 class C_Checklist extends Controller
 {
-    //
-
     public $userAdmin;
     public $userNotif;
     public $userProjek;
@@ -61,10 +59,8 @@ class C_Checklist extends Controller
             'asc'
         )->collect();
 
-
-        // dd($getChecklist);
+        
         // $getJob = $getJob->where('id_projek',$getProjek->id_projek)->groupBy('termin_job')->sortBy('termin_job');
-        // dd($getJob);
         if (session()->has('user')) {
 
             $user = $this->userAdmin->getUserKategoriWhere('user_admin.id_user_admin', '=', Session::get('user'));
@@ -74,7 +70,6 @@ class C_Checklist extends Controller
                 'user_menu.status_um' => 'aktif',
                 'user_menu.id_kategori' => $user->id_kategori
             ])->collect();
-            // dd($getUserMenu);
             $foundMatchingMenu = false;
 
             $getChecklist = "";
@@ -93,9 +88,7 @@ class C_Checklist extends Controller
                     ->orWhere(
                         [
                             ['r.id_projek', '=', $getProjek->id_projek],
-
                             ['a.id_pengawas2', '=', $user->id_user_admin],
-
                         ]
                     ) // Add this condition
                     ->leftJoin('user_admin as b', 'b.id_user_admin', '=', 'a.id_pengawas2')
@@ -108,7 +101,7 @@ class C_Checklist extends Controller
                     ->orderByRaw('jl.termin_jl AND a.id_checklist DESC')
                     ->groupBy('r.id_rumah')
                     ->get();
-                // dd($getChecklist);
+                
             } else {
                 $getChecklist = DB::table('checklist as a')
                     ->selectRaw("SUM(subbobot) as percentase,  a.*, r.*, jl.*, sub.*, clus.*,
@@ -132,7 +125,6 @@ class C_Checklist extends Controller
             $getRumah = $this->rumah->getRumahProjekWhereAll('status', '=', 'Sold');
             $getSubkon = $this->subkon->getSubkon();
             $getPengawas = $this->userAdmin->getUserAdminWhere('*', ['ktgr_admin.kategori' => "Pengawas"]);
-            // dd($getPengawas);
 
             foreach ($getUserMenu as $menu) {
                 if ($menu->url_menu == request()->segment(1)) {
@@ -143,7 +135,6 @@ class C_Checklist extends Controller
             if (!$foundMatchingMenu) {
                 return redirect('/login')->with('danger', 'anda tidak dapat mengakses halaman ini');
             }
-
 
             return view(
                 'V_Admin.checklist',
@@ -156,8 +147,7 @@ class C_Checklist extends Controller
                     'getChecklist',
                     'getRumah',
                     'getSubkon',
-                    'getPengawas'
-
+                    'getPengawas',
                 )
             );
         } else {
@@ -168,9 +158,9 @@ class C_Checklist extends Controller
     function addChecklistAction(Request $request, $projek)
     {
         $getChecklist = $this->checklist->getChecklistWhere(['checklist.id_rumah' => $request->rumah]);
-        // dd($getChecklist);
+        
         $getProjek = $this->projek->firstProjek('*', 'nama_projek', '=', $projek);
-        // dd($getChecklist);
+        
         if ($getChecklist->isEmpty()) {
             // $getChecklist is empty
         } else {
@@ -180,7 +170,6 @@ class C_Checklist extends Controller
             'joblist.lantai_jl' => $request->lantai,
             'joblist.status_jl' => "Aktif"
         ]);
-        // dd($request->lantai);
         $nextMonth = "";
         if ($request->lantai == 1) {
             $nextMonth = date("Y-m-d", strtotime("+1 month"));
@@ -204,7 +193,6 @@ class C_Checklist extends Controller
             $dataInput[] = $data;
         }
 
-        // dd($dataInput);
         $this->checklist->insertChecklist($dataInput);
         return redirect()->back()->with('success', 'Checklist berhasil ditambahkan!');
     }
@@ -221,11 +209,9 @@ class C_Checklist extends Controller
             ])
             ->orderByDesc('id_checklist')
             ->first();
-        // dd($lantai);
         if (!$lantai) {
-            return redirect()->back()->with('error', 'Checklist tidak ditemukan!');
+            return redirect()->back()->with('error', 'Termin sebelumnya belum selesai!');
         }
-
         $setTermin = $lantai->termin_jl + 1;
         if ($lantai->termin_jl == 5) {
             return redirect()->back()->with('error', 'Termin sudah selesai!');
@@ -242,7 +228,6 @@ class C_Checklist extends Controller
             ->where('checklist.status_checklist', 'terkunci')
             ->select('checklist.id_checklist', 'joblist.id_joblist')
             ->get();
-        // dd($records);
 
         $checklistIds = $records->pluck('id_checklist');
         $joblistIds = $records->pluck('id_joblist');
@@ -256,7 +241,6 @@ class C_Checklist extends Controller
                     'tgl_deadline' => $nextMonth
                 ]);
         }
-        // dd($joblistIds);
         // 3. Increment termin_jl in joblist table
         if ($joblistIds->isNotEmpty()) {
             DB::table('joblist')
@@ -277,7 +261,6 @@ class C_Checklist extends Controller
             ])
             ->orderByDesc('id_checklist')
             ->first();
-        // dd($lantai);
 
         $setTermin = $lantai->termin_jl + 1;
         if ($lantai->termin_jl == 5) {
@@ -318,8 +301,6 @@ class C_Checklist extends Controller
         return redirect()->back()->with('success', 'Termin sudah menjadi termin ' . $setTermin);
     }
 
-
-
     public function getTerminChecklist($projek, $id_rumah)
     {
         $getProjek = $this->projek->firstProjek('*', 'nama_projek', '=', $projek);
@@ -327,8 +308,6 @@ class C_Checklist extends Controller
 
         $decryptedID = Crypt::decrypt($id_rumah);
         $getRumah = $this->rumah->firstRumahWhereJoinCluster('*', 'rumah.id_rumah', '=', $decryptedID);
-
-
 
         if (session()->has('user')) {
             $user = $this->userAdmin->getUserKategoriWhere('user_admin.id_user_admin', '=', Session::get('user'));
@@ -338,7 +317,6 @@ class C_Checklist extends Controller
                 'user_menu.status_um' => 'aktif',
                 'user_menu.id_kategori' => $user->id_kategori
             ])->collect();
-            // dd($getUserMenu);
             $foundMatchingMenu = false;
 
 
@@ -417,7 +395,6 @@ class C_Checklist extends Controller
                     ->groupBy('jl.termin_jl')
                     ->orderByRaw('jl.sort_jl ASC')
                     ->get();
-                // dd($getChecklist);
                 $getCountChecklist = DB::table('checklist as a')
                     ->selectRaw("  a.*, r.*, jl.*, sub.*, clus.*, j.*,
                         COUNT(a.status_cek_pengawas1) as countCekPengawas1,
@@ -442,7 +419,6 @@ class C_Checklist extends Controller
             }
 
 
-
             return view(
                 'V_Admin.terminChecklist',
                 compact(
@@ -461,11 +437,9 @@ class C_Checklist extends Controller
         }
     }
 
-
     public function printChecklist($projek, $id_rumah)
     {
         $getProjek = $this->projek->firstProjek('*', 'nama_projek', '=', $projek);
-
 
         $decryptedID = Crypt::decrypt($id_rumah);
         $getRumah = $this->rumah->getRumahWhere('id_rumah', '=', $decryptedID);
@@ -473,7 +447,6 @@ class C_Checklist extends Controller
         $getTermin = $getChecklist->groupBy('termin_jl');
         $getLantai = $getChecklist->pluck('lantai_jl')->first();
         // $getJob = $getTermin->groupBy('id_job');
-        // dd($getLantai);
 
         $getPengawas = DB::table('checklist as a')
             ->selectRaw("SUM(subbobot) as percentase,  a.*, r.*, jl.*, sub.*, clus.*, j.*,
@@ -493,14 +466,12 @@ class C_Checklist extends Controller
             ->groupBy('j.termin_job')
             ->orderByRaw('j.termin_job ASC')
             ->get();
-            // dd($getPengawas);
         $getSPK = DB::table('spk')
-            ->where('id_rumah', '=', $id_rumah)
+            ->where('id_rumah', '=', $decryptedID)
             ->first();
 
         $getJob = $this->job->getJob('*');
 
-        // dd($getJob);
         if (session()->has('user')) {
             $user = $this->userAdmin->getUserKategoriWhere('user_admin.id_user_admin', '=', Session::get('user'));
 
@@ -509,7 +480,6 @@ class C_Checklist extends Controller
                 'user_menu.status_um' => 'aktif',
                 'user_menu.id_kategori' => $user->id_kategori
             ])->collect();
-            // dd($getUserMenu);
             $foundMatchingMenu = false;
 
 
@@ -536,27 +506,23 @@ class C_Checklist extends Controller
                     'getLantai',
                     'getPengawas',
                     'getSPK',
-
-
                 )
             );
         } else {
             return redirect('/login');
         }
     }
+
     public function getListChecklist($projek, $id_rumah, $termin)
     {
         $getProjek = $this->projek->firstProjek('*', 'nama_projek', '=', $projek);
 
 
         $decryptedID = Crypt::decrypt($id_rumah);
-        // dd($decryptedID);
+        
         $decryptedTermin = Crypt::decrypt($termin);
-        // dd($decryptedTermin);
         $getRumah = $this->rumah->firstRumahWhereJoinCluster('*', 'rumah.id_rumah', '=', $decryptedID);
 
-
-        // dd($getChecklist);
         if (session()->has('user')) {
             $user = $this->userAdmin->getUserKategoriWhere('user_admin.id_user_admin', '=', Session::get('user'));
 
@@ -565,7 +531,6 @@ class C_Checklist extends Controller
                 'user_menu.status_um' => 'aktif',
                 'user_menu.id_kategori' => $user->id_kategori
             ])->collect();
-            // dd($getUserMenu);
             $foundMatchingMenu = false;
 
 
@@ -597,7 +562,7 @@ class C_Checklist extends Controller
                     ->Join('job as j', 'jl.id_job', '=', 'j.id_job')
                     ->orderByRaw('jl.sort_jl ASC')
                     ->get();
-                // dd($getChecklist);
+                
             } else {
                 $getChecklist = DB::table('checklist as a')
                     ->selectRaw("a.*, jl.*, j.*,IF(a.id_pengawas1 IS NULL,'N/A',b.nama_ua) as pengawas1,
@@ -614,7 +579,7 @@ class C_Checklist extends Controller
 
                     ->orderByRaw('jl.sort_jl ASC')
                     ->get();
-                // dd($getChecklist);
+                
             }
 
             return view(
@@ -633,6 +598,7 @@ class C_Checklist extends Controller
             return redirect('/login');
         }
     }
+
     function editChecklist($projek, $id_rumah, $termin, $id_checklist)
     {
         $getProjek = $this->projek->firstProjek('*', 'nama_projek', '=', $projek);
@@ -644,11 +610,7 @@ class C_Checklist extends Controller
 
         $getRumah = $this->rumah->firstRumahWhereJoinCluster('*', 'rumah.id_rumah', '=', $decryptedID);
 
-        // dd($getChecklist);
         if (session()->has('user')) {
-
-
-
             $user = $this->userAdmin->getUserKategoriWhere('user_admin.id_user_admin', '=', Session::get('user'));
 
             $projekUser = $this->userProjek->getProjectUserWhere('user_admin.id_user_admin', '=', session::get('user'));
@@ -656,7 +618,6 @@ class C_Checklist extends Controller
                 'user_menu.status_um' => 'aktif',
                 'user_menu.id_kategori' => $user->id_kategori
             ])->collect();
-            // dd($getUserMenu);
             $foundMatchingMenu = false;
 
 
@@ -690,7 +651,7 @@ class C_Checklist extends Controller
 
                     ->Join('job as j', 'jl.id_job', '=', 'j.id_job')
                     ->first();
-                // dd($getChecklist);
+                
             } else {
                 $getChecklist = DB::table('checklist as a')
                     ->selectRaw("a.*, jl.*, j.*")
@@ -705,7 +666,7 @@ class C_Checklist extends Controller
                     ->Join('job as j', 'jl.id_job', '=', 'j.id_job')
                     ->first();
             }
-            // dd($getChecklist);
+            
 
 
             return view(
@@ -724,13 +685,13 @@ class C_Checklist extends Controller
             return redirect('/login');
         }
     }
+
     function editChecklistAction(Request $request, $projek, $id_rumah, $termin, $id_checklist)
     {
         $getProjek = $this->projek->firstProjek('*', 'nama_projek', '=', $projek);
 
         $decryptedID = Crypt::decrypt($id_rumah);
         $decryptedTermin = Crypt::decrypt($termin);
-        // dd($decryptedTermin);
         $decryptedIdChecklist = Crypt::decrypt($id_checklist);
 
         $getChecklist = DB::table('checklist as a')
@@ -743,15 +704,10 @@ class C_Checklist extends Controller
 
             ->Join('job as j', 'jl.id_job', '=', 'j.id_job')
             ->first();
-        // dd($getChecklist);
 
         $getRumah = $this->rumah->firstRumahWhereJoinCluster('*', 'rumah.id_rumah', '=', $decryptedID);
-
-        // dd($getChecklist);
+        
         if (session()->has('user')) {
-
-
-
             $user = $this->userAdmin->getUserKategoriWhere('user_admin.id_user_admin', '=', Session::get('user'));
 
             $projekUser = $this->userProjek->getProjectUserWhere('user_admin.id_user_admin', '=', session::get('user'));
@@ -759,7 +715,6 @@ class C_Checklist extends Controller
                 'user_menu.status_um' => 'aktif',
                 'user_menu.id_kategori' => $user->id_kategori
             ])->collect();
-            // dd($getUserMenu);
             $foundMatchingMenu = false;
 
 
@@ -771,13 +726,17 @@ class C_Checklist extends Controller
             }
             $dataInput = "";
             $foto = $request->file('foto');
+            $checklist = $getChecklist->status_checklist;
+            if($request->status_cek_pengawas1 === 'selesai' &&  $request->status_cek_pengawas2 === 'selesai') {
+                $checklist = 'selesai';
+            }
             if (empty($foto)) {
                 // Compress the uploaded image
                 $dataInput = [
                     'foto'                 => $getChecklist->foto,
                     'status_cek_pengawas1' => $request->status_cek_pengawas1,
                     'status_cek_pengawas2' => $request->status_cek_pengawas2,
-                    'status_checklist'     => $request->status_checklist,
+                    'status_checklist'     => $checklist,
                     'subbobot'             => $request->bobot,
                     'lat_checklist'        => $request->lat_checklist,
                     'long_checklist'       => $request->long_checklist,
@@ -800,7 +759,7 @@ class C_Checklist extends Controller
                     'foto' => $fileName,
                     'status_cek_pengawas1' => $request->status_cek_pengawas1,
                     'status_cek_pengawas2' => $request->status_cek_pengawas2,
-                    'status_checklist'     => $request->status_checklist,
+                    'status_checklist'     => $checklist,
                     'subbobot'             => $request->bobot,
                     'lat_checklist'        => $request->lat_checklist,
                     'long_checklist'       => $request->long_checklist,
@@ -844,8 +803,6 @@ class C_Checklist extends Controller
 
                 'id_pengawas1' => $request->pengawas1,
                 'id_pengawas2' => $request->pengawas2,
-
-                // 'ada'                   =>"foto",
             ];
             DB::table('checklist')
                 ->where('id_rumah', $decryptedID)
@@ -858,16 +815,6 @@ class C_Checklist extends Controller
             return redirect('/login');
         }
     }
-
-
-
-
-
-
-
-
-
-
 
     public function checkPinPendamping(Request $request,  $projek, $id_rumah, $termin, $id_checklist)
     {

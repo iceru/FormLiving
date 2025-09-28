@@ -72,10 +72,12 @@
                                 </center>
                                 <table style="font-weight: 100">
                                     <tr>
-                                        <td>KAVLING / TYPE:</td>
+                                        <td>KAVLING / TYPE: {{ $getRumah->blok }}-{{ $getRumah->nomor }}</td>
+                                    </tr>
+                                    <tr>
                                         <td> No. SPK:
                                             @if ($getSPK!=null)
-                                            {{ $getSPK->no_spk }}
+                                            {{ $getSPK->no_surat_spk }}
                                             @endif
                                         </td>
                                     </tr>

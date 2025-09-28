@@ -281,17 +281,19 @@ class C_SuratPemesananRumah extends Controller
             $getPromo = '';
         }
         $dataPembayaranUpdate = array();
-        for ($i = 0; $i < count($request->input('id_pembayaran')); $i++) {
-            // if ($request->in) {
-            //     # code...
-            // }
-            $dataPembayaranUpdate[] = array(
-                'id_pem_rumah' => $request->input('id_pembayaran')[$i],
-                'detail_pr'    => $request->input('keterangan')[$i],
-                'tgl_pr'       => $request->input('tglPembayaran')[$i],
-                'harga_pr'     => removePeriods($request->input('nominal')[$i]),
-                'sisa_pr'      => removePeriods($request->input('nominal')[$i]),
-            );
+        if($request->input('id_pembayaran')) {
+            for ($i = 0; $i < count($request->input('id_pembayaran')); $i++) {
+                // if ($request->in) {
+                //     # code...
+                // }
+                $dataPembayaranUpdate[] = array(
+                    'id_pem_rumah' => $request->input('id_pembayaran')[$i],
+                    'detail_pr'    => $request->input('keterangan')[$i],
+                    'tgl_pr'       => $request->input('tglPembayaran')[$i],
+                    'harga_pr'     => removePeriods($request->input('nominal')[$i]),
+                    'sisa_pr'      => removePeriods($request->input('nominal')[$i]),
+                );
+            }
         }
 
         // Now perform the update on the database
@@ -311,11 +313,10 @@ class C_SuratPemesananRumah extends Controller
                 $dataPembayaranNew[] = array(
                     'id_rumah' => $getFormulirPesanan->id_rumah,
                     'id_formulir' => $decryptedID,
-                    'detail_pr'    => $request->input('keteranganNew')[$k],
-                    'tgl_pr'       => $request->input('tglPembayaranNew')[$k],
-                    'harga_pr'     => removePeriods($request->input('nominalNew')[$k]),
-                    'sisa_pr'      => removePeriods($request->input('nominalNew')[$k]),
-                    'type_pr'      => $request->input('tipePembayaran')[$k],
+                    'detail_pr'    => $request->input('tipePembayaran')[$k],
+                    'tgl_pr'       => $request->input('tglPembayaranBaru')[$k],
+                    'harga_pr'     => removePeriods($request->input('nominalBaru')[$k]),
+                    'sisa_pr'      => removePeriods($request->input('nominalBaru')[$k]),
                 );
             }
             $this->pembayaranRumah->insertPembayaranRumah($dataPembayaranNew);
