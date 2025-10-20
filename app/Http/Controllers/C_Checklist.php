@@ -668,7 +668,6 @@ class C_Checklist extends Controller
             }
             
 
-
             return view(
                 'V_Admin.editChecklist',
                 compact(

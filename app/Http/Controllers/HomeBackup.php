@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Session;
 use Mail;
 use PDF;
 
-class Home extends Controller
+class HomeBackup extends Controller
 {
     public function __construct()
     {
@@ -835,12 +835,12 @@ class Home extends Controller
         ];
         $template = 'mail.mailRegister';
         // MailNotify class that is extend from Mailable class.
-        try {
-            Mail::to($request->email)->send(new MailNotify($data, $template));
-            // return response()->json(['Great! Successfully send in your mail']);
-        } catch (Exception $e) {
-            // return response()->json(['Sorry! Please try again latter']);
-        }
+        // try {
+        //     Mail::to($request->email)->send(new MailNotify($data, $template));
+        //     // return response()->json(['Great! Successfully send in your mail']);
+        // } catch (Exception $e) {
+        //     // return response()->json(['Sorry! Please try again latter']);
+        // }
         return redirect('/login')->with('success', 'Your Account ' . $request->username . ' has been created');
         // return view('signUp');
         # code...

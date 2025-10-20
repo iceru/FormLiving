@@ -120,7 +120,7 @@
 
                 <table style="width: 100%">
                     <tr>
-                        <td>
+                        {{-- <td>
                             @if ($getChecklist->id_pengawas2 != $user->id_user_admin)
                                 <a href="#" class="btn btn-outline-info" data-toggle="modal"
                                     data-target="#pinModal">
@@ -155,17 +155,9 @@
                                     </div>
                                 </div>
                             </div>
-
-                        </td>
+                        </td> --}}
                         <td>
-                            @if($getChecklist->id_pengawas1 == $user->id_user_admin)
-                            <!-- If current user is pengawas1, disable the button -->
-                            <button type="submit" id="submitBtn" class="btn btn-outline-success float-right" disabled>Submit</button>
-                        @else($getChecklist->id_pengawas2 == $user->id_user_admin)
-                            <!-- If current user is pengawas2, enable the button -->
                             <button type="submit" id="submitBtn" class="btn btn-outline-success float-right">Submit</button>
-
-                        @endif
                         </td>
                     </tr>
                 </table>

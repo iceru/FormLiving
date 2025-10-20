@@ -41,6 +41,7 @@ use App\Http\Controllers\Ceo_Dashboard;
 // ADMIN
 use App\Http\Controllers\Direktur_Dashboard;
 use App\Http\Controllers\Home;
+use App\Http\Controllers\HomeBackup;
 
 
 
@@ -99,8 +100,8 @@ Route::get('/search-item', [Home::class, 'SearchItem']);
 
 route::get('/download-pdf', [Home::class, 'downloadPdf'])->name('download.pdf');
 
-Route::get('/sign-up', [Home::class, 'SignUp']);
-Route::post('/sign-up/create', [Home::class, 'SignUpAction'])->name('sign-up.action');
+Route::get('/sign-up', [HomeBackup::class, 'SignUp']);
+Route::post('/sign-up/create', [HomeBackup::class, 'SignUpAction'])->name('sign-up.action');
 Route::get('/check-username', [C_Login::class, 'checkUsernameAvailability'])->name('checkUsername');
 Route::get('/check-email', [C_Login::class, 'checkEmailAvailability'])->name('checkEmail');
 Route::get('/pre-order', [C_PreOrder::class, 'preOrderForms'])->name('preOrderForms.sales');
