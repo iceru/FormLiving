@@ -56,7 +56,7 @@
                             ?>
                             @foreach ($getChecklist as $checklist)
                                 @foreach ($getCountChecklist as $countChecklist)
-                                    @if ($checklist->termin_jl == $countChecklist->termin_jl)
+                                    @if ($checklist->termin_job == $countChecklist->termin_job)
                                         <tr>
 
                                             <td>{{ $checklist->termin_job }}</td>
@@ -85,7 +85,7 @@
                                                 </p>
                                             </td>
                                             <td>
-                                                <a href="{{ route('getListChecklist.admin', [$getProjek->nama_projek, Crypt::encrypt($checklist->id_rumah), Crypt::encrypt($checklist->termin_jl)]) }}"
+                                                <a href="{{ route('getListChecklist.admin', [$getProjek->nama_projek, Crypt::encrypt($checklist->id_rumah), Crypt::encrypt($checklist->termin_job)]) }}"
                                                     class="btn btn-outline-info"> <i class="fa fa-list"
                                                         aria-hidden="true"></i> Rincian Checklist
 

@@ -12,13 +12,13 @@
     <div class="card">
         <div class="card-header">
             <h2 class="card-title"> <a
-                    href="{{ route('getListChecklist.admin', [$getProjek->nama_projek, Crypt::encrypt($getChecklist->id_rumah), Crypt::encrypt($getChecklist->termin_jl)]) }}"
+                    href="{{ route('getListChecklist.admin', [$getProjek->nama_projek, Crypt::encrypt($getChecklist->id_rumah), Crypt::encrypt($getChecklist->termin_job)]) }}"
                     class="btn btn-outline-danger"> <i class="fa fa-arrow-left" aria-hidden="true"></i></a> Form Ubah Rincian
                 Checklist</h2>
         </div>
         <div class="card-body">
             <form id="editForm"
-                action="{{ route('editChecklistAction.admin', [$getProjek->nama_projek, Crypt::encrypt($getChecklist->id_rumah), Crypt::encrypt($getChecklist->termin_jl), Crypt::encrypt($getChecklist->id_checklist)]) }}"
+                action="{{ route('editChecklistAction.admin', [$getProjek->nama_projek, Crypt::encrypt($getChecklist->id_rumah), Crypt::encrypt($getChecklist->termin_job), Crypt::encrypt($getChecklist->id_checklist)]) }}"
                 method="POST" enctype="multipart/form-data">
                 @csrf
 

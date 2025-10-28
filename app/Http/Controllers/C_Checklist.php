@@ -348,7 +348,7 @@ class C_Checklist extends Controller
                     ->leftJoin('joblist as jl', 'jl.id_joblist', '=', 'a.id_joblist')
                     ->leftJoin('subkon as sub', 'sub.id_subkon', '=', 'a.id_subkon')
                     ->Join('job as j', 'jl.id_job', '=', 'j.id_job')
-                    ->groupBy('jl.termin_jl')
+                    ->groupBy('j.termin_job')
                     ->orderByRaw('jl.sort_jl ASC')
                     ->get();
                 $getCountChecklist = DB::table('checklist as a')
@@ -373,7 +373,7 @@ class C_Checklist extends Controller
                     ->leftJoin('joblist as jl', 'jl.id_joblist', '=', 'a.id_joblist')
                     ->leftJoin('subkon as sub', 'sub.id_subkon', '=', 'a.id_subkon')
                     ->Join('job as j', 'jl.id_job', '=', 'j.id_job')
-                    ->groupBy('jl.termin_jl')
+                    ->groupBy('j.termin_job')
                     ->orderByRaw('jl.sort_jl ASC')
                     ->get();
             } else {
@@ -392,8 +392,8 @@ class C_Checklist extends Controller
                     ->leftJoin('joblist as jl', 'jl.id_joblist', '=', 'a.id_joblist')
                     ->leftJoin('subkon as sub', 'sub.id_subkon', '=', 'a.id_subkon')
                     ->Join('job as j', 'jl.id_job', '=', 'j.id_job')
-                    ->groupBy('jl.termin_jl')
-                    ->orderByRaw('jl.sort_jl ASC')
+                    ->groupBy('j.termin_job')
+                    ->orderByRaw('j.termin_job ASC')
                     ->get();
                 $getCountChecklist = DB::table('checklist as a')
                     ->selectRaw("  a.*, r.*, jl.*, sub.*, clus.*, j.*,
@@ -413,8 +413,8 @@ class C_Checklist extends Controller
                     ->leftJoin('joblist as jl', 'jl.id_joblist', '=', 'a.id_joblist')
                     ->leftJoin('subkon as sub', 'sub.id_subkon', '=', 'a.id_subkon')
                     ->Join('job as j', 'jl.id_job', '=', 'j.id_job')
-                    ->groupBy('jl.termin_jl')
-                    ->orderByRaw('jl.sort_jl ASC')
+                    ->groupBy('j.termin_job')
+                    ->orderByRaw('j.termin_job ASC')
                     ->get();
             }
 
@@ -548,12 +548,12 @@ class C_Checklist extends Controller
                     IF(a.id_pengawas2 IS NULL,'N/A',c.nama_ua) as pengawas2")
                     ->where([
                         ['a.id_rumah', '=', $decryptedID],
-                        ['jl.termin_jl', '=', $decryptedTermin],
+                        ['j.termin_job', '=', $decryptedTermin],
                         ['a.id_pengawas1', '=', $user->id_user_admin],
                     ])
                     ->orWhere([
                         ['a.id_rumah', '=', $decryptedID],
-                        ['jl.termin_jl', '=', $decryptedTermin],
+                        ['j.termin_job', '=', $decryptedTermin],
                         ['a.id_pengawas2', '=', $user->id_user_admin],
                     ])
                     ->leftJoin('user_admin as b', 'b.id_user_admin', '=', 'a.id_pengawas1')
@@ -569,7 +569,7 @@ class C_Checklist extends Controller
                     IF(a.id_pengawas2 IS NULL,'N/A',c.nama_ua) as pengawas2")
                     ->where([
                         'a.id_rumah'   => $decryptedID,
-                        'jl.termin_jl' => $decryptedTermin,
+                        'j.termin_job' => $decryptedTermin,
                     ])
                     ->leftJoin('user_admin as b', 'b.id_user_admin', '=', 'a.id_pengawas1')
                     ->leftJoin('user_admin as c', 'c.id_user_admin', '=', 'a.id_pengawas2')
