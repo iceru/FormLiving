@@ -31,15 +31,15 @@
                             data-target="#collapse{{ $loop->index }}" aria-expanded="false"
                             aria-controls="collapse{{ $loop->index }}">
                             <h5 class="m-b-0">Termin
-                                @if ($terminGroup->first()->termin_jl == 1)
+                                @if ($terminGroup->first()->termin_job == 1)
                                     I
-                                @elseif ($terminGroup->first()->termin_jl == 2)
+                                @elseif ($terminGroup->first()->termin_job == 2)
                                     II
-                                @elseif ($terminGroup->first()->termin_jl == 3)
+                                @elseif ($terminGroup->first()->termin_job == 3)
                                     III
-                                @elseif ($terminGroup->first()->termin_jl == 4)
+                                @elseif ($terminGroup->first()->termin_job == 4)
                                     III.9
-                                @elseif ($terminGroup->first()->termin_jl == 5)
+                                @elseif ($terminGroup->first()->termin_job == 5)
                                     IV
                                 @endif
                                 RUMAH {{ $getLantai }} LANTAI
@@ -55,15 +55,15 @@
                             <div id="printTermin-{{ $loop->index }}">
                                 <center>
                                     <h3><b>LAPORAN PRESTASI PEKERJAAN
-                                            @if ($terminGroup->first()->termin_jl == 1)
+                                            @if ($terminGroup->first()->termin_job == 1)
                                                 I
-                                            @elseif ($terminGroup->first()->termin_jl == 2)
+                                            @elseif ($terminGroup->first()->termin_job == 2)
                                                 II
-                                            @elseif ($terminGroup->first()->termin_jl == 3)
+                                            @elseif ($terminGroup->first()->termin_job == 3)
                                                 III
-                                            @elseif ($terminGroup->first()->termin_jl == 4)
+                                            @elseif ($terminGroup->first()->termin_job == 4)
                                                 III.9
-                                            @elseif ($terminGroup->first()->termin_jl == 5)
+                                            @elseif ($terminGroup->first()->termin_job == 5)
                                                 IV
                                             @endif
 
@@ -140,7 +140,7 @@
                                     <p class="float-right">Malang, {{ tgl_indo($newdall) }}<br>
                                         Diajukan</p>
                                     <br><br><br><br><br><br>
-                                    @if ($terminGroup->first()->termin_jl == 5)
+                                    @if ($terminGroup->first()->termin_job == 5)
                                     @foreach ($getPengawas as $pengawas)
                                         @if ($pengawas->termin_job == 5)
                                             <table style="width: 100%">
@@ -180,7 +180,7 @@
                                         @endif
                                     @endforeach
 
-                                @elseif ($terminGroup->first()->termin_jl == 4)
+                                @elseif ($terminGroup->first()->termin_job == 4)
                                     @foreach ($getPengawas as $pengawas)
                                         @if ($pengawas->termin_job == 4)
                                             <table style="width: 100%">

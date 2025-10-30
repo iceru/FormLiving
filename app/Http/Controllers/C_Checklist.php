@@ -203,6 +203,7 @@ class C_Checklist extends Controller
 
         $lantai = DB::table('checklist')
             ->join('joblist', 'checklist.id_joblist', 'joblist.id_joblist')
+            ->join('job', 'job.id_job', 'joblist.id_job')
             ->where([
                 'checklist.id_rumah' => $decryptedID,
                 'checklist.status_checklist' => "selesai"
@@ -212,8 +213,8 @@ class C_Checklist extends Controller
         if (!$lantai) {
             return redirect()->back()->with('error', 'Termin sebelumnya belum selesai!');
         }
-        $setTermin = $lantai->termin_jl + 1;
-        if ($lantai->termin_jl == 5) {
+        $setTermin = $lantai->termin_job + 1;
+        if ($lantai->termin_job == 5) {
             return redirect()->back()->with('error', 'Termin sudah selesai!');
         }
 
@@ -274,7 +275,7 @@ class C_Checklist extends Controller
                 ->join('joblist', 'checklist.id_joblist', 'joblist.id_joblist')
                 ->where([
                     'checklist.id_rumah' => $decryptedID,
-                    'joblist.termin_jl' =>  $setTermin,
+                    'joblist.termin_job' =>  $setTermin,
                     'checklist.status_checklist' => "terkunci"
                 ])
                 ->update([
@@ -288,7 +289,7 @@ class C_Checklist extends Controller
                 ->join('joblist', 'checklist.id_joblist', 'joblist.id_joblist')
                 ->where([
                     'checklist.id_rumah' => $decryptedID,
-                    'joblist.termin_jl' =>  $setTermin,
+                    'joblist.termin_job' =>  $setTermin,
                     'checklist.status_checklist' => "terkunci"
                 ])
                 ->update([
@@ -444,7 +445,7 @@ class C_Checklist extends Controller
         $decryptedID = Crypt::decrypt($id_rumah);
         $getRumah = $this->rumah->getRumahWhere('id_rumah', '=', $decryptedID);
         $getChecklist = $this->checklist->getChecklistJoinJoblistJob(['checklist.id_rumah' => $decryptedID])->collect();
-        $getTermin = $getChecklist->groupBy('termin_jl');
+        $getTermin = $getChecklist->groupBy('termin_job');
         $getLantai = $getChecklist->pluck('lantai_jl')->first();
         // $getJob = $getTermin->groupBy('id_job');
 
@@ -489,8 +490,6 @@ class C_Checklist extends Controller
                     break;
                 }
             }
-
-
 
             return view(
                 'V_Admin.printChecklist',
@@ -775,7 +774,7 @@ class C_Checklist extends Controller
                     'from_pelanggan_notif' => "Teknik",
                     'icon_pelanggan_notif' => "fa fa-building",
                     'title_pelanggan_notif' => "Pembangunan Rumah " .$getRumah->blok.' - '.$getRumah->nomor,
-                    'msg_notif' => "Pekerjaan pembangunan untuk proyek ".$getChecklist->nama_jl." di ".$getRumah->blok.' - '.$getRumah->nomor." telah mencapai Termin ".$getChecklist->termin_jl.". Pengawas proyek kami baru saja mengupdate statusnya. Mohon cek dashboard Anda untuk informasi lebih lanjut.",
+                    'msg_notif' => "Pekerjaan pembangunan untuk proyek ".$getChecklist->nama_jl." di ".$getRumah->blok.' - '.$getRumah->nomor." telah mencapai Termin ".$getChecklist->termin_job.". Pengawas proyek kami baru saja mengupdate statusnya. Mohon cek dashboard Anda untuk informasi lebih lanjut.",
                     'tgl_notif' => Carbon::now(), // Set tanggal sekarang
                     'status_notif' => 'unread',
                 );
