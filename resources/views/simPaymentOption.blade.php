@@ -529,586 +529,635 @@
             </div>
         </div>
 
+<script>
+    $(document).ready(function() {
+        var inputElementKPR = $('#bookingFeeKPR');
+        var inputElementCicilan = $('#bookingFeeCicilan');
+        formatInputValue(inputElementKPR);
+        checkBookingFee(inputElementKPR, '#warningMessageKPR');
 
-        <script>
-            $(document).ready(function() {
-                var inputElementKPR = $('#bookingFeeKPR');
-                var inputElementCicilan = $('#bookingFeeCicilan');
-                formatInputValue(inputElementKPR);
-                checkBookingFee(inputElementKPR, '#warningMessageKPR');
+        formatInputValue(inputElementCicilan);
+        checkBookingFee(inputElementCicilan, '#warningMessageCicilan');
 
-                formatInputValue(inputElementCicilan);
-                checkBookingFee(inputElementCicilan, '#warningMessageCicilan');
+        // KPR
+        inputElementKPR.on('input', function() {
+            formatInputValue($(this));
+            checkBookingFee($(this), '#warningMessageKPR');
+        });
+        
+        // CICILAN
+        inputElementCicilan.on('input', function() {
+            formatInputValue($(this));
+            checkBookingFee($(this), '#warningMessageCicilan');
+        });
+    });
 
-                {{--  KPR  --}}
-                inputElementKPR.on('input', function() {
-                    formatInputValue($(this));
-                    checkBookingFee($(this), '#warningMessageKPR');
-                });
-                {{--  CICILAN  --}}
-                inputElementCicilan.on('input', function() {
-                    formatInputValue($(this));
-                    checkBookingFee($(this), '#warningMessageCicilan');
-                });
+    function formatInputValue(inputElement) {
+        var inputValue = inputElement.val().replace(/\./g, ''); // Remove thousands separators
+
+        // Replace null or empty value with 0
+        if (!inputValue) {
+            inputValue = '';
+            inputElement.val(inputValue);
+        }
+
+        // Format the value with thousands separators
+        var formattedValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        inputElement.val(formattedValue);
+    }
+
+    function checkBookingFee(inputElement, textWarning) {
+        var bookingFee = parseFloat(inputElement.val().replace(/[\.,]/g, ''));
+        bookingFee = parseInt(bookingFee);
+        if (isNaN(bookingFee)) {
+            bookingFee = 0; // Handle non-numeric input
+        }
+
+        if (bookingFee < 5000000) {
+            $(textWarning).text('Booking fee harus di atas Rp. 5.000.000').show();
+        } else {
+            $(textWarning).text('').hide();
+        }
+    }
+
+    var jenisDiskon, jumlahDiskon, statusJumlahDiskon, jumlahMaxDiskon, statusJumlahMaxDiskon;
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const buttons = document.querySelectorAll(".collapsible-btn");
+
+        buttons.forEach(button => {
+            button.addEventListener("click", function() {
+                const content = this.nextElementSibling;
+                content.style.display = content.style.display === "block" ? "none" : "block";
             });
+        });
+    });
+</script>
 
-            function formatInputValue(inputElement) {
-                var inputValue = inputElement.val().replace(/\./g, ''); // Remove thousands separators
+<script>
+    // Initialize variables
+    const valueInput = document.getElementById('persentase');
+    const alertMessage = document.getElementById('errorPersentase');
+    const uangMuka10 = {{ $tipeRumah->harga_tr }} * (10 / 100);
+    const hargaRumah = document.getElementById('jumlah');
+    const persentaseInput = document.getElementById('persentase');
+    var priceFinal = {{ $tipeRumah->harga_tr }};
 
-                // Replace null or empty value with 0
-                if (!inputValue) {
-                    inputValue = '';
-                    inputElement.val(inputValue);
-                }
+    // Initialize uangMukaAsli with the initial value of the input
+    let uangMukaAsli = 10;
 
-                // Format the value with thousands separators
-                var formattedValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-                inputElement.val(formattedValue);
+    // Handle persentase input changes
+    if (persentaseInput) {
+        persentaseInput.addEventListener('input', function() {
+            const rupiahCheck = document.getElementById('RupiahCheck');
+            const isRupiah = rupiahCheck && rupiahCheck.checked;
+            
+            if (isRupiah) {
+                // If checkbox is checked, treat as rupiah amount
+                const rupiahValue = parseFloat(this.value.replace(/\./g, '')) || 0;
+                // Convert to percentage of house price
+                uangMukaAsli = (rupiahValue / priceFinal) * 100;
+            } else {
+                // If not checked, treat as percentage
+                uangMukaAsli = parseFloat(this.value) || 10;
             }
+            
+            console.log('Uang Muka:', isRupiah ? 'Rp ' + this.value : this.value + '%');
+            console.log('Percentage:', uangMukaAsli + '%');
+        });
+    }
 
-            function checkBookingFee(inputElement, textWarning) {
-                var bookingFee = parseFloat(inputElement.val().replace(/[\.,]/g, ''));
-                bookingFee = parseInt(bookingFee);
-                if (isNaN(bookingFee)) {
-                    bookingFee = 0; // Handle non-numeric input
-                }
-
-                if (bookingFee < 5000000) {
-                    $(textWarning).text('Booking fee harus di atas Rp. 5.000.000').show();
-                } else {
-                    $(textWarning).text('').hide();
-                }
-            }
-
-            var jenisDiskon, jumlahDiskon, statusJumlahDiskon, jumlahMaxDiskon, statusJumlahMaxDiskon;
-
-            document.addEventListener("DOMContentLoaded", function() {
-                const buttons = document.querySelectorAll(".collapsible-btn");
-
-                buttons.forEach(button => {
-                    button.addEventListener("click", function() {
-                        const content = this.nextElementSibling;
-                        content.style.display = content.style.display === "block" ? "none" : "block";
-                    });
-                });
-            });
-        </script>
-
-        <script>
-            // Initialize variables
-            const valueInput = document.getElementById('persentase');
-            const alertMessage = document.getElementById('errorPersentase');
-            const uangMuka10 = {{ $tipeRumah->harga_tr }} * (10 / 100);
-            const hargaRumah = document.getElementById('jumlah');
-            const persentaseInput = document.getElementById('persentase');
-            var priceFinal = {{ $tipeRumah->harga_tr }};
-
-            // Initialize uangMukaAsli with the initial value of the input
-            let uangMukaAsli = persentaseInput ? persentaseInput.value : 10;
-
+    // Handle Rupiah checkbox
+    const rupiahCheck = document.getElementById('RupiahCheck');
+    if (rupiahCheck) {
+        rupiahCheck.addEventListener('change', function() {
             if (persentaseInput) {
-                persentaseInput.addEventListener('input', function() {
-                    uangMukaAsli = persentaseInput.value;
-                });
+                if (this.checked) {
+                    // Switch to Rupiah mode
+                    persentaseInput.value = '';
+                    persentaseInput.placeholder = 'Masukkan jumlah rupiah';
+                } else {
+                    // Switch to Percentage mode
+                    persentaseInput.value = '10';
+                    persentaseInput.placeholder = 'Masukkan persentase';
+                }
+                // Trigger input event to update uangMukaAsli
+                persentaseInput.dispatchEvent(new Event('input'));
             }
+        });
+    }
 
-            // Unified promo data structure
-            class PromoHandler {
-                constructor() {
-                    this.selectedPromoCodeInput = document.getElementById("selectedPromoCode");
-                    this.initializeEventListeners();
-                }
+    // Unified promo data structure
+    class PromoHandler {
+        constructor() {
+            this.selectedPromoCodeInput = document.getElementById("selectedPromoCode");
+            this.initializeEventListeners();
+        }
 
-                initializeEventListeners() {
-                    // Handle promo code buttons
-                    const promoCodeBtns = document.querySelectorAll(".promoCodeBtn");
-                    promoCodeBtns.forEach(btn => {
-                        btn.addEventListener("click", (e) => this.handlePromoSelection(e.target));
-                    });
-
-                    // Handle manual promo search
-                    const cariPromoBtn = document.getElementById('cariPromo');
-                    if (cariPromoBtn) {
-                        cariPromoBtn.addEventListener('click', () => this.handleManualPromoSearch());
-                    }
-                }
-
-                // Extract promo data from button or response
-                extractPromoData(source, isFromAPI = false) {
-                    if (isFromAPI) {
-                        return {
-                            promoCode: source.kode_promo,
-                            jenisPromo: source.jenis_promo,
-                            statusDiskon: source.status_diskon,
-                            diskonPromo: source.diskon_promo,
-                            statusMaxDiskon: source.status_max_diskon,
-                            maxDiskon: source.max_diskon,
-                            promo: source.promo || source.kode_promo,
-                            bphtbPromo: source.bphtb_promo || 'no',
-                            freeKPRPromo: source.freekpr_promo || 'no',
-                            freePPNPromo: source.free_ppn_promo || 'no'
-                        };
-                    } else {
-                        return {
-                            promoCode: source.getAttribute('data-promo-code') || source.dataset.promoCode,
-                            jenisPromo: source.getAttribute('data-jenis-promo') || source.dataset.jenisPromo,
-                            statusDiskon: source.getAttribute('data-status-diskon') || source.dataset.statusDiskon,
-                            diskonPromo: source.getAttribute('data-jumlah-promo') || source.dataset.jumlahPromo,
-                            statusMaxDiskon: source.getAttribute('data-status-max-diskon') || source.dataset.statusMaxDiskon,
-                            maxDiskon: source.getAttribute('data-max-diskon') || source.dataset.maxDiskon,
-                            promo: source.getAttribute('data-promo') || source.dataset.promo,
-                            bphtbPromo: source.getAttribute('data-bphtb-promo') || source.dataset.bphtbPromo || 'no',
-                            freeKPRPromo: source.getAttribute('data-freekpr-promo') || source.dataset.freekprPromo || 'no',
-                            freePPNPromo: source.getAttribute('data-freeppn-promo') || source.dataset.freeppnPromo || 'no'
-                        };
-                    }
-                }
-
-                // Handle promo selection from buttons
-                handlePromoSelection(button) {
-                    const promoData = this.extractPromoData(button);
-                    this.applyPromo(promoData);
-                    this.closeModal();
-                }
-
-                // Handle manual promo search via AJAX
-                handleManualPromoSearch() {
-                    const kodePromo = document.getElementById('promo').value;
-                    const spaceAlert = document.getElementById('myAlert');
-
-                    if (!kodePromo.trim()) {
-                        this.showAlert(spaceAlert, 'Masukkan kode promo terlebih dahulu', 'danger');
-                        return;
-                    }
-
-                    $.ajax({
-                        url: '{{ route('findKuponSpesial', [$tipeRumah->id_rumah, $tipeRumah->id_tipe_rumah]) }}',
-                        type: 'GET',
-                        dataType: 'json',
-                        data: { kodePromo: kodePromo },
-                        success: (response) => {
-                            if (response.promo != null) {
-                                const promoData = this.extractPromoData(response, true);
-                                this.applyPromo(promoData);
-                                this.closeModal();
-                            } else {
-                                this.showAlert(spaceAlert, 'Promo tidak ada', 'danger');
-                                this.closeModal();
-                            }
-                        },
-                        error: (error) => {
-                            console.error('Error fetching promo:', error);
-                            this.showAlert(spaceAlert, 'Terjadi kesalahan saat mencari promo', 'danger');
-                        }
-                    });
-                }
-
-                // Apply promo based on data
-                applyPromo(promoData) {
-                    // Set promo code input
-                    if (this.selectedPromoCodeInput) {
-                        this.selectedPromoCodeInput.value = promoData.promoCode;
-                    }
-
-                    // Set specific promo code fields
-                    this.setPromoCodeField(promoData);
-
-                    // Handle free PPN promo
-                    if (promoData.freePPNPromo === "yes") {
-                        this.handleFreePPNPromo();
-                    }
-
-                    // Update promo text display
-                    this.updatePromoDisplay(promoData.promo);
-
-                    // Apply discount based on promo type
-                    this.processPromoDiscount(promoData);
-                }
-
-                // Set the appropriate promo code field based on type
-                setPromoCodeField(promoData) {
-                    const field = promoData.jenisPromo === "KPR" ? 'kdPromo1' : 'kdPromo2';
-                    const element = document.getElementById(field);
-                    if (element) {
-                        element.value = promoData.promoCode;
-                    }
-                }
-
-                // Handle free PPN promo price adjustment
-                handleFreePPNPromo() {
-                    priceFinal = '{{ $tipeRumah->harga_free_ppn_tr }}' ||  '{{ $tipeRumah->harga_tr }}';
-                    console.log("Harga Baru = " + priceFinal);
-
-                    // Update display elements
-                    this.updateElement('textjumlahKPR', "Rp. " + priceFinal);
-                    this.updateElement('jumlahHargaCicilan', "Jumlah harga Rp. " + priceFinal);
-
-                    // Update hidden input fields
-                    this.updateInputField('jumlahKPR', priceFinal);
-                    this.updateInputField('jumlahHarga', priceFinal);
-                }
-
-                // Update display element content
-                updateElement(id, content) {
-                    const element = document.getElementById(id);
-                    if (element) {
-                        element.innerText = content;
-                    }
-                }
-
-                // Update input field value
-                updateInputField(id, value) {
-                    const existingInput = document.getElementById(id);
-                    if (existingInput) {
-                        existingInput.value = value;
-                    }
-                }
-
-                // Update promo display text
-                updatePromoDisplay(promoText) {
-                    const textPromoElement = document.getElementById('textPromo');
-                    if (textPromoElement) {
-                        textPromoElement.innerText = promoText;
-                    }
-                }
-
-                // Process discount based on promo type
-                processPromoDiscount(promoData) {
-                    switch (promoData.jenisPromo) {
-                        case "KPR":
-                            this.processKPRDiscount(promoData);
-                            break;
-                        case "Cicilan":
-                            this.processCicilanDiscount(promoData);
-                        break;
-                        default:
-                            this.processGeneralDiscount(promoData);
-                    }
-                }
-
-                // Process KPR discount
-                processKPRDiscount(promoData) {
-                    let totalDiskon = 0;
-
-                    if (promoData.statusDiskon === 'persen' && promoData.diskonPromo > 0) {
-                        const persentase = uangMukaAsli / 100;
-                        const diskonPercentage = Math.round(priceFinal * persentase);
-                        totalDiskon = Math.round(diskonPercentage - (diskonPercentage * (promoData.diskonPromo / 100)));
-                    } else if (promoData.statusDiskon === "rupiah" && promoData.diskonPromo > 0) {
-                        totalDiskon = Math.round(promoData.diskonPromo);
-                    }
-
-                    const finalDiskon = this.applyMaxDiskon(totalDiskon, promoData.maxDiskon, promoData.statusMaxDiskon);
-                    return finalDiskon;
-                }
-
-                // Process Cicilan discount
-                processCicilanDiscount(promoData) {
-                    const diskonCicilan = document.getElementById('diskon2');
-                    const diskonCard2 = document.getElementById('cardDiskon2');
-                    let totalDiskon = 0;
-
-                    if (promoData.statusDiskon === "persen") {
-                        totalDiskon = priceFinal * (promoData.diskonPromo / 100);
-                    } else if (promoData.statusDiskon === "rupiah") {
-                        totalDiskon = promoData.diskonPromo;
-                    }
-
-                    // Apply maximum discount limit
-                    let maxTotalDiskon = 0;
-                    if (promoData.statusMaxDiskon === "persen") {
-                        maxTotalDiskon = priceFinal * (promoData.maxDiskon / 100);
-                    } else {
-                        maxTotalDiskon = promoData.maxDiskon;
-                    }
-
-                    if (promoData.maxDiskon > 0 && totalDiskon > maxTotalDiskon) {
-                        totalDiskon = maxTotalDiskon;
-                    }
-
-                    // Update UI
-                    this.createCicilan(totalDiskon);
-                    if (diskonCicilan) {
-                        diskonCicilan.textContent = "Kamu mendapatkan promo sebesar : Rp " + this.formatRupiah2(totalDiskon);
-                        diskonCicilan.style.color = "green";
-                    }
-                    if (diskonCard2) {
-                        diskonCard2.style.display = "block";
-                    }
-
-                    // Set discount input
-                    const diskonInput = document.getElementById('diskonInputCicilan');
-                    if (diskonInput) {
-                        diskonInput.value = totalDiskon;
-                    }
-                }
-
-                // Process general discount
-                processGeneralDiscount(promoData) {
-                    const cardDiskon2 = document.getElementById('cardDiskon2');
-                    const diskon2 = document.getElementById('diskon2');
-
-                    if (cardDiskon2) {
-                        cardDiskon2.style.display = "block";
-                    }
-                    if (diskon2) {
-                        diskon2.innerText = "Sudah dipotong Diskon : Rp. " + this.formatRupiah2(promoData.diskonPromo);
-                    }
-                }
-
-                // Apply maximum discount constraint
-                applyMaxDiskon(diskonPromo, maxDiskon, status) {
-                    if (maxDiskon == 0) {
-                        return diskonPromo;
-                    }
-
-                    if (status === 'persen') {
-                        const maxDiskonValue = (maxDiskon / 100) * priceFinal;
-                        return Math.min(diskonPromo, maxDiskonValue);
-                    } else if (status === 'rupiah') {
-                        return Math.min(diskonPromo, maxDiskon);
-                    }
-
-                    return diskonPromo;
-                }
-
-                // Create cicilan options
-                createCicilan(totalDiskon) {
-                    const jumlahHarga = document.getElementById('jumlahHarga');
-                    if (jumlahHarga) {
-                        jumlahHarga.value = priceFinal - 10000000 - totalDiskon;
-                    }
-
-                    const cicilanContainer = document.getElementById('cicilan');
-                    if (!cicilanContainer) return;
-
-                    cicilanContainer.innerHTML = ''; // Clear existing content
-
-                    const baseAmount = priceFinal - 10000000 - totalDiskon;
-
-                     // Update display elements
-                    this.updateElement('jumlahHargaCicilan', "Jumlah harga Rp. " + (baseAmount + 10000000));
-
-                    // Update hidden input fields
-                    this.updateInputField('jumlahHarga', (baseAmount + 10000000));
-
-                    // Create cicilan options (1-8 months)
-                    for (let k = 1; k <= 8; k++) {
-                        const monthlyAmount = k === 1 ? baseAmount : baseAmount / k;
-                        const formattedAmount = this.formatRupiah2(monthlyAmount);
-                        
-                        const cicilanDiv = document.createElement('div');
-                        cicilanDiv.className = 'collapse-item';
-                        cicilanDiv.innerHTML = `
-                            <div class="card-shadow">
-                                <input type="radio" name="cicilan" value="${k}">
-                                <label class="form-check-label">
-                                    Cicilan ${k} bulan dengan cicilan Rp ${formattedAmount} per bulan
-                                </label>
-                            </div>
-                        `;
-                        cicilanContainer.appendChild(cicilanDiv);
-                    }
-                }
-
-                // Format rupiah currency
-                formatRupiah2(amount) {
-                    // Assuming this function exists globally, or implement it here
-                    if (typeof formatRupiah2 === 'function') {
-                        return formatRupiah2(amount);
-                    }
-                    // Fallback formatting
-                    return new Intl.NumberFormat('id-ID', {
-                        style: 'currency',
-                        currency: 'IDR',
-                        minimumFractionDigits: 0
-                    }).format(amount);
-                }
-
-                // Show alert message
-                showAlert(container, message, type = 'info') {
-                    if (container) {
-                        container.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
-                    }
-                }
-
-                // Close modal
-                closeModal() {
-                    const modal = $('#modelId');
-                    if (modal.length) {
-                        modal.modal('hide');
-                    }
-                }
-            }
-
-            // Initialize the promo handler when DOM is ready
-            document.addEventListener('DOMContentLoaded', function() {
-                new PromoHandler();
+        initializeEventListeners() {
+            // Handle promo code buttons
+            const promoCodeBtns = document.querySelectorAll(".promoCodeBtn");
+            promoCodeBtns.forEach(btn => {
+                btn.addEventListener("click", (e) => this.handlePromoSelection(e.target));
             });
 
-            // Legacy support - if jQuery is being used for DOM ready
-            $(document).ready(function() {
-                if (typeof PromoHandler !== 'undefined') {
-                    new PromoHandler();
+            // Handle manual promo search
+            const cariPromoBtn = document.getElementById('cariPromo');
+            if (cariPromoBtn) {
+                cariPromoBtn.addEventListener('click', () => this.handleManualPromoSearch());
+            }
+        }
+
+        // Extract promo data from button or response
+        extractPromoData(source, isFromAPI = false) {
+            if (isFromAPI) {
+                return {
+                    promoCode: source.kode_promo,
+                    jenisPromo: source.jenis_promo,
+                    statusDiskon: source.status_diskon,
+                    diskonPromo: source.diskon_promo,
+                    statusMaxDiskon: source.status_max_diskon,
+                    maxDiskon: source.max_diskon,
+                    promo: source.promo || source.kode_promo,
+                    bphtbPromo: source.bphtb_promo || 'no',
+                    freeKPRPromo: source.freekpr_promo || 'no',
+                    freePPNPromo: source.free_ppn_promo || 'no'
+                };
+            } else {
+                return {
+                    promoCode: source.getAttribute('data-promo-code') || source.dataset.promoCode,
+                    jenisPromo: source.getAttribute('data-jenis-promo') || source.dataset.jenisPromo,
+                    statusDiskon: source.getAttribute('data-status-diskon') || source.dataset.statusDiskon,
+                    diskonPromo: source.getAttribute('data-jumlah-promo') || source.dataset.jumlahPromo,
+                    statusMaxDiskon: source.getAttribute('data-status-max-diskon') || source.dataset.statusMaxDiskon,
+                    maxDiskon: source.getAttribute('data-max-diskon') || source.dataset.maxDiskon,
+                    promo: source.getAttribute('data-promo') || source.dataset.promo,
+                    bphtbPromo: source.getAttribute('data-bphtb-promo') || source.dataset.bphtbPromo || 'no',
+                    freeKPRPromo: source.getAttribute('data-freekpr-promo') || source.dataset.freekprPromo || 'no',
+                    freePPNPromo: source.getAttribute('data-freeppn-promo') || source.dataset.freeppnPromo || 'no'
+                };
+            }
+        }
+
+        // Handle promo selection from buttons
+        handlePromoSelection(button) {
+            const promoData = this.extractPromoData(button);
+            this.applyPromo(promoData);
+            this.closeModal();
+        }
+
+        // Handle manual promo search via AJAX
+        handleManualPromoSearch() {
+            const kodePromo = document.getElementById('promo').value;
+            const spaceAlert = document.getElementById('myAlert');
+
+            if (!kodePromo.trim()) {
+                this.showAlert(spaceAlert, 'Masukkan kode promo terlebih dahulu', 'danger');
+                return;
+            }
+
+            $.ajax({
+                url: '{{ route('findKuponSpesial', [$tipeRumah->id_rumah, $tipeRumah->id_tipe_rumah]) }}',
+                type: 'GET',
+                dataType: 'json',
+                data: { kodePromo: kodePromo },
+                success: (response) => {
+                    if (response.promo != null) {
+                        const promoData = this.extractPromoData(response, true);
+                        this.applyPromo(promoData);
+                        this.closeModal();
+                    } else {
+                        this.showAlert(spaceAlert, 'Promo tidak ada', 'danger');
+                        this.closeModal();
+                    }
+                },
+                error: (error) => {
+                    console.error('Error fetching promo:', error);
+                    this.showAlert(spaceAlert, 'Terjadi kesalahan saat mencari promo', 'danger');
                 }
             });
-        </script>
-        {{-- end script find query promo selector --}}
+        }
 
-        <script>
-            function hitung(jumlah, uangmuka, sukuBunga, result, result2, result3, result4, cicilanUM, sisaPengurangan) {
-
-                var jml = document.getElementById(jumlah).value;
-
-                var um = document.getElementById(uangmuka).value;
-                var skBunga = document.getElementById(sukuBunga).value;
-                var cicilanUM = document.getElementById(cicilanUM).value;
-                var hasilUM = {{ $tipeRumah->harga_tr }} * (um / 100);
-                var hasilCicilan;
-                var hasilPromo;
-
-
-                var cekPromo = CekPromo('KPR', statusJumlahDiskon, jumlahDiskon, statusJumlahMaxDiskon, jumlahMaxDiskon);
-                if (cekPromo) {
-                    hasilPromo = CekPromo('KPR', statusJumlahDiskon, jumlahDiskon, statusJumlahMaxDiskon, jumlahMaxDiskon);
-                    if (cicilanUM != 1) {
-                        hasilCicilan = (hasilUM - hasilPromo) / cicilanUM;
-                    } else {
-                        hasilCicilan = hasilUM - hasilPromo;
-                    }
-                    document.getElementById('diskonInputKPR').value = hasilPromo;
-
-                } else {
-                    hasilPromo = 0;
-                    if (cicilanUM != 1) {
-                        hasilCicilan = hasilUM / cicilanUM;
-                    } else {
-                        hasilCicilan = hasilUM / 1;
-                    }
-                    document.getElementById('diskonInputKPR').value = 0;
-                }
-
-
-                var hasil = document.getElementById(result);
-                var hasil2 = document.getElementById(result2);
-                var hasil3 = document.getElementById(result3);
-                var hasil4 = document.getElementById(result4);
-                var sisa = document.getElementById(sisaPengurangan);
-                var cicilan;
-                var cicilan2;
-                var perngurangan = jml - hasilUM;
-                {{--  document.getElementById("jumlahKPR").value = perngurangan;  --}}
-                //  perngurangan = perngurangan.replace(/\D/g, '.');
-                // console.log(perngurangan+"Pengurangan");
-                /*
-                ir - interest rate per month
-                np - number of periods (months)
-                pv - present value
-                fv - future value (residual value)
-                */
-
-
-
-                if (cicilanUM != 1) {
-
-                    if (CekPromo('KPR', statusJumlahDiskon, jumlahDiskon, statusJumlahMaxDiskon, jumlahMaxDiskon)) {
-
-
-                        hasil.innerText = "Uang muka Rp " + formatRupiah2(hasilUM) + " Menjadi Rp. " + formatRupiah2(hasilUM -
-                            hasilPromo) + " dari Rp " + formatRupiah2(
-                            jml) + " dengan diskon Rp. " + formatRupiah2(hasilPromo);
-                        hasil3.innerText = "Harga cicilan uang muka Rp " + formatRupiah2(hasilCicilan) + " (" + formatRupiah2(
-                            hasilUM - hasilPromo
-                        ) + " : " + cicilanUM + ")"
-
-                    } else {
-                        hasil.innerText = "Uang muka Rp " + formatRupiah2(hasilUM) + " dari Rp " + formatRupiah2(
-                            jml);
-                        hasil3.innerText = "Harga cicilan uang muka Rp " + formatRupiah2(hasilCicilan) + " (" + formatRupiah2(
-                            hasilUM
-                        ) + " : " + cicilanUM + ")"
-
-                    }
-
-                    hasil2.innerText = "Cicilan " + cicilanUM + " kali"
-
-                    sisa.innerText = "Sisa Pembayaran KPR Rp " + formatRupiah2(perngurangan);
-                } else {
-
-                    if (CekPromo('KPR', statusJumlahDiskon, jumlahDiskon, statusJumlahMaxDiskon, jumlahMaxDiskon)) {
-
-
-                        hasil.innerText = "Uang muka Rp " + formatRupiah2(hasilUM) + " Menjadi Rp. " + formatRupiah2(hasilUM -
-                            hasilPromo) + " dari Rp " + formatRupiah2(
-                            jml) + " dengan diskon Rp. " + formatRupiah2(hasilPromo);
-                        sisa.innerText = "Sisa Pembayaran KPR Rp " + formatRupiah2(perngurangan);
-
-                    } else {
-                        hasil.innerText = "Uang Muka Rp " + formatRupiah2(hasilUM)
-
-                        sisa.innerText = "Sisa Pembayaran KPR Rp " + formatRupiah2(perngurangan);
-                    }
-
-                }
-
-
-                document.getElementById('nextKPR').disabled = false;
-                document.getElementById('nextKPR').style.opacity = "100%";
+        // Apply promo based on data
+        applyPromo(promoData) {
+            // Set promo code input
+            if (this.selectedPromoCodeInput) {
+                this.selectedPromoCodeInput.value = promoData.promoCode;
             }
 
-            function getValue(id) {
-                var dataValue = document.getElementById(id);
+            // Set global variables for promo
+            jenisDiskon = promoData.jenisPromo;
+            statusJumlahDiskon = promoData.statusDiskon;
+            jumlahDiskon = promoData.diskonPromo;
+            statusJumlahMaxDiskon = promoData.statusMaxDiskon;
+            jumlahMaxDiskon = promoData.maxDiskon;
 
-                dataValue.value = formatRupiah(dataValue.value, '', id);
+            // Set specific promo code fields
+            this.setPromoCodeField(promoData);
 
+            // Handle free PPN promo
+            if (promoData.freePPNPromo === "yes") {
+                this.handleFreePPNPromo();
             }
 
-            function calculatePMT(P, r, n) {
-                // Convert the annual interest rate to a monthly rate
-                r = r / 1200;
+            // Update promo text display
+            this.updatePromoDisplay(promoData.promo);
 
-                // Calculate the PMT using the formula
-                var PMT = P * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
+            // Apply discount based on promo type
+            this.processPromoDiscount(promoData);
+        }
 
-                // Round the result to two decimal places
-                PMT = Math.round(PMT * 100) / 100;
+        // Set the appropriate promo code field based on type
+        setPromoCodeField(promoData) {
+            const field = promoData.jenisPromo === "KPR" ? 'kdPromo1' : 'kdPromo2';
+            const element = document.getElementById(field);
+            if (element) {
+                element.value = promoData.promoCode;
+            }
+        }
 
-                // Return the PMT
-                return PMT;
+        // Handle free PPN promo price adjustment
+        handleFreePPNPromo() {
+            priceFinal = '{{ $tipeRumah->harga_free_ppn_tr }}' || '{{ $tipeRumah->harga_tr }}';
+            console.log("Harga Baru = " + priceFinal);
+
+            // Update display elements
+            this.updateElement('textjumlahKPR', "Rp. " + formatRupiah2(priceFinal));
+            this.updateElement('jumlahHargaCicilan', "Jumlah harga Rp. " + formatRupiah2(priceFinal));
+
+            // Update hidden input fields
+            this.updateInputField('jumlahKPR', priceFinal);
+            this.updateInputField('jumlahHarga', priceFinal);
+        }
+
+        // Update display element content
+        updateElement(id, content) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.innerText = content;
+            }
+        }
+
+        // Update input field value
+        updateInputField(id, value) {
+            const existingInput = document.getElementById(id);
+            if (existingInput) {
+                existingInput.value = value;
+            }
+        }
+
+        // Update promo display text
+        updatePromoDisplay(promoText) {
+            const textPromoElement = document.getElementById('textPromo');
+            if (textPromoElement) {
+                textPromoElement.innerText = promoText;
+            }
+        }
+
+        // Process discount based on promo type
+        processPromoDiscount(promoData) {
+            switch (promoData.jenisPromo) {
+                case "KPR":
+                    this.processKPRDiscount(promoData);
+                    break;
+                case "Cicilan":
+                    this.processCicilanDiscount(promoData);
+                    break;
+                default:
+                    this.processGeneralDiscount(promoData);
+            }
+        }
+
+        // Process KPR discount
+        processKPRDiscount(promoData) {
+            let totalDiskon = 0;
+
+            if (promoData.statusDiskon === 'persen' && promoData.diskonPromo > 0) {
+                const persentase = uangMukaAsli / 100;
+                const diskonPercentage = Math.round(priceFinal * persentase);
+                totalDiskon = Math.round(diskonPercentage - (diskonPercentage * (promoData.diskonPromo / 100)));
+            } else if (promoData.statusDiskon === "rupiah" && promoData.diskonPromo > 0) {
+                totalDiskon = Math.round(promoData.diskonPromo);
             }
 
-            function formatRupiah2(angka) {
-                var hasilCicilan = Math.round(parseInt((angka / 1000)) * 1000).toString(),
-                    sisa = hasilCicilan.length % 3,
-                    rupiah = hasilCicilan.substr(0, sisa),
-                    ribuan = hasilCicilan.substr(sisa).match(/\d{3}/g);
+            const finalDiskon = this.applyMaxDiskon(totalDiskon, promoData.maxDiskon, promoData.statusMaxDiskon);
+            return finalDiskon;
+        }
 
-                if (ribuan) {
-                    separator = sisa ? '.' : '';
-                    rupiah += separator + ribuan.join('.');
-                }
+        // Process Cicilan discount
+        processCicilanDiscount(promoData) {
+            const diskonCicilan = document.getElementById('diskon2');
+            const diskonCard2 = document.getElementById('cardDiskon2');
+            let totalDiskon = 0;
 
-                return rupiah;
+            if (promoData.statusDiskon === "persen") {
+                totalDiskon = priceFinal * (promoData.diskonPromo / 100);
+            } else if (promoData.statusDiskon === "rupiah") {
+                totalDiskon = promoData.diskonPromo;
             }
 
-            function formatRupiah(angka, prefix, id) {
-                var number_string = angka.replace(/[^,\d]/g, '').toString(),
-                    split = number_string.split(','),
-                    sisa = split[0].length % 3,
-                    rupiah = split[0].substr(0, sisa),
-                    ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-
-                if (ribuan) {
-                    separator = sisa ? '.' : '';
-                    rupiah += separator + ribuan.join('.');
-                }
-
-                rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-
-                document.getElementById(id).value = rupiah;
-                return prefix == undefined ? rupiah : (rupiah ? '' + rupiah : '');
+            // Apply maximum discount limit
+            let maxTotalDiskon = 0;
+            if (promoData.statusMaxDiskon === "persen") {
+                maxTotalDiskon = priceFinal * (promoData.maxDiskon / 100);
+            } else {
+                maxTotalDiskon = promoData.maxDiskon;
             }
-        </script>
 
-        <script></script>
+            if (promoData.maxDiskon > 0 && totalDiskon > maxTotalDiskon) {
+                totalDiskon = maxTotalDiskon;
+            }
+
+            // Update UI
+            this.createCicilan(totalDiskon);
+            if (diskonCicilan) {
+                diskonCicilan.textContent = "Kamu mendapatkan promo sebesar : Rp " + formatRupiah2(totalDiskon);
+                diskonCicilan.style.color = "green";
+            }
+            if (diskonCard2) {
+                diskonCard2.style.display = "block";
+            }
+
+            // Set discount input
+            const diskonInput = document.getElementById('diskonInputCicilan');
+            if (diskonInput) {
+                diskonInput.value = totalDiskon;
+            }
+        }
+
+        // Process general discount
+        processGeneralDiscount(promoData) {
+            const cardDiskon2 = document.getElementById('cardDiskon2');
+            const diskon2 = document.getElementById('diskon2');
+
+            if (cardDiskon2) {
+                cardDiskon2.style.display = "block";
+            }
+            if (diskon2) {
+                diskon2.innerText = "Sudah dipotong Diskon : Rp. " + formatRupiah2(promoData.diskonPromo);
+            }
+        }
+
+        // Apply maximum discount constraint
+        applyMaxDiskon(diskonPromo, maxDiskon, status) {
+            if (maxDiskon == 0) {
+                return diskonPromo;
+            }
+
+            if (status === 'persen') {
+                const maxDiskonValue = (maxDiskon / 100) * priceFinal;
+                return Math.min(diskonPromo, maxDiskonValue);
+            } else if (status === 'rupiah') {
+                return Math.min(diskonPromo, maxDiskon);
+            }
+
+            return diskonPromo;
+        }
+
+        // Create cicilan options
+        createCicilan(totalDiskon) {
+            const jumlahHarga = document.getElementById('jumlahHarga');
+            if (jumlahHarga) {
+                jumlahHarga.value = priceFinal - 10000000 - totalDiskon;
+            }
+
+            const cicilanContainer = document.getElementById('cicilan');
+            if (!cicilanContainer) return;
+
+            cicilanContainer.innerHTML = ''; // Clear existing content
+
+            const baseAmount = priceFinal - 10000000 - totalDiskon;
+
+            // Update display elements
+            this.updateElement('jumlahHargaCicilan', "Jumlah harga Rp. " + formatRupiah2(baseAmount + 10000000));
+
+            // Update hidden input fields
+            this.updateInputField('jumlahHarga', (baseAmount + 10000000));
+
+            // Create cicilan options (1-8 months)
+            for (let k = 1; k <= 8; k++) {
+                const monthlyAmount = k === 1 ? baseAmount : baseAmount / k;
+                const formattedAmount = formatRupiah2(monthlyAmount);
+                
+                const cicilanDiv = document.createElement('div');
+                cicilanDiv.className = 'collapse-item';
+                cicilanDiv.innerHTML = `
+                    <div class="card-shadow">
+                        <input type="radio" name="cicilan" value="${k}">
+                        <label class="form-check-label">
+                            Cicilan ${k} bulan dengan cicilan Rp ${formattedAmount} per bulan
+                        </label>
+                    </div>
+                `;
+                cicilanContainer.appendChild(cicilanDiv);
+            }
+        }
+
+        // Show alert message
+        showAlert(container, message, type = 'info') {
+            if (container) {
+                container.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+            }
+        }
+
+        // Close modal
+        closeModal() {
+            const modal = $('#modelId');
+            if (modal.length) {
+                modal.modal('hide');
+            }
+        }
+    }
+
+    // Initialize the promo handler when DOM is ready
+    document.addEventListener('DOMContentLoaded', function() {
+        new PromoHandler();
+    });
+
+    // Legacy support - if jQuery is being used for DOM ready
+    $(document).ready(function() {
+        if (typeof PromoHandler !== 'undefined') {
+            new PromoHandler();
+        }
+    });
+</script>
+
+<script>
+    function CekPromo(jenisPromo, statusDiskon, diskonPromo, statusMaxDiskon, maxDiskon) {
+        // Check if promo is applicable
+        if (!diskonPromo || diskonPromo <= 0) {
+            return 0;
+        }
+
+        let totalDiskon = 0;
+        const hargaRumah = priceFinal;
+
+        // Calculate discount based on type
+        if (statusDiskon === 'persen') {
+            if (jenisPromo === 'KPR') {
+                // For KPR, calculate based on down payment
+                const persentase = uangMukaAsli / 100;
+                const uangMukaAmount = hargaRumah * persentase;
+                totalDiskon = uangMukaAmount * (diskonPromo / 100);
+            } else {
+                totalDiskon = hargaRumah * (diskonPromo / 100);
+            }
+        } else if (statusDiskon === 'rupiah') {
+            totalDiskon = parseFloat(diskonPromo);
+        }
+
+        // Apply maximum discount limit
+        if (maxDiskon && maxDiskon > 0) {
+            let maxDiskonValue = 0;
+            
+            if (statusMaxDiskon === 'persen') {
+                maxDiskonValue = hargaRumah * (maxDiskon / 100);
+            } else if (statusMaxDiskon === 'rupiah') {
+                maxDiskonValue = parseFloat(maxDiskon);
+            }
+            
+            if (totalDiskon > maxDiskonValue) {
+                totalDiskon = maxDiskonValue;
+            }
+        }
+
+        return Math.round(totalDiskon);
+    }
+
+    function hitung(jumlah, uangmuka, sukuBunga, result, result2, result3, result4, cicilanUM, sisaPengurangan) {
+        // Get house price
+        const jml = parseFloat(document.getElementById(jumlah).value) || priceFinal;
+        
+        // Get down payment percentage
+        const um = parseFloat(uangMukaAsli) || 10;
+        
+        // Get cicilan count
+        const cicilanCount = parseInt(document.getElementById(cicilanUM).value) || 1;
+        
+        // Calculate down payment amount (uang muka)
+        const hasilUM = jml * (um / 100);
+        
+        console.log('House Price:', jml);
+        console.log('Down Payment %:', um);
+        console.log('Down Payment Amount:', hasilUM);
+        
+        // Check for promo discount
+        let hasilPromo = 0;
+        let hasilCicilan = 0;
+        
+        if (typeof statusJumlahDiskon !== 'undefined' && typeof jumlahDiskon !== 'undefined') {
+            hasilPromo = CekPromo('KPR', statusJumlahDiskon, jumlahDiskon, statusJumlahMaxDiskon, jumlahMaxDiskon);
+            document.getElementById('diskonInputKPR').value = hasilPromo;
+        } else {
+            document.getElementById('diskonInputKPR').value = 0;
+        }
+        
+        // Calculate down payment after discount
+        const uangMukaFinal = hasilUM - hasilPromo;
+        
+        // Calculate cicilan amount
+        if (cicilanCount > 1) {
+            hasilCicilan = uangMukaFinal / cicilanCount;
+        } else {
+            hasilCicilan = uangMukaFinal;
+        }
+        
+        // Calculate remaining KPR amount
+        const sisaPembayaran = jml - hasilUM;
+        
+        console.log('Promo Discount:', hasilPromo);
+        console.log('Final Down Payment:', uangMukaFinal);
+        console.log('Cicilan Amount:', hasilCicilan);
+        console.log('Remaining KPR:', sisaPembayaran);
+        
+        // Update display
+        const hasil = document.getElementById(result);
+        const hasil2 = document.getElementById(result2);
+        const hasil3 = document.getElementById(result3);
+        const hasil4 = document.getElementById(result4);
+        const sisa = document.getElementById(sisaPengurangan);
+        
+        if (hasil) {
+            if (hasilPromo > 0) {
+                hasil.innerText = `Uang muka Rp ${formatRupiah2(hasilUM)} menjadi Rp ${formatRupiah2(uangMukaFinal)} dari Rp ${formatRupiah2(jml)} dengan diskon Rp ${formatRupiah2(hasilPromo)}`;
+            } else {
+                hasil.innerText = `Uang muka Rp ${formatRupiah2(hasilUM)} dari Rp ${formatRupiah2(jml)}`;
+            }
+        }
+        
+        if (hasil2 && cicilanCount > 1) {
+            hasil2.innerText = `Cicilan ${cicilanCount} kali`;
+        } else if (hasil2) {
+            hasil2.innerText = '';
+        }
+        
+        if (hasil3 && cicilanCount > 1) {
+            hasil3.innerText = `Harga cicilan uang muka Rp ${formatRupiah2(hasilCicilan)} (Rp ${formatRupiah2(uangMukaFinal)} : ${cicilanCount})`;
+        } else if (hasil3) {
+            hasil3.innerText = '';
+        }
+        
+        if (sisa) {
+            sisa.innerText = `Sisa Pembayaran KPR Rp ${formatRupiah2(sisaPembayaran)}`;
+        }
+        
+        // Enable next button
+        const nextBtn = document.getElementById('nextKPR');
+        if (nextBtn) {
+            nextBtn.disabled = false;
+            nextBtn.style.opacity = "100%";
+        }
+    }
+
+    function getValue(id) {
+        var dataValue = document.getElementById(id);
+        dataValue.value = formatRupiah(dataValue.value, '', id);
+    }
+
+    function calculatePMT(P, r, n) {
+        // Convert the annual interest rate to a monthly rate
+        r = r / 1200;
+
+        // Calculate the PMT using the formula
+        var PMT = P * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
+
+        // Round the result to two decimal places
+        PMT = Math.round(PMT * 100) / 100;
+
+        // Return the PMT
+        return PMT;
+    }
+
+    function formatRupiah2(angka) {
+        var hasilCicilan = Math.round(parseInt((angka / 1000)) * 1000).toString(),
+            sisa = hasilCicilan.length % 3,
+            rupiah = hasilCicilan.substr(0, sisa),
+            ribuan = hasilCicilan.substr(sisa).match(/\d{3}/g);
+
+        if (ribuan) {
+            separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+
+        return rupiah;
+    }
+
+    function formatRupiah(angka, prefix, id) {
+        var number_string = angka.replace(/[^,\d]/g, '').toString(),
+            split = number_string.split(','),
+            sisa = split[0].length % 3,
+            rupiah = split[0].substr(0, sisa),
+            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+        if (ribuan) {
+            separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+
+        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+
+        document.getElementById(id).value = rupiah;
+        return prefix == undefined ? rupiah : (rupiah ? '' + rupiah : '');
+    }
+</script>
     @endsection

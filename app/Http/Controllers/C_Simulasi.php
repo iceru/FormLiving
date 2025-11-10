@@ -763,6 +763,7 @@ class C_Simulasi extends Controller
                 // ->where('tgl_aktif', '<=', NOW())
 
                 ->first();
+            if($promo) {
             $dataUpdatePromo = [
                 'kuota_promo' => $promo->kuota_promo - 1,
             ];
@@ -771,6 +772,8 @@ class C_Simulasi extends Controller
                 ->update(
                     $dataUpdatePromo
                 );
+            }
+
         }
 
         if (session()->has('user')) {
@@ -981,7 +984,8 @@ class C_Simulasi extends Controller
             if ($jenis == 'Cicilan') {
                 // code...
                 $kurang = $kkpr->total_harga;
-                $proporsi = ($kurang / $kkpr->cicilan);
+                $cicilanCount = (int) ($kkpr->cicilan ?? 1);
+                $proporsi = $kurang / $cicilanCount;
                 $dataCicil = $this->round_up($proporsi / 100000, 2) * 100000;
                 $sumCicil = $dataCicil * ($kkpr->cicilan - 1);
                 $tglPembayaranCicilan = date('d-m-Y', strtotime('-23 days'));
@@ -1220,7 +1224,7 @@ class C_Simulasi extends Controller
             // ->update(
             //     $dtUpdate
             // );
-            sendWhatsappMessage('082229997190',$userNotif->no_tlp_ua, "ada pembelian rumah di ".$rumah->no."-".$rumah->blok." oleh ".$userAdmin->nama_ua );
+            // sendWhatsappMessage('082229997190',$userNotif->no_tlp_ua, "ada pembelian rumah di ".$rumah->no."-".$rumah->blok." oleh ".$userAdmin->nama_ua );
             $accounting = DB::table('user_admin')
                 ->join('ktgr_admin', 'user_admin.id_kategori', '=', 'ktgr_admin.id_kategori')
                 ->join('departemen', 'ktgr_admin.id_departemen', '=', 'departemen.id_departemen')
@@ -1357,7 +1361,8 @@ class C_Simulasi extends Controller
             $template = 'mail.mailFP';
             // // $template2 = 'pdf.salesFP';
             // // MailNotify class that is extend from Mailable class.
-            try {
+            if($pelanggan->email_plgn) {
+                try {
                 // $MailAtt = ();
                 \Mail::to($pelanggan->email_plgn)->send(new MailAttachment($dataEmail1, $template));
 
@@ -1366,6 +1371,7 @@ class C_Simulasi extends Controller
                 // return response()->json(['Sorry! Please try again latter']);
             }
 
+            }
 
 
 
@@ -1457,7 +1463,8 @@ class C_Simulasi extends Controller
             if ($jenis == 'Cicilan') {
                 // code...
                 $kurang = $kkpr->total_harga;
-                $proporsi = ($kurang / $kkpr->cicilan);
+                $cicilanCount = (int) ($kkpr->cicilan ?? 1);
+                $proporsi = $kurang / $cicilanCount;
                 $dataCicil = $this->round_up($proporsi / 100000, 2) * 100000;
                 $sumCicil = $dataCicil * ($kkpr->cicilan - 1);
                 $tglPembayaranCicilan = date('d-m-Y', strtotime('-23 days'));
@@ -1681,7 +1688,6 @@ class C_Simulasi extends Controller
             $path = './Home/pdf/';
             $pdf->save($path . 'FP-' . $fpJadi->blok . '-' . $fpJadi->nomor . '-' . $fpJadi->id_formulir . '.pdf');
             $filename = $path . 'FP-' . $fpJadi->blok . '-' . $fpJadi->nomor . '-' . $fpJadi->id_formulir . '.pdf';
-
 
 
 

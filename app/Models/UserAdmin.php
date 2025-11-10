@@ -124,6 +124,5 @@ class UserAdmin extends Authenticatable
         ->leftjoin('departemen','ktgr_admin.id_departemen','departemen.id_departemen')
         ->where($where)
         ->get();
-
     }
 }

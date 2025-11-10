@@ -346,7 +346,16 @@ class C_SuratPemesananRumah extends Controller
                     'no_telp_plgn' => $request->tlp,
                     'email_plgn' => $request->email,
                     'tempat_lahir_plgn' => $request->tempat,
-                    'tgl_lahir_plgn'    => $request->tanggalLahir
+                    'tgl_lahir_plgn'    => $request->tglLahir
+                ];
+
+                $dataKKPR = [
+                    'harga_awal'    => removePeriods($request->hargaPricelist),
+                    'total_diskon' => removePeriods($request->hargaDiskon),
+                    'harga_netto'  => removePeriods($request->hargaNetto),
+                    'harga_bphtb' => removePeriods($request->hargaBPHTB),
+                    'harga_ppn'     => removePeriods($request->hargaPPN),
+                    'total_harga'  => removePeriods($request->hargaTotal),
                 ];
             }
 
@@ -405,7 +414,7 @@ class C_SuratPemesananRumah extends Controller
 
             if(!empty($dataKKPR)){
                 DB::table('kalkulator_kpr')
-                ->where('id_formulir', $decryptedID)
+                ->where('id_kkpr', $getFormulirPesanan->id_kkpr)
                 ->update($dataKKPR);
             }
 

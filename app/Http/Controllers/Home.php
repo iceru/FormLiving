@@ -2741,7 +2741,7 @@ class Home extends Controller
         return view('simSummary');
         # code...
     }
-    public function Congratulation()
+    public function congratulation()
     {
         return view('congratulation');
     }
