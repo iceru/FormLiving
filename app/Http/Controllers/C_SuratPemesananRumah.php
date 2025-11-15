@@ -437,7 +437,6 @@ class C_SuratPemesananRumah extends Controller
 
         $decryptedID = Crypt::decrypt($id);
 
-
         $fpJadi = DB::table('formulir_pesanan')
             ->select('*', 'rumah.id_projek')
             ->join('kalkulator_kpr', 'formulir_pesanan.id_kkpr', '=', 'kalkulator_kpr.id_kkpr')
@@ -456,14 +455,16 @@ class C_SuratPemesananRumah extends Controller
         $dataPembayaran = DB::table('pembayaran_rumah')
             ->where('id_formulir', '=', $decryptedID)
             ->get();
-        $promo = '';
+
+        $promo = null;
+
         if (!empty($fpJadi->id_promo)) {
             $promo = DB::table('promo')
                 ->where('id_promo', '=', $fpJadi->id_promo)
                 ->first();
         }
 
-        if ($promo->free_ppn_promo == "yes") {
+        if ($promo && $promo->free_ppn_promo == "yes") {
             $dataHarga = array([
                 'hargaPricelist' => $fpJadi->harga_awal,
                 'hargaDiskon' => $fpJadi->total_diskon,
@@ -481,8 +482,8 @@ class C_SuratPemesananRumah extends Controller
                 'hargaTotal' => $fpJadi->total_harga
             ]);
         }
-        //function cetak
 
+        //function cetak
         $pdf = PDF::loadView('pdf.printSPR-dashboard', ['fp' => $fpJadi, 'dtPembayaran' => $dataPembayaran, 'promo' => $promo, 'dataHarga' => $dataHarga]);
         $pdf->setPaper('F4', 'potrait');
         $pdf->render();
