@@ -224,14 +224,15 @@ class C_Checklist extends Controller
         // 1. Find checklist IDs & joblist IDs that match the criteria
         $records = DB::table('checklist')
             ->join('joblist', 'checklist.id_joblist', '=', 'joblist.id_joblist')
+            ->join('job', 'job.id_job', 'joblist.id_job')
             ->where('checklist.id_rumah', $decryptedID)
-            ->where('joblist.termin_jl', $setTermin)
+            ->where('job.termin_job', $setTermin)
             ->where('checklist.status_checklist', 'terkunci')
             ->select('checklist.id_checklist', 'joblist.id_joblist')
             ->get();
 
         $checklistIds = $records->pluck('id_checklist');
-        $joblistIds = $records->pluck('id_joblist');
+        // $joblistIds = $records->pluck('id_joblist');
 
         // 2. Update checklist table
         if ($checklistIds->isNotEmpty()) {
@@ -243,11 +244,11 @@ class C_Checklist extends Controller
                 ]);
         }
         // 3. Increment termin_jl in joblist table
-        if ($joblistIds->isNotEmpty()) {
-            DB::table('joblist')
-                ->whereIn('id_joblist', $joblistIds)
-                ->increment('termin_jl', 1);
-        }
+        // if ($joblistIds->isNotEmpty()) {
+        //     DB::table('joblist')
+        //         ->whereIn('id_joblist', $joblistIds)
+        //         ->increment('termin_jl', 1);
+        // }
         return redirect()->back()->with('success', 'Termin sudah menjadi termin ' . $setTermin);
     }
 
