@@ -63,10 +63,10 @@ class C_Simulasi extends Controller
         $this->pembayaranRumah = new PembayaranRumah();
         // $this->middleware('guest')->except('logout');
         // $this->middleware('guest:admin')->except('logout');
-        // // $this->middleware('guest:writer')->except('logout');
+        // $this->middleware('guest:writer')->except('logout');
     }
 
-    public function SimCluster()
+    public function SimCluster($id_projek = null)
     {
         if (!session()->has('guest') && !session()->has('user')) {
             // $hasilSess = Session::get('guest');
@@ -78,7 +78,7 @@ class C_Simulasi extends Controller
         $cluster = $this->cluster->getClusterProjekWhereArrJoinRumah(
             '*',
             [
-                'projek.id_projek' => 1,
+                'projek.id_projek' => $id_projek || 1,
                 'rumah.status' => 'available',
             ]
         );
@@ -86,7 +86,7 @@ class C_Simulasi extends Controller
         $rumah = $this->rumah->getRumahSelectJoinClusterProjek(
             '*',
             [
-                'rumah.id_projek' => 1,
+                'rumah.id_projek' => $id_projek || 1,
                 'rumah.status' => 'Available',
             ]
         );
@@ -125,9 +125,9 @@ class C_Simulasi extends Controller
         return view('simCluster', compact(
             'cluster',
             'rumah',
-            'rumahAll'
+            'rumahAll',
+            'id_projek'
         ));
-        // code...
     }
 
     public function SimType($id_rumah)
