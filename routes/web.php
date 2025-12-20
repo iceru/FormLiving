@@ -317,7 +317,7 @@ Route::get('/email/{id_formulir}', [Home::class, 'email']);
 
 
 // SESION
-Route::get('/set-selected-projek/{projek}', [C_Dashboard::class, 'changeProjek'])->name('changeProjek.admin');
+Route::get('/set-selected-projek/{projek}', [C_Dashboard::class, 'chandgeProjek'])->name('changeProjek.admin');
 
 // SUPER ADMIN NEW
 Route::get('/dashboard-admin/{projek}', [C_Dashboard::class, 'index'])->name('dashboard.admin');

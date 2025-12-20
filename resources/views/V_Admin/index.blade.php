@@ -238,8 +238,7 @@
 
             <div class="table-responsive">
 
-                <div class="map svg-container" style="background-color: white ;width: 100%;
-                                    ">
+                <div class="map svg-container" style="background-color: white ;width: 100%;">
 
 
                     {{-- <img src="{{ asset('Home') }}/images/svg/map.svg" alt="" /> --}}
@@ -247,9 +246,6 @@
                     {!! file_get_contents(resource_path($fileSVG)) !!}
                     <script>
                         var svg = document.getElementById('Layer_1');
-
-
-
                                 var data = {!! json_encode($rumah) !!};
                                 $(document).ready(function() {
                                     data.forEach(function(item) {
@@ -258,7 +254,6 @@
 
                                         var blockNomor = block + "-" + nomor;
                                         var idrumah = document.getElementById(blockNomor);
-
                                         if (idrumah) {
                                             idrumah.style.fill = color(item.status);
                                             idrumah.setAttribute('fill', color(item.status));

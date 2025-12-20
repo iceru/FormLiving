@@ -179,7 +179,9 @@
 
                         {{-- <img src="{{ asset('Home') }}/images/svg/map.svg" alt="" /> --}}
                         {{-- @include('map.svg') --}}
+                        @if (!$getProjek->nama_projek === 'Verdant Groove')
                         {!! file_get_contents(resource_path($fileSVG)) !!}
+                        @endif
                         <script>
                             var svg = document.getElementById('Layer_1');
 

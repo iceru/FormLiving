@@ -451,7 +451,6 @@ class C_SuratPemesananRumah extends Controller
             ->first();
 
 
-        // dd($fpJadi);
         $dataPembayaran = DB::table('pembayaran_rumah')
             ->where('id_formulir', '=', $decryptedID)
             ->get();
@@ -481,6 +480,12 @@ class C_SuratPemesananRumah extends Controller
                 'hargaPPN' => $fpJadi->harga_ppn,
                 'hargaTotal' => $fpJadi->total_harga
             ]);
+        }
+
+        if($fpJadi->status !== 'Sold') {
+            DB::table('rumah')
+            ->where('id_rumah', $fpJadi->id_rumah)
+            ->update(['status' => 'Sold']);
         }
 
         //function cetak

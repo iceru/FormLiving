@@ -397,8 +397,6 @@
                             <span class="hide-menu">Managemen User</span>
                         </li>
                         @foreach ($getUserMenu as $userMenu)
-
-
                             @if ($userMenu->status_menu == 'optional')
                                 <li class="sidebar-item ">
                                     <a class="sidebar-link waves-effect waves-dark sidebar-link @if (request()->segment(1) != $userMenu->url_menu) collapsed @endif active"
