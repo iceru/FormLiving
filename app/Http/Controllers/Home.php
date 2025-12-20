@@ -86,15 +86,9 @@ class Home extends Controller
 
     public function housing($dataProjek)
     {
-        $cluster1;
-        if ($dataProjek == "Greenland") {
-            $cluster1 = $this->clusterList->getRumahBaseProjekClusterCount($dataProjek);
-        } else {
-            $cluster1 = $this->clusterList->getCountRumahWithStatus($dataProjek);
-        }
+        $cluster1 = $this->clusterList->getRumahBaseProjekClusterCount($dataProjek);
 
-
-        $namaPage = ($dataProjek == "Greenland") ? 'housing' : 'housingKalm';
+        $namaPage = ($dataProjek == "Greenland") ? 'housing' : 'housingVerdantGrove';
 
         if (!session()->has('guest') && !session()->has('user')) {
             // $hasilSess = Session::get('guest');

@@ -158,116 +158,84 @@ class C_TipeRumah extends Controller
 
     public function storeTipeRumahAction(Request $request, $projek)
     {
-        $getProjek = $this->projek->firstProjek('*', 'nama_projek', '=', $projek);
-
         if (session()->has('user')) {
             $dataTipeRumah = [];
             $dataidTipeRumah = [];
-            for ($i = 0; $i < count($request->tipe); ++$i) {
+
+            // Use collect or a safe count to prevent errors if 'tipe' is missing
+            $tipeCount = is_array($request->tipe) ? count($request->tipe) : 0;
+
+            for ($i = 0; $i < $tipeCount; ++$i) {
                 $dataTipeRumah[] = [
                     'id_rumah' => $request->inputID,
-                    'jenis_tr' => $request->tipe[$i],
-                    'luas_bangunan_tr' => $request->luasBangunan[$i],
-                    'kmr_mandi_tr' => $request->kamarMandi[$i],
-                    'kmr_tidur_tr' => $request->kamarTidur[$i],
-                    'harga_tr' => $request->harga[$i],
-                    'harga_freeppn_tr' => $request->hargaFreePPN[$i],
-                    'harga_text_tr' => $request->hargaText[$i],
-                    'pondasi_tr' => $request->pondasi[$i],
-                    'struktur_tr' => $request->struktur[$i],
-                    'dinding_dlm_tr' => $request->dindingDalam[$i],
-                    'dinding_luar_tr' => $request->dindingLuar[$i],
-                    'dinding_kmr_mnd_tr' => $request->dindingKamarMandi[$i],
-                    'dd_meja_dapur_tr' => $request->dindingMejaDapur[$i],
-                    'lt_ruang_tidur_tr' => $request->lantaiRuangTidur[$i],
-                    'lt_ruang_keluarga_tr' => $request->lantaiRuangKeluarga[$i],
-                    'lt_kmr_mnd_utama_tr' => $request->lantaiKamarMandiUtama[$i],
-                    'lt_teras_utama_tr' => $request->lantaiTerasUtama[$i],
-                    'rangka_atap_tr' => $request->rangkaAtap[$i],
-                    'penutup_atap_tr' => $request->penutupAtap[$i],
-                    'kusen_tr' => $request->kusen[$i],
-                    'daun_pintu_tr' => $request->daunPintu[$i],
-                    'sanitary_tr' => $request->sanitary[$i],
-                    'plafon_dlm_tr' => $request->plafonDalam[$i],
-                    'handle_tr' => $request->handle[$i],
-                    'lighting_tr' => $request->lighting[$i],
-                    'daya_listrik_tr' => $request->dayaListrik[$i],
-                    'carport_tr' => $request->carport[$i],
-                    'tangga_tr' => $request->tangga[$i],
+                    // Using ?? null makes these fields optional in the request
+                    'jenis_tr' => $request->tipe[$i] ?? null,
+                    'luas_bangunan_tr' => $request->luasBangunan[$i] ?? null,
+                    'kmr_mandi_tr' => $request->kamarMandi[$i] ?? null,
+                    'kmr_tidur_tr' => $request->kamarTidur[$i] ?? null,
+                    'harga_tr' => $request->harga[$i] ?? null,
+                    'harga_freeppn_tr' => $request->hargaFreePPN[$i] ?? null,
+                    'harga_text_tr' => $request->hargaText[$i] ?? null,
+                    'pondasi_tr' => $request->pondasi[$i] ?? null,
+                    'struktur_tr' => $request->struktur[$i] ?? null,
+                    'dinding_dlm_tr' => $request->dindingDalam[$i] ?? null,
+                    'dinding_luar_tr' => $request->dindingLuar[$i] ?? null,
+                    'dinding_kmr_mnd_tr' => $request->dindingKamarMandi[$i] ?? null,
+                    'dd_meja_dapur_tr' => $request->dindingMejaDapur[$i] ?? null,
+                    'lt_ruang_tidur_tr' => $request->lantaiRuangTidur[$i] ?? null,
+                    'lt_ruang_keluarga_tr' => $request->lantaiRuangKeluarga[$i] ?? null,
+                    'lt_kmr_mnd_utama_tr' => $request->lantaiKamarMandiUtama[$i] ?? null,
+                    'lt_teras_utama_tr' => $request->lantaiTerasUtama[$i] ?? null,
+                    'rangka_atap_tr' => $request->rangkaAtap[$i] ?? null,
+                    'penutup_atap_tr' => $request->penutupAtap[$i] ?? null,
+                    'kusen_tr' => $request->kusen[$i] ?? null,
+                    'daun_pintu_tr' => $request->daunPintu[$i] ?? null,
+                    'sanitary_tr' => $request->sanitary[$i] ?? null,
+                    'plafon_dlm_tr' => $request->plafonDalam[$i] ?? null,
+                    'handle_tr' => $request->handle[$i] ?? null,
+                    'lighting_tr' => $request->lighting[$i] ?? null,
+                    'daya_listrik_tr' => $request->dayaListrik[$i] ?? null,
+                    'carport_tr' => $request->carport[$i] ?? null,
+                    'tangga_tr' => $request->tangga[$i] ?? null,
                 ];
 
-                $dataidTipeRumah[] =
-                    [
-                        'no' => $i,
-                        'id_tipe_rumah' => DB::table('tipe_rumah')->insertGetId($dataTipeRumah[$i]),
-                    ];
+                $dataidTipeRumah[] = [
+                    'no' => $i,
+                    'id_tipe_rumah' => DB::table('tipe_rumah')->insertGetId($dataTipeRumah[$i]),
+                ];
             }
 
             $dataGambarTipe = [];
 
-            if ($request->hasFile('fileInput')) {
+            if ($request->hasFile('fileInput') && is_array($request->counter)) {
                 $images = $request->file('fileInput');
+                $counterCount = count($request->counter);
+
                 for ($i = 0; $i < count($dataidTipeRumah); ++$i) {
-                    for ($counter = 0; $counter < count($request->counter); ++$counter) {
+                    for ($counter = 0; $counter < $counterCount; ++$counter) {
+
+                        // Safety check: ensure the specific image exists at this index
+                        if (!isset($images[$counter]))
+                            continue;
+
                         $image = $images[$counter];
-                        // Move the image to the desired location (e.g., public/images folder).
-                        if ($request->jenisGambar[$counter] == 'Denah') {
-                            // code...
-                            // $destinationPath = public_path('public/Home/denah/');
+                        $jenisGambar = $request->jenisGambar[$counter] ?? 'Tipe';
+
+                        if ($jenisGambar == 'Denah') {
                             $destinationPath = public_path('/Home/images/denah');
-                            // Generate a unique filename
-                            $filename = time() . '.' . $image->getClientOriginalExtension();
-
-                            // Resize the image
-                            // $resizedImage = Image::make($image)->fit(300);
-                            $img = Image::make($image->path());
-                            $img->save($destinationPath . '/' . $filename);
-                            // $path = '/Home/images/denah/';
-                            // // Save the resized image to disk
-                            // Storage::put($path . $filename, $img);
-
-                            // Generate a unique filename
-                            // $filename = time() . '.' . $image->getClientOriginalExtension();
-                            // $path = $images->store('');
-                            // $filename = basename($path);
-
-                            // Save image information to the database with the status
-                            // $imageModel = new Image();
                         } else {
                             $destinationPath = public_path('/Home/images/tipe');
-                            // Generate a unique filename
-                            $filename = time() . '.' . $image->getClientOriginalExtension();
-
-                            // Resize the image
-                            // $resizedImage = Image::make($image)->fit(300);
-                            $img = Image::make($image->path());
-                            $img->save($destinationPath . '/' . $filename);
-
-                            // Save the resized image to disk
-                            // $path = '/Home/images/tipe/';
-                            // Storage::put($path . $filename, $img);
-                            // $fileName = uniqid() . '.' . $image->getClientOriginalExtension();
-
-                            // $img = $image->save($path.$fileName);
-
-                            // // Get the filename from the path
-                            // $filename = basename($fileName);
-                            // Storage::put($path . $filename,$img);
-                            // $destinationPath = public_path('public/Home/tipe/');
-                            // $filename = time() . '.' . $image->getClientOriginalExtension();
-                            // // $filename = basename($path);
                         }
 
-                        if ($request->counter[$counter] == $dataidTipeRumah[$i]['no']) {
-                            // echo "<pre>";
-                            // echo "ada yang sama cook";
-                            // print_r($dataidTipeRumah[$i]["id_tipe_rumah"]);
-                            // echo "</pre>";
+                        $filename = time() . '_' . $counter . '.' . $image->getClientOriginalExtension();
+                        $img = Image::make($image->path());
+                        $img->save($destinationPath . '/' . $filename);
 
+                        if ($request->counter[$counter] == $dataidTipeRumah[$i]['no']) {
                             $dataGambarTipe[] = [
                                 'id_rumah' => $request->inputID,
                                 'id_tipe' => $dataidTipeRumah[$i]['id_tipe_rumah'],
-                                'jenis_img' => $request->jenisGambar[$counter],
+                                'jenis_img' => $jenisGambar,
                                 'status_gr' => 'aktif',
                                 'img_rumah' => $filename,
                             ];
@@ -275,17 +243,17 @@ class C_TipeRumah extends Controller
                     }
                 }
             }
-            $this->gambarRumah->insertGambarRumah($dataGambarTipe);
-            // echo "<pre>";
-            // print_r($dataTipeRumah);
-            // dd($dataGambarTipe);
-            // dd($dataGambarTipe);
+
+            // Only insert if there is actually data to insert
+            if (!empty($dataGambarTipe)) {
+                $this->gambarRumah->insertGambarRumah($dataGambarTipe);
+            }
+
             return redirect('/rumah-admin/' . $projek)->with('success', 'Data rumah dan tipe rumah telah berhasil di simpan');
         } else {
             return redirect('/login');
         }
     }
-
     public function updateTipeRumah($projek, $id_tipe)
     {
         $decryptID = Crypt::decrypt($id_tipe);
@@ -293,11 +261,6 @@ class C_TipeRumah extends Controller
         $getRumah = $this->rumah->getRumahJoinClusterWhere('*', 'id_rumah', '=', $decryptID);
         $getTipeRumah = $this->tipeRumah->getTipeRumahWhere('*', 'id_tipe_rumah', '=', $decryptID);
         $getGambar = $this->gambarRumah->getGambarRumahWhereAll('*', 'id_tipe', '=', $decryptID);
-        // dd($decryptID);
-        // $getImgTipe = $this->gambarRumah->getGamba
-        // dd($decryptID);
-        // dd($getTipeRumah);
-
 
         if (session()->has('user')) {
             $user = $this->userAdmin->getUserKategoriWhere('user_admin.id_user_admin', '=', session::get('user'));
@@ -378,7 +341,7 @@ class C_TipeRumah extends Controller
                     'kmr_mandi_tr' => $request->kamarMandi[$i],
                     'kmr_tidur_tr' => $request->kamarTidur[$i],
                     'harga_tr' => $request->harga[$i],
-                    'harga_freeppn_tr' => $request->hargaFreePPN[$i],
+                    'harga_free_ppn_tr' => $request->hargaFreePPN[$i],
                     'harga_text_tr' => $request->hargaText[$i],
                     'pondasi_tr' => $request->pondasi[$i],
                     'struktur_tr' => $request->struktur[$i],

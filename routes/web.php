@@ -110,7 +110,7 @@ Route::get('/pre-order', [C_PreOrder::class, 'preOrderForms'])->name('preOrderFo
 
 // ---------------= SIMULATION =-----------------
 
-Route::get('/simulation-cluster', [C_Simulasi::class, 'simCluster'])->name('simulationCluster');
+Route::get('/simulation-cluster/{id_projek}', [C_Simulasi::class, 'simCluster'])->name('simulationCluster');
 
 Route::get('/simulation-select-unit/{codecluster}', [Home::class, 'simSelectUnit']);
 
