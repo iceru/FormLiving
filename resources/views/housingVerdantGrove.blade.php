@@ -1,4 +1,4 @@
-a@extends('HomeLayout.app')
+@extends('HomeLayout.app')
 @extends('HomeLayout.navbar')
 @extends('HomeLayout.navbarProfile')
 @extends('HomeLayout.sidebar')
@@ -20,60 +20,20 @@ a@extends('HomeLayout.app')
         <div class="container">
             <div class="row mb-3 mb-lg-5">
                 <div class="col-12 col-lg-6">
-                    <h6 data-aos="fade-right">Selamat datang di {{ $dataProjek }}.</h6>
+                    <h6 data-aos="fade-right">Selamat datang di Verdant Grove.</h6>
                     <h1 data-aos="fade-right" data-aos-delay="400">Resepsi sudah jadi, Rumahnya kapan?</h1>
                 </div>
                 <div class="col-12 col-lg-6 ps-lg-6" data-aos="fade-left" data-aos-delay="400">
                     <p class="header-text">Temukan ketenangan jiwa di antara hijaunya rerumputan dan birunya langit </p>
 
-                    <a href="/simulation-cluster" class="btn btn-primary d-none d-lg-block">Buy Now!</a>
+                    <a href="/simulation-cluster/3" class="btn btn-primary d-none d-lg-block">Buy Now!</a>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12 header-bottom" data-aos="fade-up" data-aos-delay="600">
-                    {{-- <div class="search-bar d-none d-lg-block">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <label for="harga" class="form-label">Harga</label>
-                            <select class="form-control" name="harga" id="harga">
-                                <option>Pilih Harga</option>
-                                <option></option>
-                                <option></option>
-                            </select>
-                        </div>
-                        <div class="col">
-                            <label for="cicilan" class="form-label">Cicilan</label>
-                            <select class="form-control" name="cicilan" id="cicilan">
-                                <option>Pilih Cicilan</option>
-                                <option></option>
-                                <option></option>
-                            </select>
-                        </div>
-                        <div class="col">
-                            <label for="kamar" class="form-label">Kamar Tidur</label>
-                            <select class="form-control" name="kamar" id="kamar">
-                                <option>2 Kamar Tidur</option>
-                                <option></option>
-                                <option></option>
-                            </select>
-                        </div>
-                        <div class="col">
-                            <label for="kamar_mandi" class="form-label">Kamar Mandi</label>
-                            <select class="form-control" name="kamar_mandi" id="kamar_mandi">
-                                <option>1 Kamar Mandi</option>
-                                <option></option>
-                                <option></option>
-                            </select>
-                        </div>
-                        <div class="col">
-                            <button type="button" class="btn btn-primary"><i class="bi-search me-1"></i> Cari
-                                Unit</button>
-                        </div>
-                    </div>
-                </div> --}}
                     <div class="sliders">
                         <div class="slider-image">
-                            <img src="{{ asset('Home') }}/images/cluster/A-11.jpg" class="w-100" alt="">
+                            <img src="{{ asset('Home') }}/images/verdant/fasad-2.jpg" class="w-100" style="max-height: 70vh; object-fit: cover; object-position: bottom;" alt="">
                         </div>
                         <div class="text-blur-bg d-none d-lg-block">
                             <h5>Beautiful Green themed House</h5>

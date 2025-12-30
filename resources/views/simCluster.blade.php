@@ -145,7 +145,7 @@
                     @if ($rumah != null && $rumah != '')
                         @php
 
-                            $fileSVG = $id_projek === 1 ? 'views/Greenland.svg' : 'views/VerdantGrove.svg';
+                            $fileSVG = $id_projek == 1 ? 'views/Greenland.svg' : 'views/Verdant Grove.svg';
                         @endphp
                         <div class="content__row mb-3">
                             <div class="card__box">
@@ -169,8 +169,6 @@
                                         {!! file_get_contents(resource_path($fileSVG)) !!}
                                         <script>
                                             var svg = document.getElementById('Layer_1');
-
-
 
                                             var data = {!! json_encode($rumahAll) !!};
                                             $(document).ready(function() {
@@ -458,7 +456,7 @@
                                         @if ($home->codecluster == $cluster->codecluster)
                                             <div class="col-6 col-lg-3">
                                                 <a
-                                                    href="{{ Auth::check('guest') ? route('simulationTipe', $home->id_rumah) : '#' }}">
+                                                    href="{{route('simulationTipe', $home->id_rumah)}}">
                                                     <div class="item">
                                                         <div class="item-image">
                                                             @if ($home->img_rumah != null)

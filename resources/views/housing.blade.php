@@ -26,7 +26,7 @@
             <div class="col-12 col-lg-6 ps-lg-6" data-aos="fade-left" data-aos-delay="400">
                 <p class="header-text">Temukan ketenangan jiwa di antara hijaunya rerumputan dan birunya langit </p>
 
-                <a href="/simulation-cluster" class="btn btn-primary d-none d-lg-block">Buy Now!</a>
+                <a href="/simulation-cluster/1" class="btn btn-primary d-none d-lg-block">Buy Now!</a>
             </div>
         </div>
         <div class="row">

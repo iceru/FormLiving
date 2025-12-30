@@ -174,7 +174,7 @@ class C_TipeRumah extends Controller
                     'kmr_mandi_tr' => $request->kamarMandi[$i] ?? null,
                     'kmr_tidur_tr' => $request->kamarTidur[$i] ?? null,
                     'harga_tr' => $request->harga[$i] ?? null,
-                    'harga_freeppn_tr' => $request->hargaFreePPN[$i] ?? null,
+                    'harga_free_ppn_tr' => $request->hargaFreePPN[$i] ?? null,
                     'harga_text_tr' => $request->hargaText[$i] ?? null,
                     'pondasi_tr' => $request->pondasi[$i] ?? null,
                     'struktur_tr' => $request->struktur[$i] ?? null,

@@ -29,7 +29,7 @@
                             <li>
                                 <a class="dropdown-item" href="/Housing/VerdantGrove">
                                     <div>
-                                        <img src="{{ asset('Home') }}/images/logo-tidar-green.png" alt="">
+                                        <img src="{{ asset('Home') }}/images/verdant/logo.png" style="height: 32px; width: auto; object-fit: contain" alt="">
 
                                     </div>
                                 </a>
