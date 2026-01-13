@@ -79,7 +79,7 @@
                 </div>
 
                 <div class="btn-groups">
-                    <a href="{{ route('simulationCluster') }}" type="button"
+                    <a href="{{ route('simulationCluster', $rumah->id_projek) }}" type="button"
                         class="btn btn-grey">Kembali</a>
                     {{--  <a href="/k-simulation-modification.html" type="button" class="btn btn-primary">Lanjutkan</a>  --}}
                 </div>

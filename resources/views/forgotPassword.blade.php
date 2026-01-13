@@ -3,7 +3,7 @@
 @extends('HomeLayout.sidebar')
 @extends('HomeLayout.footerbranch')
 {{-- @extends('HomeLayout.footer') --}}
-@section('tittle', 'Forms | Lupa Password')
+@section('tittle', 'Forms | Login')
 @section('body', 'index')
 
 @section('content')
@@ -30,7 +30,7 @@
                 <form method="POST" action="{{ route('forgot.action') }}">
                     @csrf
                     <div class="forms">
-                        <input type="hidden" name="id" value="{{ $user->id_user_admin }}">
+                        
                         <h5>Change Password</h5>
                         <div class="mb-3 form-group">
                             <label for="password" class="form-label">Password</label>

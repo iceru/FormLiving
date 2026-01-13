@@ -29,7 +29,6 @@ class C_Rumah extends Controller
     public $userMenu;
     public $gambarRumah;
 
-
     public function __construct()
     {
         $this->userNotif = new UserNotif();
@@ -140,7 +139,7 @@ class C_Rumah extends Controller
 
         $user = $this->userAdmin->getUserKategoriWhere('user_admin.id_user_admin', '=', session::get('user'));
         $dataNotif = [
-            'msg_notif' => 'User ' . $user->nama_ua . ' telah memasukan rumah ' . $request->blok . '-' . $request->nomor,
+            'msg_notif' => 'User '.$user->nama_ua.' telah memasukan rumah '.$request->blok.'-'.$request->nomor,
             'status_notif' => 'aktif',
         ];
 
@@ -149,7 +148,7 @@ class C_Rumah extends Controller
         $request->validate([
             'cluster' => 'required',
             'blok' => 'required',
-            'nomor' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:1',
+            'nomor' => 'required|alpha_num|min:1',
             'status' => 'required',
             'stock' => 'required',
         ]);
@@ -257,7 +256,7 @@ class C_Rumah extends Controller
             // }
 
             $dataNotif = [
-                'msg_notif' => 'User ' . $user->nama_ua . ' telah merubah rumah ' . $getRumah->blok . '-' . $getRumah->nomor,
+                'msg_notif' => 'User '.$user->nama_ua.' telah merubah rumah '.$getRumah->blok.'-'.$getRumah->nomor,
                 'status_notif' => 'aktif',
             ];
 
@@ -268,12 +267,12 @@ class C_Rumah extends Controller
                 $img = $request->file('imgRumah');
 
                 // Generate a unique filename based on the current timestamp and the original file extension
-                $filename = $request->blok . '-' . $request->nomor . '-' . time() . '.' . $img->getClientOriginalExtension();
+                $filename = $request->blok.'-'.$request->nomor.'-'.time().'.'.$img->getClientOriginalExtension();
 
                 // Store the image in the 'images' folder under the 'public' disk
                 $path = 'Home/images/rumah/';
                 $img = Image::make($img);
-                $img->save(public_path($path . $filename));
+                $img->save(public_path($path.$filename));
             }
 
             $dataRumah = [
@@ -296,15 +295,15 @@ class C_Rumah extends Controller
 
             // dd($dataRumah);
 
-            return redirect('/rumah-admin/' . $projek)->with('success', 'Data rumah ' . $request->blok . '-' . $request->nomor . ' telah berhasil diubah');
-            // return view(
+            return redirect('/rumah-admin/'.$projek)->with('success', 'Data rumah '.$request->blok.'-'.$request->nomor.' telah berhasil diubah');
+        // return view(
             //     'V_Admin.rumah',
             //     compact(
             //         'user',
             //         'projekUser',
             //         'getRumah',
             //     )
-            // );
+        // );
         } else {
             return redirect('/login');
         }
@@ -361,159 +360,155 @@ class C_Rumah extends Controller
     public function deleteRumah($projek, $id)
     {
         $getProjek = $this->projek->firstProjek('*', 'nama_projek', '=', $projek);
+
+
     }
-
-
-    function getProjekApi()
-    {
+    
+      function getProjekApi() {
         $projek = $this->projek->getProjekAll();
 
         return response()->json($projek);
         // return ['nama' => "hehe"];
     }
-    function getRumahWhereApi($projek, $min_harga, $max_harga)
-    {
+    function getRumahWhereApi($projek,$min_harga,$max_harga) {
         $arrProjek = array($projek);
-        $rumah = $this->rumah->getRumahWhereTipeRumahApi([
-            "rumah.blok", "rumah.nomor", "tipe_rumah.harga_tr", "projek.nama_projek", "cluster.nama_cluster", "tipe_rumah.kmr_mandi_tr", "tipe_rumah.kmr_tidur_tr", "tipe_rumah.harga_tr", "tipe_rumah.img_tr", "tipe_rumah.luas_bangunan_tr", "rumah.luas_tanah", "tipe_rumah.id_tipe_rumah"
-        ], $arrProjek, [
-            ['tipe_rumah.harga_tr', '>=', $min_harga,],
-            ['tipe_rumah.harga_tr', '<=', $max_harga,]
+        $rumah = $this->rumah->getRumahWhereTipeRumahApi(["rumah.blok","rumah.nomor","tipe_rumah.harga_tr","projek.nama_projek","cluster.nama_cluster","tipe_rumah.kmr_mandi_tr","tipe_rumah.kmr_tidur_tr","tipe_rumah.harga_tr","tipe_rumah.img_tr","tipe_rumah.luas_bangunan_tr","rumah.luas_tanah","tipe_rumah.id_tipe_rumah","tipe_rumah.jenis_tr"] ,$arrProjek,[
+           [ 'tipe_rumah.harga_tr' ,'>=', $min_harga,],
+            ['tipe_rumah.harga_tr' ,'<=', $max_harga,]
         ]);
         // dd($rumah);
 
         return response()->json($rumah);
     }
+    
+    function getTipeRumahApi($tipeRumah)  {
 
-    function getTipeRumahApi($tipeRumah)
-    {
-
-        $data = $this->rumah->firstRumahWhereTipeRumahApi('*', ['tipe_rumah.id_tipe_rumah' => $tipeRumah]);
+        $data = $this->rumah->firstRumahWhereTipeRumahApi('*',['tipe_rumah.id_tipe_rumah' => $tipeRumah]);
         return response()->json($data);
     }
+    
+     public function searchRumahAdvanceApi(Request $request) {
+    $arrProjek = [$request->projek];
+    $whereQuery = [['rumah.status', '=', 'Available']];
 
-    public function searchRumahAdvanceApi(Request $request) {
-        $arrProjek = [$request->projek];
-        $whereQuery = [['rumah.status', '=', 'Available']];
-
-        if ($request->has('projek')) {
-            $arrProjek[] = $request->projek;
-        }
-        if ($request->has('min_harga')) {
-            $whereQuery[] = ['tipe_rumah.harga_tr', '>=', $request->min_harga];
-        }
-        if ($request->has('max_harga')) {
-            $whereQuery[] = ['tipe_rumah.harga_tr', '<=', $request->max_harga];
-        }
-        if ($request->has('kmr_mandi')) {
-            $whereQuery[] = ['tipe_rumah.kmr_mandi_tr', '=', $request->kmr_mandi];
-        }
-        if ($request->has('kmr_tidur')) {
-            $whereQuery[] = ['tipe_rumah.kmr_tidur_tr', '=', $request->kmr_tidur];
-        }
-        if ($request->has('luas_tanah')) {
-            $whereQuery[] = ['rumah.luas_tanah', '<=', $request->luas_tanah];
-        }
-        if ($request->has('luas_bangunan')) {
-            $whereQuery[] = ['tipe_rumah.luas_bangunan_tr', '<=', $request->luas_bangunan];
-        }
-
-        if ($request->has('pondasi')) {
-            $whereQuery[] = ['tipe_rumah.pondasi_tr', 'LIKE', '%' . $request->pondasi . '%'];
-        }
-        if ($request->has('struktur')) {
-            $whereQuery[] = ['tipe_rumah.struktur_tr', 'LIKE', '%' . $request->struktur . '%'];
-        }
-        if ($request->has('dinding_dalam')) {
-            $whereQuery[] = ['tipe_rumah.dinding_dalam_tr', 'LIKE', '%' . $request->dinding_dalam . '%'];
-        }
-        if ($request->has('dinding_luar_kamar_mandi')) {
-            $whereQuery[] = ['tipe_rumah.dinding_luar_kamar_mandi_tr', 'LIKE', '%' . $request->dinding_luar_kamar_mandi . '%'];
-        }
-        if ($request->has('dinding_kmr_mnd_tr')) {
-            $whereQuery[] = ['tipe_rumah.dinding_kmr_mnd_tr', 'LIKE', '%' . $request->dinding_kmr_mnd_tr . '%'];
-        }
-        if ($request->has('meja_dapur')) {
-            $whereQuery[] = ['tipe_rumah.meja_dapur_tr', 'LIKE', '%' . $request->meja_dapur . '%'];
-        }
-        if ($request->has('lantai_ruang_tidur')) {
-            $whereQuery[] = ['tipe_rumah.lt_ruang_tidur_tr', 'LIKE', '%' . $request->lantai_ruang_tidur . '%'];
-        }
-        if ($request->has('lantai_ruang_keluarga')) {
-            $whereQuery[] = ['tipe_rumah.lt_ruang_keluarga_tr', 'LIKE', '%' . $request->lantai_ruang_keluarga . '%'];
-        }
-        if ($request->has('lantai_teras_utama')) {
-            $whereQuery[] = ['tipe_rumah.lt_teras_utama_tr', 'LIKE', '%' . $request->lantai_teras_utama . '%'];
-        }
-        if ($request->has('rangka_atap')) {
-            $whereQuery[] = ['tipe_rumah.rangka_atap_tr', 'LIKE', '%' . $request->rangka_atap . '%'];
-        }
-        if ($request->has('penutup_atap')) {
-            $whereQuery[] = ['tipe_rumah.penutup_atap_tr', 'LIKE', '%' . $request->penutup_atap . '%'];
-        }
-        if ($request->has('kusen')) {
-            $whereQuery[] = ['tipe_rumah.kusen_tr', 'LIKE', '%' . $request->kusen . '%'];
-        }
-        if ($request->has('daun_pintu')) {
-            $whereQuery[] = ['tipe_rumah.daun_pintu_tr', 'LIKE', '%' . $request->daun_pintu . '%'];
-        }
-        if ($request->has('sanitary')) {
-            $whereQuery[] = ['tipe_rumah.sanitary_tr', 'LIKE', '%' . $request->sanitary . '%'];
-        }
-        if ($request->has('plafon_dalam')) {
-            $whereQuery[] = ['tipe_rumah.plafon_dalam_tr', 'LIKE', '%' . $request->plafon_dalam . '%'];
-        }
-        if ($request->has('handle')) {
-            $whereQuery[] = ['tipe_rumah.handle_tr', 'LIKE', '%' . $request->handle . '%'];
-        }
-        if ($request->has('lighting')) {
-            $whereQuery[] = ['tipe_rumah.lighting_tr', 'LIKE', '%' . $request->lighting . '%'];
-        }
-        if ($request->has('daya_listrik')) {
-            $whereQuery[] = ['tipe_rumah.daya_listrik_tr', 'LIKE', '%' . $request->daya_listrik . '%'];
-        }
-        if ($request->has('carport')) {
-            $whereQuery[] = ['tipe_rumah.carport_tr', 'LIKE', '%' . $request->carport . '%'];
-        }
-        if ($request->has('tangga')) {
-            $whereQuery[] = ['tipe_rumah.tangga_tr', 'LIKE', '%' . $request->tangga . '%'];
-        }
-
-        $rumah = $this->rumah->getRumahWhereTipeRumahApi(
-            [
-                "rumah.blok",
-                "rumah.nomor",
-                "tipe_rumah.harga_tr",
-                "projek.nama_projek",
-                "cluster.nama_cluster",
-                "tipe_rumah.kmr_mandi_tr",
-                "tipe_rumah.kmr_tidur_tr",
-                "tipe_rumah.harga_tr",
-                "tipe_rumah.img_tr",
-                "tipe_rumah.luas_bangunan_tr",
-                "rumah.luas_tanah",
-                "tipe_rumah.id_tipe_rumah"
-            ],
-            $arrProjek,
-            $whereQuery
-        );
-
-        return response()->json($rumah);
+    if ($request->has('projek')) {
+        $arrProjek[] = $request->projek;
+    }
+    if ($request->has('min_harga')) {
+        $whereQuery[] = ['tipe_rumah.harga_tr', '>=', $request->min_harga];
+    }
+    if ($request->has('max_harga')) {
+        $whereQuery[] = ['tipe_rumah.harga_tr', '<=', $request->max_harga];
+    }
+    if ($request->has('kmr_mandi')) {
+        $whereQuery[] = ['tipe_rumah.kmr_mandi_tr', '=', $request->kmr_mandi];
+    }
+    if ($request->has('kmr_tidur')) {
+        $whereQuery[] = ['tipe_rumah.kmr_tidur_tr', '=', $request->kmr_tidur];
+    }
+    if ($request->has('luas_tanah')) {
+        $whereQuery[] = ['rumah.luas_tanah', '<=', $request->luas_tanah];
+    }
+    if ($request->has('luas_bangunan')) {
+        $whereQuery[] = ['tipe_rumah.luas_bangunan_tr', '<=', $request->luas_bangunan];
     }
 
+    if ($request->has('pondasi')) {
+        $whereQuery[] = ['tipe_rumah.pondasi_tr', 'LIKE', '%' . $request->pondasi . '%'];
+    }
+    if ($request->has('struktur')) {
+        $whereQuery[] = ['tipe_rumah.struktur_tr', 'LIKE', '%' . $request->struktur . '%'];
+    }
+    if ($request->has('dinding_dalam')) {
+        $whereQuery[] = ['tipe_rumah.dinding_dalam_tr', 'LIKE', '%' . $request->dinding_dalam . '%'];
+    }
+    if ($request->has('dinding_luar_kamar_mandi')) {
+        $whereQuery[] = ['tipe_rumah.dinding_luar_kamar_mandi_tr', 'LIKE', '%' . $request->dinding_luar_kamar_mandi . '%'];
+    }
+    if ($request->has('dinding_kmr_mnd_tr')) {
+        $whereQuery[] = ['tipe_rumah.dinding_kmr_mnd_tr', 'LIKE', '%' . $request->dinding_kmr_mnd_tr . '%'];
+    }
+    if ($request->has('meja_dapur')) {
+        $whereQuery[] = ['tipe_rumah.meja_dapur_tr', 'LIKE', '%' . $request->meja_dapur . '%'];
+    }
+    if ($request->has('lantai_ruang_tidur')) {
+        $whereQuery[] = ['tipe_rumah.lt_ruang_tidur_tr', 'LIKE', '%' . $request->lantai_ruang_tidur . '%'];
+    }
+    if ($request->has('lantai_ruang_keluarga')) {
+        $whereQuery[] = ['tipe_rumah.lt_ruang_keluarga_tr', 'LIKE', '%' . $request->lantai_ruang_keluarga . '%'];
+    }
+    if ($request->has('lantai_teras_utama')) {
+        $whereQuery[] = ['tipe_rumah.lt_teras_utama_tr', 'LIKE', '%' . $request->lantai_teras_utama . '%'];
+    }
+    if ($request->has('rangka_atap')) {
+        $whereQuery[] = ['tipe_rumah.rangka_atap_tr', 'LIKE', '%' . $request->rangka_atap . '%'];
+    }
+    if ($request->has('penutup_atap')) {
+        $whereQuery[] = ['tipe_rumah.penutup_atap_tr', 'LIKE', '%' . $request->penutup_atap . '%'];
+    }
+    if ($request->has('kusen')) {
+        $whereQuery[] = ['tipe_rumah.kusen_tr', 'LIKE', '%' . $request->kusen . '%'];
+    }
+    if ($request->has('daun_pintu')) {
+        $whereQuery[] = ['tipe_rumah.daun_pintu_tr', 'LIKE', '%' . $request->daun_pintu . '%'];
+    }
+    if ($request->has('sanitary')) {
+        $whereQuery[] = ['tipe_rumah.sanitary_tr', 'LIKE', '%' . $request->sanitary . '%'];
+    }
+    if ($request->has('plafon_dalam')) {
+        $whereQuery[] = ['tipe_rumah.plafon_dalam_tr', 'LIKE', '%' . $request->plafon_dalam . '%'];
+    }
+    if ($request->has('handle')) {
+        $whereQuery[] = ['tipe_rumah.handle_tr', 'LIKE', '%' . $request->handle . '%'];
+    }
+    if ($request->has('lighting')) {
+        $whereQuery[] = ['tipe_rumah.lighting_tr', 'LIKE', '%' . $request->lighting . '%'];
+    }
+    if ($request->has('daya_listrik')) {
+        $whereQuery[] = ['tipe_rumah.daya_listrik_tr', 'LIKE', '%' . $request->daya_listrik . '%'];
+    }
+    if ($request->has('carport')) {
+        $whereQuery[] = ['tipe_rumah.carport_tr', 'LIKE', '%' . $request->carport . '%'];
+    }
+    if ($request->has('tangga')) {
+        $whereQuery[] = ['tipe_rumah.tangga_tr', 'LIKE', '%' . $request->tangga . '%'];
+    }
+
+    $rumah = $this->rumah->getRumahWhereTipeRumahApi(
+        [
+            "rumah.blok",
+            "rumah.nomor",
+            "tipe_rumah.harga_tr",
+            "projek.nama_projek",
+            "cluster.nama_cluster",
+            "tipe_rumah.kmr_mandi_tr",
+            "tipe_rumah.kmr_tidur_tr",
+            "tipe_rumah.harga_tr",
+            "tipe_rumah.img_tr",
+            "tipe_rumah.luas_bangunan_tr",
+            "rumah.luas_tanah",
+            "tipe_rumah.id_tipe_rumah",
+            "tipe_rumah.jenis_tr"
+        ],
+        $arrProjek,
+        $whereQuery
+    );
+
+    return response()->json($rumah);
+}
     function getDenahDetailTipeRumahApi($tipeRumah)  {
         $dataDenahTipeRumah = $this->gambarRumah->getGambarRumahJoinTipeRumahGroupBy('*',[
-            ['gambar_rumah.jenis_img','=', 'denah'],
-            ['tipe_rumah.id_tipe_rumah','=',$tipeRumah]
+            // ['gambar_rumah.jenis_img','=', 'denah'],
+            ['tipe_rumah.id_tipe_rumah','=',$tipeRumah],
+            ['gambar_rumah.status_gr','=','aktif']
         ],'tipe_rumah.id_tipe_rumah');
         return response()->json($dataDenahTipeRumah);
 
     }
-
-
     public function getVarTipeRumahApi()
     {
-        $varTipeRumah = DB::table('var_tipe_rumah')->where(1)->first();
+        $varTipeRumah = DB::table('var_tipe_rumah')->where(['id_var_tipe_rumah' => 1])->first();
         return response()->json($varTipeRumah);
     }
+
 }

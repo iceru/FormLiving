@@ -386,14 +386,14 @@
                                             value="{{ $getFormulirPesanan->alamat_plgn }} " style="width: 95%"></td>
                                 </tr>
                                 <tr>
-                                    <td>No. Telepon</td>
+                                    <td>No. Telepon / WhatsApp</td>
                                     <td>: <input type="text" name="tlp"
                                             value="{{ $getFormulirPesanan->no_telp_plgn }}" style="width: 95%"></td>
                                 </tr>
                                 <tr>
-                                    <td>rupiahNonNon</td>
+                                    <td>Email</td>
                                     <td>: <input type="text" name="email"
-                                            value="{{ $getFormulirPesanan->rupiahNonNon_plgn }}" style="width: 95%"></td>
+                                            value="{{ $getFormulirPesanan->email_plgn }}" style="width: 95%"></td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -402,13 +402,14 @@
                                     <td>
                                         : <input type="text" name="tempat"
                                             value="{{ $getFormulirPesanan->tempat_lahir_plgn }}" style="width: 30%">,
-                                            <input type="date" name="tanggalLahir" value="{{ $getFormulirPesanan->tgl_lahir_plgn }}">
+                                            <input type="date" name="tglLahir" value="{{ $getFormulirPesanan->tgl_lahir_plgn }}">
                                         {{-- {{ tgl_indo(date('Y-m-d', strtotime($getFormulirPesanan->tgl_lahir_plgn))) }} --}}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Sumber Dana</td>
-                                    <td>: {{ $getFormulirPesanan->sumber_dana_plgn }}</td>
+                                    <td>: <input type="text" name="sbdana"
+                                            value="{{ $getFormulirPesanan->sumber_dana_plgn }}" style="width: 95%"></td></td>
                                 </tr>
                                 <tr>
                                     <td>Tujuan transaksi</td>
@@ -505,28 +506,14 @@
                                                     <p class="s2"
                                                         style="padding-right: 5pt;text-indent: 0pt;line-height: 11pt;text-align: right;">
 
-                                                        @if (!empty($price))
-                                                            @if ($price['hargaDiskon'] = 0)
-                                                                @if ($user->kategori == 'StaffAcc' || $user->kategori == 'AdminAccounting' || $user->kategori == 'SuperAdmin')
-                                                                    <input type="text" name="hargaDiskon" oninput="formatInput(this)"
-                                                                        class="form-control" value="0">
-                                                                @else
-                                                                    0,-
-                                                                @endif
-                                                            @else
-                                                                @if ($user->kategori == 'StaffAcc' || $user->kategori == 'AdminAccounting' || $user->kategori == 'SuperAdmin')
-                                                                    <input type="text" name="hargaDiskon" oninput="formatInput(this)"
+                                                       @if ($user->kategori == 'StaffAcc' || $user->kategori == 'AdminAccounting' || $user->kategori == 'SuperAdmin')
+                                                            <input type="text" name="hargaDiskon" oninput="formatInput(this)"
                                                                         class="form-control"
                                                                         value="{{ rupiahNon($price['hargaDiskon']) }}">
-                                                                @else
-                                                                    0,-
-                                                                @endif
-                                                                {{-- {{ number_format($price['hargaDiskon'], 2) }} --}}
-                                                            @endif
+                                                        @else
+                                                            {{ rupiahNon($price['hargaDiskon']) }}
+                                                        @endif
                                                     </p>
-                                                @else
-                                                    No data available</p>
-                                    @endif
                                     </td>
                                     </tr>
                                     <tr style="height:14pt">
@@ -627,7 +614,7 @@
                                         style="padding-top: 3pt;padding-right: 5pt;text-indent: 0pt;line-height: 12pt;text-align: right;">
                                         {{ rupiahNon($getFormulirPesanan->total_harga) }},-</p>
                                         @endif
-
+                                          
                                         </td>
                                     </tr>
                                     </table>
@@ -708,7 +695,7 @@
                                 @endif
                             </tr>
                             @endif
-
+                               
                                 <?php $no++; ?>
                             @endforeach
 
@@ -819,7 +806,12 @@ $('#deleteConfirmationModal').modal('hide');  --}}
                                             <input list="paymentTypes" name="tipePembayaran[]" id="paymentType" placeholder="Pilih atau ketik manual">
 
                                             <!-- Datalist with predefined options -->
-
+                                            <datalist id="paymentTypes">
+                                                <!-- Cicilan Uang Muka 1 - 10 -->
+                                                <option value="Cicilan Uang Muka 1">
+                                                <option value="Cicilan Uang Muka 2">
+                                                <option value="Cicilan Uang Muka 3">
+                                                <option value="Cicilan Uang Muka 4">
                                                 <option value="Cicilan Uang Muka 5">
                                                 <option value="Cicilan Uang Muka 6">
                                                 <option value="Cicilan Uang Muka 7">

@@ -2,7 +2,6 @@
 @extends('HomeLayout.navbar')
 @extends('HomeLayout.sidebar')
 @extends('HomeLayout.footer')
-@extends('flashdata')
 @section('tittle','Forms | Congratulation')
 @section('body','')
 
@@ -26,10 +25,10 @@
         <div class="logo-check">
             <img src="{{ asset('Home') }}/images/ic-success.png" alt="">
         </div>
-        <h1>Terkirim!</h1>
+        <h1>Selamat!</h1>
         <p class="light-grey-color">
-            Invoice biaya tanda jadi sudah dikirim ke alamat email Anda, Silakan proses pembayaran dan konfirmasi
-            melalui email atau whatsapp.
+            Pemesanan Rumah Anda Telah dibuat! Silakan lanjutkan proses pembayaran melalui Sales / Agent Anda dan konfirmasi
+           Whatsapp Admin Formsliving.
         </p>
         <a href="/" class="btn btn-primary">Kembali ke Beranda</a>
     </div>

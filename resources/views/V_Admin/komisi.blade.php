@@ -74,10 +74,7 @@
                                         </td>
                                         @if ($user->kategori == 'SuperAdmin' || $user->kategori == 'AdminAccounting' || $user->kategori == 'StafAcc')
                                             <td>
-                                                @if ($percentage > 35 && $percentage <= 70 && !$getKomisi->contains('id_formulir', $item->id_formulir))
-                                                <a href="{{ route('addKomisi.admin', [$getProjek->nama_projek, $item->id_formulir]) }}"
-                                                    class="btn btn-outline-primary btn-sm">Buat Komisi</a>
-                                            @endif
+                                           
 
                                             @foreach ($getKomisi as $komisi)
                                                 @if ($komisi->id_formulir == $item->id_formulir)
@@ -141,7 +138,9 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                @endif
+                                                @else
+                                                Komisi belum di buat
+                                                    @endif
                                             @endforeach
                                             </td>
                                         @endif
@@ -159,12 +158,12 @@
                 <div class="card-body">
                     <div class="card-title d-flex justify-content-between align-items-center">
                         <h3>Komisi</h3>
-                        {{--  @if ($user->kategori == 'SuperAdmin' || $user->kategori == 'AdminAccounting' || $user->kategori == 'StafAcc')
+                         @if ($user->kategori == 'SuperAdmin' || $user->kategori == 'AdminAccounting' || $user->kategori == 'StafAcc')
                             <button type="button" class="btn btn-secondary" data-toggle="modal"
                                 data-target="#exampleModal">
                                 <i class="fa fa-plus" aria-hidden="true"></i> Tambah Komisi
                             </button>
-                        @endif  --}}
+                        @endif 
                     </div>
 
                     <table id="komisiTable" class="table table-bordered" style="width:100%">
@@ -242,16 +241,9 @@
                                     </td>
 
                                     <td>
-                                        @if ($user->kategori == 'SuperAdmin' || $user->kategori == 'AdminAccounting' || $user->kategori == 'StafAcc')
-
                                         <button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#editKomisi{{ $komisi->id_komisi }}">
                                             Edit Komisi
                                         </button>
-                                        @endif
-
-                                        @if ($user->kategori == 'SuperAdmin' || $user->kategori == 'Sekretaris')
-                                        <a href="{{ route('cetakKomisi.admin', [$getProjek->nama_projek, Crypt::encrypt($komisi->id_komisi)]) }}" class="btn btn-outline-info btn-sm">Cetak Komisi</a>
-                                        @endif
 
                                         <!-- Edit Komisi Modal -->
                                         <div class="modal fade" id="editKomisi{{ $komisi->id_komisi }}" tabindex="-1" role="dialog" aria-labelledby="editKomisiModalLabel{{ $komisi->id_komisi }}" aria-hidden="true">
@@ -334,16 +326,20 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+                <form action="{{ route('addKomisi.admin', [$getProjek->nama_projek] ) }}" method="POST" enctype="multipart/form-data" >
+                    @csrf
                 <div class="modal-body">
                     <!-- Modal content goes here -->
-                    <p>Settings content...</p>
-                    <form>
+                    
+                   
                         <div class="form-group">
                             <label for="formulirPesanan">Formulir Pesanan</label>
-                            <select class="form-control" id="formulirPesanan" name="formulirPesanan">
-                                <option value="">Select Formulir Pesanan</option>
-                                <!-- Add options dynamically from the server -->
-                            </select>
+                            <input class="form-control" list="formulirPesanan" id="formulirPesananInput" name="formulirPesanan">
+                            <datalist id="formulirPesanan">
+                                @foreach ($getDataFormulirPesanan as $pesanan)
+                                    <option value="{{ $pesanan->id_formulir }}" >No FP {{ $pesanan->no_fp }} / {{ $pesanan->blok }} - {{ $pesanan->nomor }} / {{ $pesanan->nama_plgn }} dari {{ $pesanan->nama_ua }}</option>
+                                @endforeach
+                            </datalist>
                         </div>
                         <div class="form-group">
                             <label for="hargaRumah">Harga Rumah</label>
@@ -352,22 +348,21 @@
                         </div>
                         <div class="form-group">
                             <label for="komisiRumah">Komisi Rumah (1%)</label>
-                            <input type="number" class="form-control" id="komisiRumah" name="komisiRumah" readonly>
+                            <input type="number" class="form-control" id="komisiRumah" name="komisiRumah" >
                         </div>
                         <div class="form-group">
                             <label for="totalKomisi1">Total Komisi 1 (35%)</label>
-                            <input type="number" class="form-control" id="totalKomisi1" name="totalKomisi1" readonly>
+                            <input type="number" class="form-control" id="totalKomisi1" name="totalKomisi1" >
                         </div>
                         <div class="form-group">
                             <label for="totalKomisi2">Total Komisi 2 (30%)</label>
-                            <input type="number" class="form-control" id="totalKomisi2" name="totalKomisi2" readonly>
+                            <input type="number" class="form-control" id="totalKomisi2" name="totalKomisi2" >
                         </div>
                         <div class="form-group">
                             <label for="totalKomisi3">Total Komisi 3 (30%)</label>
-                            <input type="number" class="form-control" id="totalKomisi3" name="totalKomisi3" readonly>
+                            <input type="number" class="form-control" id="totalKomisi3" name="totalKomisi3" >
                         </div>
-                    </form>
-
+                    
                     <script>
                         document.getElementById('hargaRumah').addEventListener('input', function() {
                             var hargaRumah = parseFloat(this.value) || 0;
@@ -386,8 +381,10 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
+            </form>
+
             </div>
         </div>
     </div>

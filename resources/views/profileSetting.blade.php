@@ -254,10 +254,6 @@
                             <a href="Direktur/dashboard" class="btn btn-primary">Form One</a>
                             @break
 
-                            @case('SuperAdmin')
-                            <a href="/dashboard-admin/Greenland" class="btn btn-primary">Form One</a>
-                            @break
-
                             @default
                             @endswitch
                         </div>
@@ -283,17 +279,6 @@
                                     <i class="fa fa-diamond mycolor" aria-hidden="true"></i>
                                 </div>
                                 <p> &nbsp;Komisi</p>
-                            </div>
-                            <div class="ic-chevron">
-                                <i class="bi-chevron-right"></i>
-                            </div>
-                        </a>
-                        <a href="{{ route('preOrderForms.sales') }}" class="item">
-                            <div class="d-flex">
-                                <div class="icon">
-                                    <i class="bi bi-bag mycolor"></i>
-                                </div>
-                                <p> &nbsp;Pre Order</p>
                             </div>
                             <div class="ic-chevron">
                                 <i class="bi-chevron-right"></i>

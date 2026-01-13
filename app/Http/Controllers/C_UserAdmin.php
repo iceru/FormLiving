@@ -278,8 +278,6 @@ class C_UserAdmin extends Controller
     public function updatePasswordProfileAction(Request $request, $id)
     {
 
-
-
         $decryptedID = Crypt::decrypt($id);
         $getUser = $this->userAdmin->getUserKategoriWhere('user_admin.id_user_admin', '=', Session::get('user'));
 

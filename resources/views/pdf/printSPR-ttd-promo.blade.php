@@ -1215,11 +1215,21 @@
       Termasuk : SHGB, PPN, PBG, PLN dan Air bersih. </p>
     <p style="padding-top: 1pt;padding-left: 5pt;text-indent: 0pt;line-height: 114%;text-align: left;">Harga Belum
       Termasuk : BPHTB, Biaya KPR.</p>
-    <p style="padding-left: 5pt;text-indent: 0pt;line-height: 229%;text-align: justify;">Promo : {{$promo->kode_promo}}
-      - {{$promo->promo}}<br>
+    <p style="padding-left: 5pt;text-indent: 0pt;line-height: 229%;text-align: justify;"> @if (empty($promo))
+                                        
+                                    @else
+                                        Promo : {{$promo->kode_promo}} - {{$promo->promo}}
+                                    @endif
+    
+   <br>
     </p>
     <p style="padding-top: 1pt;padding-left: 5pt;text-indent: 0pt;line-height: 114%;text-align: left;">
-      {{$promo->keterangan}}</p>
+        @if (empty($promo))
+                                       
+                                    @else
+                                          {{$promo->keterangan}}
+                                    @endif
+      </p>
     <br>
     <p>
       Malang, <?= tgl_indo(date('Y-m-d', strtotime($fp->tgl_input_fp))) ?></php>

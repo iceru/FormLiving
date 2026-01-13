@@ -280,38 +280,44 @@
                 overflow: visible !important;
                 max-height: inherit !important
             }
+            
+            div #hallo{
+                
+                width=100%;height=100%;
+            }
+                
+            }
         }
     </style>
 </head>
 
-<body
-    style="width:100%;font-family:arial, 'helvetica neue', helvetica, sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;padding:0;Margin:0">
-    <div class="es-wrapper-color" style="background-color:#F6F6F6">
+<body style="width:100%;font-family:arial, 'helvetica neue', helvetica, sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;">
+    <div class="es-wrapper-color" style="">
         <!--[if gte mso 9]>
 			<v:background xmlns:v="urn:schemas-microsoft-com:vml" fill="t">
 				<v:fill type="tile" color="#f6f6f6"></v:fill>
 			</v:background>
 		<![endif]-->
+		<div id="hallo">
         <table class="es-wrapper" width="100%" cellspacing="0" cellpadding="0"
-            style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;padding:0;Margin:0;width:100%;height:100%;background-repeat:repeat;background-position:center top;background-color:#F6F6F6">
+            style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;padding:0;Margin:0;width:100%;height:100%;">
             <tr>
                 <td valign="top" style="padding:0;Margin:0">
                     <table class="es-content" cellspacing="0" cellpadding="0" align="center"
-                        style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%">
+                        style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%; ">
                         <tr>
                             <td align="center" style="padding:0;Margin:0">
-                                <table class="es-content-body" cellspacing="0" cellpadding="0" bgcolor="#ffffff"
+                                <table class="es-content-body" cellspacing="0" cellpadding="0""
                                     align="center"
-                                    style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#FFFFFF;width:600px">
+                                    style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;width:600px; background-image: url('{{ asset('Home') }}/images/bgemail.jpeg');background-size:100%; padding:0;Margin:0;background-repeat: no-repeat; position:center;">
                                     <tr>
-                                        <td align="left"
-                                            background="https://mzlqyo.stripocdn.email/content/guids/CABINET_fd635ae99f66728ea0c1250e5a154d176c55e2bac78c24fd054ca179e930bea8/images/whatsapp_image_20230519_at_30531_pm_QIw.jpeg"
-                                            style="padding:0;Margin:0;padding-top:20px;padding-left:20px;padding-right:20px;background-image:url(https://mzlqyo.stripocdn.email/content/guids/CABINET_fd635ae99f66728ea0c1250e5a154d176c55e2bac78c24fd054ca179e930bea8/images/whatsapp_image_20230519_at_30531_pm_QIw.jpeg);background-repeat:no-repeat;background-position:left top">
+                                        <!--https://mzlqyo.stripocdn.email/content/guids/CABINET_fd635ae99f66728ea0c1250e5a154d176c55e2bac78c24fd054ca179e930bea8/images/whatsapp_image_20230519_at_30531_pm_QIw.jpeg-->
+                                        <td align="left">
                                             <table cellpadding="0" cellspacing="0" width="100%"
-                                                style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                                                style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;">
                                                 <tr>
                                                     <td align="center" valign="top"
-                                                        style="padding:0;Margin:0;width:560px">
+                                                        style="padding-top:15%;Margin:0;width:560px">
                                                         <table cellpadding="0" cellspacing="0" width="100%"
                                                             role="presentation"
                                                             style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
@@ -343,62 +349,55 @@
                                                                         style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">
                                                                         <br></p>
                                                                     <p
-                                                                        style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">
-                                                                        Halo $data['nama'],</p>
+                                                                        style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:black;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">
+                                                                        Halo {{$data['nama']}},</p>
                                                                     <p
                                                                         style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">
                                                                         <br></p>
                                                                     <p
-                                                                        style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">
-                                                                        &nbsp; Selamat datang di Forms Living! Kami
-                                                                        sangat senang Anda telah bergabung dengan kami
-                                                                        dan menjadi bagian dari komunitas kami.</p>
+                                                                        style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly; color:black;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">
+                                                                        &nbsp; <b>Registrasi berhasil!</b>.</p>
                                                                     <p
                                                                         style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">
                                                                         <br></p>
                                                                     <p
-                                                                        style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">
-                                                                        &nbsp; Registrasi Anda telah berhasil, dan
-                                                                        sekarang Anda memiliki akses penuh ke semua
-                                                                        fitur dan layanan yang kami tawarkan. Kami
-                                                                        berkomitmen untuk memberikan pengalaman terbaik
-                                                                        kepada setiap anggota, dan kami berharap Anda
-                                                                        menemukan nilai dan manfaat yang luar biasa dari
-                                                                        keanggotaan Anda di Forms living.</p>
+                                                                        style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly; color:black;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">
+                                                                        &nbsp; Selamat datang di Forms Living! Kami sangat senang Anda telah bergabung dengan kami dan menjadi bagian dari komunitas kami.</p>
                                                                     <p
                                                                         style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">
                                                                         <br></p>
                                                                     <p
-                                                                        style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">
-                                                                        &nbsp; Kami menyadari bahwa waktu Anda sangat
-                                                                        berharga, dan kami berterima kasih telah memilih
-                                                                        kami sebagai mitra Anda. Kami berjanji untuk
-                                                                        terus memberikan layanan berkualitas tinggi dan
-                                                                        berusaha untuk memenuhi harapan Anda.</p>
+                                                                        style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly; color:black;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">
+                                                                        &nbsp; Kami berharap untuk dapat menjadi partner terbaik anda terus memberikan layanan yang maksimal.</p>
                                                                     <p
                                                                         style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">
                                                                         <br></p>
                                                                     <p
-                                                                        style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">
-                                                                        &nbsp; Apakah Anda memiliki pertanyaan, masukan,
-                                                                        atau saran, jangan ragu untuk menghubungi tim
-                                                                        kami. Kami selalu siap membantu Anda dengan
-                                                                        senang hati.</p>
+                                                                        style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:black;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">
+                                                                        &nbsp;Apabila anda memiliki pertanyaan, masukan, atau saran, jangan ragu untuk menghubungi tim kami. </p>
+                                                                    <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">
+                                                                        <br></p>
+                                                                         <p
+                                                                        style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:black;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">
+                                                                        &nbsp;Kami selalu siap membantu Anda dengan senang hati.</p>
                                                                     <p
                                                                         style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">
                                                                         <br></p>
+                                                                        
                                                                     <p
-                                                                        style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">
+                                                                        style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:black;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">
                                                                         Terima kasih dan salam hangat,</p>
                                                                     <p
                                                                         style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">
                                                                         <br></p>
                                                                     <p
                                                                         style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">
+                                                                        <br><br><img src="{{ asset('Home') }}/images/logo-forms-living1.png" alt="">
                                                                     </p>
                                                                     <p
-                                                                        style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">
-                                                                        Forms Living</p>
+                                                                        style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;color:black;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">
+                                                                        
+                                                                       Team Forms Living</p>
                                                                     <p
                                                                         style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">
                                                                         <br></p>
@@ -423,6 +422,7 @@
                 </td>
             </tr>
         </table>
+        </div>
     </div>
 </body>
 

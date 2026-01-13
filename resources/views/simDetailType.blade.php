@@ -2,26 +2,10 @@
 @extends('HomeLayout.navbar')
 @extends('HomeLayout.sidebar')
 @extends('HomeLayout.footer')
-@section('tittle', 'Forms | Detail Cluster')
-@section('body', '')
+@section('tittle','Forms | Detail Cluster')
+@section('body','')
 
 @section('content')
-<style>
-    .img-denah {
-        position: relative;
-        overflow: hidden;
-    }
-
-    .img-denah img {
-        width: 100%;
-        transition: transform 0.3s ease-in-out;
-    }
-
-    .img-denah:hover img {
-        transform: scale(2);
-    }
-</style>
-
 <div class="detail-cluster">
     <div class="header-simulation mobile-only">
         <div class="ornament one">
@@ -49,18 +33,17 @@
     </div>
 
     <div class="container">
-        <style>
+         <style>
             @media screen and (max-width: 480px) {
-                .gone-mobile {
+              .gone-mobile {
 
-                    visibility: hidden;
-                    display: none;
-                }
-
-                .divUp {
-                    padding-top: 10%;
-                    border-radius: 10px;
-                }
+                visibility: hidden;
+                display: none;
+              }
+              .divUp{
+                  padding-top :10%;
+                  border-radius : 10px;
+              }
             }
         </style>
         <div class="divUp"></div>
@@ -78,20 +61,20 @@
             <div class="sliders">
                 <div class="item">
                     <div class="item-img">
-                        @if (empty($imgRumahSingle->img_rumah))
-                        <img src="{{ asset('Home') }}/images/img-cluster-large3.png" alt="">
-                        @else
-                        <img src="{{ asset('Home') }}/images/tipe/{{ $imgRumahSingle->img_rumah }}" alt="">
-                        @endif
+                         @if (empty($imgRumahSingle->img_rumah))
+                               <img src="{{ asset('Home') }}/images/img-cluster-large3.png" alt="">
+                                @else
+                                <img src="{{ asset('Home') }}/images/tipe/{{ $imgRumahSingle->img_rumah }}" alt="">
+                                @endif
                     </div>
                 </div>
             </div>
         </div>
 
         <script>
-            $(document).ready(function() {
-                    $('.header-detail .sliders').slick()
-                });
+            $(document).ready(function () {
+                $('.header-detail .sliders').slick()
+            });
         </script>
         <div class=" gallery desktop-only">
             <div class="row">
@@ -99,7 +82,9 @@
                 <div class="col-12 col-lg-9 image-left mb-3 mb-lg-0">
                     @if (empty($imgRumahSingle->img_rumah))
                     <img src="{{ asset('Home') }}/images/NoImg.jpg" alt="">
+
                     @else
+
                     <img src="{{ asset('Home') }}/images/tipe/{{ $imgRumahSingle->img_rumah }}" alt="">
                     @endif
                 </div>
@@ -108,10 +93,12 @@
 
                         <div class="col-4 col-lg-12 mb-0 mb-lg-4">
 
-                            <a href="#" class="see-more" data-toggle="modal" data-target="#imageModal">
+                            <a href="#" class="see-more">
                                 @if (empty($imgRumahSingle->img_rumah))
                                 <img src="{{ asset('Home') }}/images/NoImg.jpg" alt="">
+
                                 @else
+
                                 <img src="{{ asset('Home') }}/images/tipe/{{ $imgRumahSingle->img_rumah }}" alt="">
                                 @endif
                             </a>
@@ -123,57 +110,8 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog  modal-xl" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
 
-                        <h5 class="modal-title float-left" id="imageModalLabel">Image Slider</h5>
-                        <button type="button" class="close btn btn-danger btn--small" data-dismiss="modal"
-                            aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-
-
-                    </div>
-                    <div class="modal-body">
-                        <!-- Image slider goes here -->
-                        <div id="imageSlider" class="carousel slide" data-ride="carousel">
-                            <div class="carousel-inner">
-                                <!-- Add your images dynamically here -->
-                                <div class="carousel-item active">
-                                    <img src="{{ asset('Home') }}/images/denah/1691031923.jpg" style="width: 100%"
-                                        alt="">
-                                </div>
-                                <div class="carousel-item">
-                                    <img src="{{ asset('Home') }}/images/denah/1691031923.jpg" style="width: 100%"
-                                        alt="">
-                                </div>
-                                <div class="carousel-item">
-                                    <img src="{{ asset('Home') }}/images/denah/1691031923.jpg" style="width: 100%"
-                                        alt="">
-                                </div>
-                                <!-- Add more items as needed -->
-                            </div>
-                            <a class="carousel-control-prev btn btn--small" href="#imageSlider" role="button"
-                                data-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                            <a class="carousel-control-next btn btn--small" href="#imageSlider" role="button"
-                                data-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="sr-only">Next</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        {{-- <div class="gallery-popup">
-
+        <div class="gallery-popup">
             <div class="container">
                 <div class="icon-close">
                     <i class="bi-x-lg"></i>
@@ -196,77 +134,77 @@
 
                 </div>
 
-                <div class="thumbnails-container">
+                {{--  <div class="thumbnails-container">
                     <div class="thumbnails">
                         @foreach ($imgRumah2 as $gambarRumah)
 
 
-                        <div class="main-item">
+                    <div class="main-item">
 
-                            @if (!empty($imgRumah2->img_rumah))
-                            <img src="{{ asset('Home') }}/images/NoImg.jpg" alt="">
+                        @if (!empty($imgRumah2->img_rumah))
+                        <img src="{{ asset('Home') }}/images/NoImg.jpg" alt="">
 
-                            @else
-                            <img src="{{ asset('Home') }}/images/tipe/{{ $gambarRumah->img_rumah }}" alt="">
-                            @endif
-                        </div>
-
-                        @endforeach
+                        @else
+                        <img src="{{ asset('Home') }}/images/tipe/{{ $gambarRumah->img_rumah }}" alt="">
+                        @endif
                     </div>
-                </div>
+
+                    @endforeach
+                    </div>
+                </div>  --}}
             </div>
 
-        </div> --}}
+        </div>
 
         <script>
-            $(document).ready(function() {
+            $(document).ready(function () {
 
-                    $('.icon-close').click(function(e) {
-                        e.preventDefault();
-                        $('.gallery-popup').removeClass('active');
-                        $('.main-images').slick('destroy');
-                        $('.thumbnails').slick('destroy');
+                $('.icon-close').click(function (e) {
+                    e.preventDefault();
+                    $('.gallery-popup').removeClass('active');
+                    $('.main-images').slick('destroy');
+                    $('.thumbnails').slick('destroy');
+                });
+
+                // $('.gallery-popup').click(function(e){
+                //     $('.gallery-popup').removeClass('active');
+                //      $('.main-images').slick('destroy');
+                //     $('.thumbnails').slick('destroy');
+                // });
+
+                $('.see-more').click(function (e) {
+                    e.preventDefault();
+                    $('.gallery-popup').addClass('active');
+                    $('.main-images').slick({
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                        arrows: true,
+                        dots : false,
+                        // asNavFor: '.thumbnails'
+                        // asNavFor: '.main-images',
                     });
 
-                    // $('.gallery-popup').click(function(e){
-                    //     $('.gallery-popup').removeClass('active');
-                    //      $('.main-images').slick('destroy');
-                    //     $('.thumbnails').slick('destroy');
-                    // });
+                    $()
 
-                    $('.see-more').click(function(e) {
-                        e.preventDefault();
-                        $('.gallery-popup').addClass('active');
-                        $('.main-images').slick({
-                            slidesToShow: 1,
-                            slidesToScroll: 1,
-                            arrows: true,
-                            dots: false,
-                            // asNavFor: '.thumbnails'
-                            // asNavFor: '.main-images',
-                        });
-
-                        $()
-
-                        $('.thumbnails').slick({
-                            slidesToShow: 2,
-                            arrows: true,
-                            slidesToScroll: 2,
-                            dots: false,
-                            asNavFor: '.main-images',
-                            nextArrow: ' <div class="slick-next"><img src="{{ asset('Home') }}/images/btn-right.png"  alt=""></div>',
-                            prevArrow: ' <div class="slick-prev"><img src="{{ asset('Home') }}/images/btn-left.png" alt=""></div>',
-                        });
-
+                    $('.thumbnails').slick({
+                        slidesToShow: 2,
+                        arrows: true,
+                        slidesToScroll: 2,
+                        dots: false,
+                        asNavFor: '.main-images',
+                        nextArrow: ' <div class="slick-next"><img src="{{ asset('Home') }}/images/btn-right.png"  alt=""></div>',
+                        prevArrow: ' <div class="slick-prev"><img src="{{ asset('Home') }}/images/btn-left.png" alt=""></div>',
                     });
 
                 });
+
+            });
         </script>
 
         <div class="content">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
-                    <h3>{{ $rumah->nama_cluster }} Cluster - {{ $rumah->blok }}-{{ $rumah->nomor }}</h3>
+                    <h3>{{$rumah->nama_cluster}} Cluster - {{$rumah->blok}}-{{$rumah->nomor}}</h3>
                 </div>
                 <div class="text-end desktop-only">
                     <p class="mb-2">Harga Total</p>
@@ -275,21 +213,14 @@
             </div>
             <div class="d-flex justify-content-between align-items-center">
                 <div>
+                    <p>Type: {{ $tipeRumah->jenis_tr }}</p>
                     <div class="d-flex">
                         <div class="small-info me-3">
-                            <strong>
-                                <h5>Type: {{ $tipeRumah->jenis_tr }}</h5>
-                            </strong>
-                        </div>
-                        <div class="small-info me-3">
-                            <img src="{{ asset('Home') }}/images/ic_bedroom.png" alt="">{{ $tipeRumah->kmr_tidur_tr }}
-                            Kamar Tidur
+                            <img src="{{ asset('Home') }}/images/ic_bedroom.png" alt="">{{$tipeRumah->kmr_tidur_tr}} Kamar Tidur
                         </div>
                         <div class="small-info">
-                            <img src="{{ asset('Home') }}/images/ic_bathroom.png" alt="">{{ $tipeRumah->kmr_mandi_tr }}
-                            Kamar Mandi
+                            <img src="{{ asset('Home') }}/images/ic_bathroom.png" alt="">{{$tipeRumah->kmr_mandi_tr}} Kamar Mandi
                         </div>
-
                     </div>
                 </div>
                 <div class="desktop-only">
@@ -299,162 +230,46 @@
                 </div>
             </div>
             <hr>
-
-            <nav>
-                <div class="nav nav-pills" id="nav-tab" role="tablist" style="justify-content: center">
-                    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#galeri"
-                        type="button" role="tab" aria-controls="nav-home" aria-selected="true">Galeri</button>
-                    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#denah"
-                        type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Denah</button>
-                    <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#spesifikasi"
-                        type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Spesifikasi
-                        Umum</button>
-                </div>
-            </nav>
-
-
             <div class="spesification">
-
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="denah-tab" data-bs-toggle="tab" data-bs-target="#denah"
+                            type="button" role="tab" aria-controls="denah" aria-selected="true">Denah</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="spesifikasi-tab" data-bs-toggle="tab"
+                            data-bs-target="#spesifikasi" type="button" role="tab" aria-controls="spesifikasi"
+                            aria-selected="false">Spesifikasi
+                            Umum</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="kalkulator-tab" data-bs-toggle="tab"
+                            data-bs-target="#kalkulator" type="button" role="tab" aria-controls="kalkulator"
+                            aria-selected="false">Simulasi Kalkulator KPR</button>
+                    </li>
+                </ul>
                 <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade show active" id="galeri" role="tabpanel" aria-labelledby="nav-home-tab">
-                        <div class="swiper-container">
-                            <div class="swiper-wrapper">
-
-                                <div class="swiper-slide">
-                                    @foreach ($imgGallery as $gallery)
-
-                                    @if ($gallery->jenis_img == "video")
-                                    <div class="container">
-
-
-
-                                        <br>
-                                        <center>
-                                            <div class="embed-responsive embed-responsive-16by9">
-                                                <iframe style="width: 100%; height: 600px;"
-                                                    src="{{ $gallery->img_rumah }}" title="YouTube video player"
-                                                    frameborder="0"
-                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                                    allowfullscreen></iframe>
-                                            </div>
-                                        </center>
-
-
-
-
-                                    </div>
-                                    @else
-
-                                    @endif
-                                    @endforeach
-                                </div>
-                                @foreach ($imgGallery as $gallery)
-                                @if ($gallery->jenis_img != 'video' && $gallery->jenis_img == "gambar")
-                                <div class="swiper-slide">
-                                    <br>
-                                    <center>
-                                        <img style="width: 80%"
-                                            src="{{ asset('Home') }}/images/denah/{{ $gallery->img_rumah }}" alt="">
-                                    </center>
-                                </div>
-
-
-                                @else
-
-                                @endif
-
-                                @endforeach
-
-                                <!-- Add more slides as needed -->
-                            </div>
-                            <!-- Pagination -->
-                            <div class="swiper-pagination"></div>
-                            <!-- Navigation Buttons -->
-                            <div class="swiper-button-next"></div>
-                            <div class="swiper-button-prev"></div>
-                        </div>
-                        <script>
-                            // Initialize Swiper
-                            var swiper = new Swiper('.swiper-container', {
-                                slidesPerView: 1,
-                                spaceBetween: 10,
-                                navigation: {
-                                    nextEl: '.swiper-button-next',
-                                    prevEl: '.swiper-button-prev',
-                                },
-                                pagination: {
-                                    el: '.swiper-pagination',
-                                    clickable: true,
-                                },
-                            });
-                        </script>
-                    </div>
-                    <div class="tab-pane fade" id="denah" role="tabpanel" aria-labelledby="denah-tab">
-                        <div class="denah-sliders mt-4 ">
-                            @php
-                            $noZoom = 0;
-                            @endphp
+                    <div class="tab-pane fade show active" id="denah" role="tabpanel" aria-labelledby="denah-tab">
+                        <div class="denah-sliders mt-4">
                             @foreach ($imgDenah as $denah)
-                            @if ($denah->jenis_img =="denah")
-                            <div class="img-denah img-magnifier-container" onmousemove="zoomImage(event, this)"
-                                ontouchmove="zoomImage(event, this)">
+                            <div class="img-denah">
                                 @if (empty($denah->img_rumah))
                                 <img src="{{ asset('Home') }}/images/NoImg.jpg" alt="">
                                 @else
-                                <img id="#zoom{{ $noZoom }}"
-                                    src="{{ asset('Home') }}/images/denah/{{ $denah->img_rumah }}" alt="">
+                                <img src="{{ asset('Home') }}/images/denah/{{ $denah->img_rumah }}" alt="">
                                 @endif
                             </div>
-                            @else
-
-                            @endif
-
                             @endforeach
-
-                            <script>
-                                function zoomImage(event, container) {
-                                        var image = container.querySelector('img');
-                                        var rect = container.getBoundingClientRect();
-
-                                        var x, y;
-
-                                        if (event.type === 'mousemove') {
-                                            // For desktop devices
-                                            x = event.clientX - rect.left;
-                                            y = event.clientY - rect.top;
-                                        } else if (event.type === 'touchmove' && event.touches.length === 1) {
-                                            // For touch devices
-                                            x = event.touches[0].clientX - rect.left;
-                                            y = event.touches[0].clientY - rect.top;
-                                        } else {
-                                            return;
-                                        }
-
-                                        var scaleX = x / rect.width;
-                                        var scaleY = y / rect.height;
-
-                                        if (scaleX >= 0 && scaleX <= 1 && scaleY >= 0 && scaleY <= 1) {
-                                            // If cursor is inside the image, apply zoom effect
-                                            image.style.transformOrigin = scaleX * 100 + '% ' + scaleY * 100 + '%';
-                                            image.style.transform = 'scale(1.5)';
-                                        } else {
-                                            // If cursor is outside the image, reset back to normal
-                                            image.style.transformOrigin = '0% 0%';
-                                            image.style.transform = 'scale(1)';
-                                        }
-                                    }
-                            </script>
                         </div>
-
                     </div>
                     <script>
                         $('.denah-sliders').slick({
-                                slidesToShow: 1,
-                                slidesToScroll: 1,
-                                arrows: true,
-                                dots: true,
-                                fade: true,
-                            });
+                            slidesToShow: 1,
+                            slidesToScroll: 1,
+                            arrows: true,
+                            dots: true,
+                            fade: true,
+                        });
                     </script>
                     <div class="tab-pane fade" id="spesifikasi" role="tabpanel" aria-labelledby="spesifikasi-tab">
                         <div class="spec-table">
@@ -536,18 +351,13 @@
                                         <td>Daya Listrik</td>
                                         <td>{{ $tipeRumah->daya_listrik_tr }}</td>
                                     </tr>
-                                    <tr>
+                                  <tr>
                                         <td>Carport</td>
                                         <td>{{ $tipeRumah->carport_tr }}</td>
                                     </tr>
                                     <tr>
                                         <td>Tangga</td>
-                                        <td>@if ($tipeRumah->tangga_tr == "")
-                                            Tidak Ada
-                                            @else
-                                            {{ $tipeRumah->tangga_tr }}
-                                            @endif
-                                        </td>
+                                        <td>{{ $tipeRumah->tangga_tr }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -566,37 +376,35 @@
                                 </td>
                                 <td style="padding-bottom:0;padding-right:10%;width:20px;"></td>
                                 <td>
-                                    <small class="mb-2">Luas Tanah</small>
-                                    <p><b>{{ $rumah->luas_tanah }} m²</b></p>
+                                     <small class="mb-2">Luas Tanah</small>
+                                     <p><b>{{ $rumah->luas_tanah }} m²</b></p>
                                 </td>
                                 <td style="padding-bottom:0;padding-right:10%;width:20px;"> </td>
-                                <td>
-                                    <small class="mb-2">Luas Bangunan</small>
-                                    <p><b>{{ $tipeRumah->luas_bangunan_tr }} m²</b></p>
+                                  <td>
+                                     <small class="mb-2">Luas Bangunan</small>
+                                     <p><b>{{ $tipeRumah->luas_bangunan_tr }} m²</b></p>
                                 </td>
                             </tr>
                         </table>
                     </div>
-                    {{-- <div>
-                        <a href="/simulation-payment-option/{{ $rumah->id_rumah }}/{{ $tipeRumah->id_tipe_rumah }}"
-                            type="button" class="btn btn-primary">Miliki Unit
+                    {{--  <div>
+                        <a href="/simulation-payment-option/{{ $rumah->id_rumah }}/{{ $tipeRumah->id_tipe_rumah }}" type="button" class="btn btn-primary">Miliki Unit
                             Ini</a>
 
-                    </div> --}}
+                    </div>  --}}
                 </div>
             </div>
         </div>
 
         <div class="btn-groups">
-            <a href="{{ route('simulationTipe', $rumah->id_rumah) }}" type="button" class="btn btn-grey">Kembali</a>
-            <a href="{{ route('simulationPaymentOption', [$rumah->id_rumah, $tipeRumah->id_tipe_rumah]) }}"
-                type="button" class="btn btn-primary">Miliki Unit
-                Ini</a>
-            {{-- <a href="/k-simulation-modification.html" type="button" class="btn btn-primary">Lanjutkan</a> --}}
+            <a href="{{ route('simulationTipe',$rumah->id_rumah ) }}" type="button"
+                class="btn btn-grey">Kembali</a>
+                <a href="{{ route('simulationPaymentOption', [$rumah->id_rumah,$tipeRumah->id_tipe_rumah]) }}" type="button" class="btn btn-primary">Miliki Unit
+                    Ini</a>
+            {{--  <a href="/k-simulation-modification.html" type="button" class="btn btn-primary">Lanjutkan</a>  --}}
         </div>
     </div>
 </div>
-
 
 
 @endsection

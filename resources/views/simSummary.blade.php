@@ -206,6 +206,9 @@
                                     <h6>Harga Total</h6>
                                 </div>
                                 <div class="col-7 col-lg-8">
+
+
+
                                     <h6>Rp. {{ rupiah($tipeRumah->harga_tr - $kkpr->total_diskon) }}</h6>
                                     <input type="text" name="harga" hidden
                                         value=" {{  $tipeRumah->harga_tr - $kkpr->total_diskon }}">

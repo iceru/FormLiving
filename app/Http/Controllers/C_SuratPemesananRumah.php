@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use PDF; // Gunakan facade PDF
 
-
 class C_SuratPemesananRumah extends Controller
 {
     public $cluster;
@@ -32,7 +31,6 @@ class C_SuratPemesananRumah extends Controller
     public $pembayaranRumah;
     public $projek;
     public $userMenu;
-
 
     public function __construct()
     {
@@ -100,7 +98,6 @@ class C_SuratPemesananRumah extends Controller
                     'formulir_pesanan.tgl_input_fp',
                     'desc'
                 );
-
             } elseif (
                 $user->kategori == 'Sales' ||
                 $user->kategori == 'SalesAgent' ||
@@ -147,7 +144,8 @@ class C_SuratPemesananRumah extends Controller
             }
             // dd($getFormulirPesananMobile);
 
-            return view('V_Admin.formulirPesanan',
+            return view(
+                'V_Admin.formulirPesanan',
                 compact(
                     'user',
                     'projekUser',
@@ -192,33 +190,47 @@ class C_SuratPemesananRumah extends Controller
             $foundMatchingMenu = false;
 
 
+
             foreach ($getUserMenu as $menu) {
                 if ($menu->url_menu == request()->segment(1)) {
                     $foundMatchingMenu = true;
                     break;
                 }
             }
+            $dataHarga = array([
+                'hargaPricelist' => $getFormulirPesanan->harga_awal,
+                'hargaDiskon' => $getFormulirPesanan->total_diskon,
+                'hargaNetto' => $getFormulirPesanan->harga_netto,
+                'hargaPPN' => $getFormulirPesanan->harga_ppn,
+                'hargaTotal' => $getFormulirPesanan->total_harga,
+                'hargaBPHTB'    => $getFormulirPesanan->harga_bphtb
+            ]);
 
-            if ($getPromo->free_ppn_promo == "yes") {
-                $dataHarga = array([
-                    'hargaPricelist' => $getFormulirPesanan->harga_awal,
-                    'hargaDiskon' => $getFormulirPesanan->total_diskon,
-                    'hargaNetto' => $getFormulirPesanan->harga_netto,
-                    'hargaPPN' => $getFormulirPesanan->harga_ppn,
-                    'hargaTotal' => $getFormulirPesanan->total_harga,
-                    'hargaBPHTB'    => $getFormulirPesanan->harga_bphtb
-                ]);
-            } else {
-                // Adjust these values based on your requirements
-                $dataHarga = array([
-                    'hargaPricelist' => $getFormulirPesanan->harga_awal,
-                    'hargaDiskon' => $getFormulirPesanan->total_diskon,
-                    'hargaNetto' => $getFormulirPesanan->harga_netto,
-                    'hargaPPN' => $getFormulirPesanan->harga_ppn,
-                    'hargaTotal' => $getFormulirPesanan->total_harga,
-                    'hargaBPHTB'    => $getFormulirPesanan->harga_bphtb
-                ]);
+            if (!empty($getPromo)) {
+                if ($getPromo->free_ppn_promo == "yes") {
+                    $dataHarga = array([
+                        'hargaPricelist' => $getFormulirPesanan->harga_awal,
+                        'hargaDiskon' => $getFormulirPesanan->total_diskon,
+                        'hargaNetto' => $getFormulirPesanan->harga_netto,
+                        'hargaPPN' => $getFormulirPesanan->harga_ppn,
+                        'hargaTotal' => $getFormulirPesanan->total_harga,
+                        'hargaBPHTB'    => $getFormulirPesanan->harga_bphtb
+                    ]);
+                } else {
+                    // Adjust these values based on your requirements
+                    $dataHarga = array([
+                        'hargaPricelist' => $getFormulirPesanan->harga_awal,
+                        'hargaDiskon' => $getFormulirPesanan->total_diskon,
+                        'hargaNetto' => $getFormulirPesanan->harga_netto,
+                        'hargaPPN' => $getFormulirPesanan->harga_ppn,
+                        'hargaTotal' => $getFormulirPesanan->total_harga,
+                        'hargaBPHTB'    => $getFormulirPesanan->harga_bphtb
+                    ]);
+                }
             }
+            // dd($dataHarga);
+
+
 
 
 
@@ -267,7 +279,7 @@ class C_SuratPemesananRumah extends Controller
         }
     }
 
-    public function editSuratPemesananRumahAction(Request $request, $projek, $id)
+      public function editSuratPemesananRumahAction(Request $request, $projek, $id)
     {
         $getProjek = $this->projek->firstProjek('*', 'nama_projek', '=', $projek);
         $decryptedID = Crypt::decrypt($id);
@@ -348,8 +360,7 @@ class C_SuratPemesananRumah extends Controller
                     'tempat_lahir_plgn' => $request->tempat,
                     'tgl_lahir_plgn'    => $request->tglLahir
                 ];
-
-                $dataKKPR = [
+                 $dataKKPR = [
                     'harga_awal'    => removePeriods($request->hargaPricelist),
                     'total_diskon' => removePeriods($request->hargaDiskon),
                     'harga_netto'  => removePeriods($request->hargaNetto),
@@ -451,6 +462,7 @@ class C_SuratPemesananRumah extends Controller
             ->first();
 
 
+        // dd($fpJadi);
         $dataPembayaran = DB::table('pembayaran_rumah')
             ->where('id_formulir', '=', $decryptedID)
             ->get();
@@ -481,15 +493,30 @@ class C_SuratPemesananRumah extends Controller
                 'hargaTotal' => $fpJadi->total_harga
             ]);
         }
-
+        
         if($fpJadi->status !== 'Sold') {
             DB::table('rumah')
             ->where('id_rumah', $fpJadi->id_rumah)
             ->update(['status' => 'Sold']);
         }
 
-        //function cetak
-        $pdf = PDF::loadView('pdf.printSPR-dashboard', ['fp' => $fpJadi, 'dtPembayaran' => $dataPembayaran, 'promo' => $promo, 'dataHarga' => $dataHarga]);
+        $logo1Path = public_path('images/logo-forms-living1.png');
+        $logo2Path = public_path('images/logo-tidar-gray.png');
+        $logo1Base64 = base64_encode(file_get_contents($logo1Path));
+        $logo2Base64 = base64_encode(file_get_contents($logo2Path));
+        
+        $pdf = \PDF::setOptions([
+            'isHtml5ParserEnabled' => true,
+            'isRemoteEnabled' => true,
+        ])
+        ->loadView('pdf.printSPR-dashboard', [
+            'fp' => $fpJadi,
+            'dtPembayaran' => $dataPembayaran,
+            'promo' => $promo,
+            'dataHarga' => $dataHarga,
+            'logo1' => $logo1Base64,
+            'logo2' => $logo2Base64,
+        ]);
         $pdf->setPaper('F4', 'potrait');
         $pdf->render();
         $pdfData = $pdf->output();
@@ -513,108 +540,5 @@ class C_SuratPemesananRumah extends Controller
             ->update($dataUpdate);
 
         return redirect()->route('editSuratPemesananRumah.admin', [$getProjek->nama_projek, Crypt::encrypt($decryptedID)])->with('success', 'promo telah di ubah!');
-    }
-
-    public function cetakSuratPemesananRumahCostum($projek, $id)
-    {
-        $getProjek = $this->projek->firstProjek('*', 'nama_projek', '=', $projek);
-        $decryptedID = Crypt::decrypt($id);
-        $getFormulirPesanan = $this->formulirPesanan->getFormulirPesananJoin7Where($decryptedID);
-        $getPromo = '';
-        $getPromoAll = $this->promo->getPromoWhereAll('*', 'status', '=', "aktif");
-        // dd($getFormulirPesanan);
-        if (!empty($getFormulirPesanan->id_promo)) {
-            $getPromo = $this->promo->firstPromo('*', ['id_promo' => $getFormulirPesanan->id_promo]);
-        } else {
-            $getPromo = '';
-        }
-        //dd($getFormulirPesanan);
-        $getPembayaranRumah = $this->pembayaranRumah->getPembayaranRumahWhereAll('*', 'id_formulir', '=', $decryptedID);
-
-        if (session()->has('user')) {
-            $user = $this->userAdmin->getUserKategoriWhere('user_admin.id_user_admin', '=', session::get('user'));
-
-            $projekUser = $this->userProjek->getProjectUserWhere('user_admin.id_user_admin', '=', session::get('user'));
-            $getUserMenu = $this->userMenu->getUserMenuWhereArr('*', [
-                'user_menu.status_um' => 'aktif',
-                'user_menu.id_kategori' => $user->id_kategori
-            ])->collect();
-            // dd($getUserMenu);
-            $foundMatchingMenu = false;
-
-
-            foreach ($getUserMenu as $menu) {
-                if ($menu->url_menu == request()->segment(1)) {
-                    $foundMatchingMenu = true;
-                    break;
-                }
-            }
-
-            if ($getPromo->free_ppn_promo == "yes") {
-                $dataHarga = array([
-                    'hargaPricelist' => $getFormulirPesanan->harga_awal,
-                    'hargaDiskon' => $getFormulirPesanan->total_diskon,
-                    'hargaNetto' => $getFormulirPesanan->harga_netto,
-                    'hargaPPN' => $getFormulirPesanan->harga_ppn,
-                    'hargaTotal' => $getFormulirPesanan->total_harga,
-                    'hargaBPHTB'    => $getFormulirPesanan->harga_bphtb
-                ]);
-            } else {
-                // Adjust these values based on your requirements
-                $dataHarga = array([
-                    'hargaPricelist' => $getFormulirPesanan->harga_awal,
-                    'hargaDiskon' => $getFormulirPesanan->total_diskon,
-                    'hargaNetto' => $getFormulirPesanan->harga_netto,
-                    'hargaPPN' => $getFormulirPesanan->harga_ppn,
-                    'hargaTotal' => $getFormulirPesanan->total_harga,
-                    'hargaBPHTB'    => $getFormulirPesanan->harga_bphtb
-                ]);
-            }
-
-
-
-            // if(empty($getPromo)){
-            //     $dataHarga = [
-            //         hargaPricelist => $getFormulirPesanan->harga_awal,
-            //         hargaDiskon => 0,
-            //         hargaNetto => rupiah($getFormulirPesanan->total_harga / 1.1),
-            //         hargaPPN => rupiah((11 / 100) * ($getFormulirPesanan->total_harga / 1.11))
-            //         ];
-            // }elseif($getPromo->bphtp_promo=="yes"){
-            //     $dataHarga = [
-            //         hargaPricelist => $getFormulirPesanan->harga_awal,
-            //         hargaDiskon => 0,
-            //         hargaNetto => rupiah(($getFormulirPesanan->total_harga + 3000000) / 1.16),
-            //         hargaPPN => rupiah((11 / 100) * (($getFormulirPesanan->total_harga + 3000000) / 1.16))
-            //         ];
-            // }elseif($getPromo->bphtp_promo=="no" && $getPromo->freekpr_promo=="yes"){
-            //     $dataHarga = [
-            //         hargaPricelist => $getFormulirPesanan->harga_free_kpr,
-            //         hargaDiskon => 0,
-            //         hargaNetto => rupiah($getFormulirPesanan->total_harga / 1.1),
-            //         hargaPPN => rupiah((11 / 100) * ($getFormulirPesanan->total_harga / 1.11))
-            //         ];
-            // }
-
-            // var_dump($dataHarga);
-
-            // if (!$foundMatchingMenu) {
-            //     return redirect('/login')->with('danger', 'anda tidak dapat mengakses halaman ini');
-            // }
-            return view('V_Admin.printFormulirCostum', compact(
-                'user',
-                'projekUser',
-                'getFormulirPesanan',
-                'getPromo',
-                'getPembayaranRumah',
-                'getProjek',
-                'getUserMenu',
-                'getPromoAll',
-                'dataHarga'
-
-            ));
-        } else {
-            return redirect('/login');
-        }
     }
 }

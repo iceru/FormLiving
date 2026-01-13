@@ -197,7 +197,7 @@ class C_Checklist extends Controller
         return redirect()->back()->with('success', 'Checklist berhasil ditambahkan!');
     }
 
-    public function nextTermin($projek, $id_rumah)
+     public function nextTermin($projek, $id_rumah)
     {
         $decryptedID = Crypt::decrypt($id_rumah);
 
@@ -251,7 +251,6 @@ class C_Checklist extends Controller
         // }
         return redirect()->back()->with('success', 'Termin sudah menjadi termin ' . $setTermin);
     }
-
     public function customTermin(Request $request, $projek, $id_rumah)
     {
         $decryptedID = Crypt::decrypt($id_rumah);
@@ -276,7 +275,7 @@ class C_Checklist extends Controller
                 ->join('joblist', 'checklist.id_joblist', 'joblist.id_joblist')
                 ->where([
                     'checklist.id_rumah' => $decryptedID,
-                    'joblist.termin_job' =>  $setTermin,
+                    'joblist.termin_jl' =>  $setTermin,
                     'checklist.status_checklist' => "terkunci"
                 ])
                 ->update([
@@ -290,7 +289,7 @@ class C_Checklist extends Controller
                 ->join('joblist', 'checklist.id_joblist', 'joblist.id_joblist')
                 ->where([
                     'checklist.id_rumah' => $decryptedID,
-                    'joblist.termin_job' =>  $setTermin,
+                    'joblist.termin_jl' =>  $setTermin,
                     'checklist.status_checklist' => "terkunci"
                 ])
                 ->update([
@@ -491,6 +490,8 @@ class C_Checklist extends Controller
                     break;
                 }
             }
+
+
 
             return view(
                 'V_Admin.printChecklist',
@@ -775,7 +776,7 @@ class C_Checklist extends Controller
                     'from_pelanggan_notif' => "Teknik",
                     'icon_pelanggan_notif' => "fa fa-building",
                     'title_pelanggan_notif' => "Pembangunan Rumah " .$getRumah->blok.' - '.$getRumah->nomor,
-                    'msg_notif' => "Pekerjaan pembangunan untuk proyek ".$getChecklist->nama_jl." di ".$getRumah->blok.' - '.$getRumah->nomor." telah mencapai Termin ".$getChecklist->termin_job.". Pengawas proyek kami baru saja mengupdate statusnya. Mohon cek dashboard Anda untuk informasi lebih lanjut.",
+                    'msg_notif' => "Pekerjaan pembangunan untuk proyek ".$getChecklist->nama_jl." di ".$getRumah->blok.' - '.$getRumah->nomor." telah mencapai Termin ".$getChecklist->termin_jl.". Pengawas proyek kami baru saja mengupdate statusnya. Mohon cek dashboard Anda untuk informasi lebih lanjut.",
                     'tgl_notif' => Carbon::now(), // Set tanggal sekarang
                     'status_notif' => 'unread',
                 );

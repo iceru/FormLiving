@@ -103,15 +103,23 @@
 
                     </div>
 
-                    @if ($user->kategori == 'AdminTeknik' || $user->kategori == 'SuperAdmin')
                     <div class="form-group">
-                        <label for="">Berkas Tambah Mutu</label>
+                        <label for="">Berkas </label>
                         <input type="file" name="file_spk" id="" value="" class="form-control"
                             placeholder="" aria-describedby="helpId">
 
                     </div>
-                    @endif
+                    <div class="form-group">
+                        <label for="denah">Denah</label>
+                        <div class="input-group mb-3">
+                            <input type="file" class="form-control" id=""
+                                aria-describedby="inputGroupFileAddon04" aria-label="Upload" name="denah[]">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary " id="add-file" type="button">Add</button>
+                            </div>
+                        </div>
 
+                    </div>
                 @else
                     @if (!empty($getSPK->file_spk))
                         <p>
@@ -161,19 +169,7 @@
                     </div>
                 @endif
 
-                @if ($user->kategori == 'Arsitek' || $user->kategori == 'SuperAdmin')
-                <div class="form-group">
-                    <label for="denah">Denah Tambah Mutu</label>
-                    <div class="input-group mb-3">
-                        <input type="file" class="form-control" id=""
-                            aria-describedby="inputGroupFileAddon04" aria-label="Upload" name="denah[]">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary " id="add-file" type="button">Add</button>
-                        </div>
-                    </div>
 
-                </div>
-                @endif
 
 
                 @if ($user->kategori == 'CEO' || $user->kategori == 'SuperAdmin')
@@ -248,7 +244,7 @@
                     </div>
 
                 </div>
-                {{--  @if ($user->kategori == 'CEO')
+                @if ($user->kategori == 'CEO')
                     <input type="text" name="status_spk" value="pembayaran" hidden>
                 @else
                     <div class="form-group">
@@ -260,7 +256,7 @@
 
                         </select>
                     </div>
-                @endif  --}}
+                @endif
 
         </div>
 
@@ -304,8 +300,7 @@
                     </div>
                     <div class="modal-body">
                         <form
-                            action="{{ route('editImageSPKAction.admin', [$getProjek->nama_projek, Crypt::encrypt($imgSPK->id_img_spk)]) }}"
-                            method="POST" enctype="multipart/form-data">
+                            action="{{ route('editImageSPKAction.admin', [$getProjek->nama_projek, Crypt::encrypt($imgSPK->id_img_spk)]) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <label for="">Gambar Denah</label>
                             <input type="file" name="imageDenah" class="form-control" id="img">

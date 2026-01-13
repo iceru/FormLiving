@@ -9,14 +9,15 @@
                 <div class="logo">
                     <img src="{{ asset('Home') }}/images/logo-forms-living1.png" alt="">
                 </div>
-                <p>Universal website projects</p>
+                <!--<p>Universal website projects</p>-->
             </div>
             <div class="col-6 col-lg-auto">
                 <div class="footer-title">
-                    PT CITRA ARGO TIRTA
+                    Greenland at Tidar
                 </div>
+                <p style="font-weight:bold;">PT Citra Argo Tirta</p>
                 <p>Jalan Raya Candi VI C (Perumahan Greenland at Tidar Blok A-1)</p>
-                <p> Greenland at Tidar @ 2014</p>
+                <p> Greenland at Tidar <br>@ 2014</p>
                 {{-- <p>Green East</p>
                 <p>The Mainroad</p>
                 <p>The Icon</p>
@@ -24,8 +25,9 @@
             </div>
             <div class="col-6 col-lg-auto">
                 <div class="footer-title">
-                    kalm Residence
+                    Kalm Residence
                 </div>
+                 <p style="font-weight:bold;">PT Gading Mas Land</p>
                 <p>Coming Soon</p>
                 {{-- <p>Green Suits</p>
                 <p>Excel Suits</p>
@@ -75,11 +77,11 @@
         <hr>
         <div class="copyright">
             <div class="copy-year">
-                &#169; 2022 FORMS.Inc
+                &#169; 2023 FORMS
             </div>
             {{-- <div class="links">
-                <a href="/privacy">Kebijakan privasi</a>
-                <a href="/terms">Syarat dan Ketentuan</a>
+                <a href="/">Kebijakan privasi</a>
+                <a href="/">Syarat dan Ketentuan</a>
             </div> --}}
         </div>
     </div>

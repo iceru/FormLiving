@@ -21,7 +21,7 @@ class Checklist extends Model{
 
 
     function getChecklistJoinJoblist($where) {
-        return Checklist::select("*")
+        return Checklist::selecT("*")
         ->Join('joblist','checklist.id_joblist','joblist.id_joblist')
         ->where($where)
         ->get();
@@ -29,14 +29,16 @@ class Checklist extends Model{
     }
 
     function getChecklistJoinJoblistJob($where) {
-        return Checklist::select("*")
+        return Checklist::selecT("*")
         ->Join('joblist','checklist.id_joblist','joblist.id_joblist')
         ->Join('job','joblist.id_job','job.id_job')
         ->where($where)
         ->get();
-    }
 
-    function countChecklistJoinJoblistJob($select,$where) {
+
+    }
+    
+      function countChecklistJoinJoblistJob($select,$where) {
         return Checklist::select($select)
         ->Join('joblist','checklist.id_joblist','joblist.id_joblist')
         ->Join('job','joblist.id_job','job.id_job')
@@ -46,5 +48,6 @@ class Checklist extends Model{
 
     function insertChecklist($data)  {
         return Checklist::insert($data);
+
     }
 }

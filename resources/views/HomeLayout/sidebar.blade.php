@@ -21,19 +21,19 @@
                             <a class="dropdown-item" href="/Housing/Greenland">
                                 <div>
 
-                                    <img style="width:40%" src="{{ asset('Home') }}/images/logo-tidar-green.png" alt="">
+                                    <img style="width:40%; height:100%" src="{{ asset('Home') }}/images/logo-tidar-green-large.png" alt="">
 
                                 </div>
                             </a>
                         </li>
-                        <li>
-                            <a class="dropdown-item" href="/Housing/Kalm">
-                                <div>
-                                    <img style="width:40%" src="{{ asset('Home') }}/images/logo-kalm.png" alt="">
+                        <!--<li>-->
+                        <!--    <a class="dropdown-item" href="/Housing/Kalm">-->
+                        <!--        <div>-->
+                        <!--            <img style="width:40%" src="{{ asset('Home') }}/images/logo-kalm.png" alt="">-->
 
-                                </div>
-                            </a>
-                        </li>
+                        <!--        </div>-->
+                        <!--    </a>-->
+                        <!--</li>-->
                     </ul>
                 </li>
                 <li>
@@ -94,20 +94,20 @@
                             <li>
                                 <a class="dropdown-item" href="/Housing/Greenland">
                                     <div>
-                                        <img style="width:40%" src="{{ asset('Home') }}/images/logo-tidar-green.png"
+                                        <img style="width:40%" src="{{ asset('Home') }}/images/logo-tidar-green-large.png"
                                             alt="">
 
                                     </div>
                                 </a>
                             </li>
-                            <li>
-                                <a class="dropdown-item" href="/Housing/Kalm">
-                                    <div>
-                                        <img style="width:40%" src="{{ asset('Home') }}/images/logo-kalm.png" alt="">
+                            <!--<li>-->
+                            <!--    <a class="dropdown-item" href="/Housing/Kalm">-->
+                            <!--        <div>-->
+                            <!--            <img style="width:40%" src="{{ asset('Home') }}/images/logo-kalm.png" alt="">-->
 
-                                    </div>
-                                </a>
-                            </li>
+                            <!--        </div>-->
+                            <!--    </a>-->
+                            <!--</li>-->
                         </ul>
                     </li>
                     <li>

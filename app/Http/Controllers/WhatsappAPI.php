@@ -13,7 +13,7 @@ class WhatsappAPI extends Controller
     public function __construct(){
     // parent::__construct();
       $this->id = "2932";
-      $this->key = "affa120ab274776536bee5b9644f0afca9166e59";
+      $this->key = "Vhs0upK2nxJjOpVB7RvDYuQMMb2CPw";
 
     }
       public function sendText($number, $message){

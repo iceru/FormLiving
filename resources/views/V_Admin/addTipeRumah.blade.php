@@ -5,42 +5,37 @@
 
 @section('content')
 
-<!-- start: main -->
+    <!-- start: main -->
 
 
-<!-- start: navbar -->
+    <!-- start: navbar -->
 
-<!-- end: navbar -->
+    <!-- end: navbar -->
 
-<!-- start: content -->
+    <!-- start: content -->
 
-<div class="">
-
-
+    <div class="">
 
 
-    <div class="card mb-3">
-        <div class="card-body">
-            <div class="card-title">
-                <div class="card__title">
-                    <a href="{{ route('tipeRumah.admin',[$getProjek->nama_projek,Crypt::encrypt($getRumah->id_rumah)] ) }}"
-                        class="btn btn-outline-danger col-1" style="height: 40px; width: 50px"> <i
-                            class="fa fa-arrow-left"></i></a>
-                    <h1v>Tambah Tipe Rumah </h1> &nbsp;
 
+
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="card-title">
+                    <div class="card__title">
+                        <a href="{{ route('tipeRumah.admin',[$getProjek->nama_projek,Crypt::encrypt($getRumah->id_rumah)] ) }}" class="btn btn-outline-danger col-1" style="height: 40px; width: 50px"> <i class="bi bi-arrow-left"></i></a> &nbsp;
+                        <h1>Tambah Tipe Rumah </h1>
+
+                    </div>
 
                 </div>
-
-            </div>
-            <form action="{{ route('postTipeRumah',$getProjek->nama_projek) }}" method="post"
-                enctype="multipart/form-data">
-                @csrf
-                <input type="text" name="inputID" id="inputIDRumah" value="{{ $getRumah->id_rumah }}"
-                    class="form form-control" hidden readonly>
+                <form action="{{ route('postTipeRumah',$getProjek->nama_projek) }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <input type="text" name="inputID" id="inputIDRumah" value="{{ $getRumah->id_rumah }}" class="form form-control" hidden readonly>
                 <div class="form-group">
 
-                    <input type="text" name="tipe[]" id="" class="form-control" placeholder="Masukan Tipe Rumah"
-                        aria-describedby="helpId">
+                    <input type="text" name="tipe[]" id="" class="form-control"
+                        placeholder="Masukan Tipe Rumah" aria-describedby="helpId">
                 </div>
                 <div class="form-group">
 
@@ -58,14 +53,12 @@
                         placeholder="Masukan Jumlah Kamar Tidur" aria-describedby="helpId">
                 </div>
                 <div class="form-group">
-
                     <input type="number" name="harga[]" id="" class="form-control" placeholder="Masukan Harga"
                         aria-describedby="helpId">
                 </div>
-                <div class="form-group">
-                    <label for="hargaFreePPN">Harga Free PPN</label>
-                    <input type="text" name="hargaFreePPN[]" id="hargaFreePPN" class="form-control" placeholder="Enter numbers only" aria-describedby="helpId" onkeypress="return isNumberKey(event)">
-
+                  <div class="form-group">
+                    <input type="number" name="harga_ppn[]" id="" class="form-control"
+                        placeholder="Masukan Harga untuk Free PPN" aria-describedby="helpId">
                 </div>
                 <div class="form-group">
 
@@ -77,8 +70,8 @@
                 <h4>Detail Tipe Rumah</h4>
                 <div class="form-group">
 
-                    <input type="text" name="pondasi[]" id="" class="form-control" placeholder="Masukan Pondasi"
-                        aria-describedby="helpId">
+                    <input type="text" name="pondasi[]" id="" class="form-control"
+                        placeholder="Masukan Pondasi" aria-describedby="helpId">
 
                 </div>
                 <div class="form-group">
@@ -137,8 +130,8 @@
                 </div>
                 <div class="form-group">
 
-                    <input type="text" name="rangkaAtap[]" id="" class="form-control" placeholder="Masukan Rangka Atap"
-                        aria-describedby="helpId">
+                    <input type="text" name="rangkaAtap[]" id="" class="form-control"
+                        placeholder="Masukan Rangka Atap" aria-describedby="helpId">
 
                 </div>
                 <div class="form-group">
@@ -149,19 +142,19 @@
                 </div>
                 <div class="form-group">
 
-                    <input type="text" name="kusen[]" id="" class="form-control" placeholder="Masukan Kusen"
-                        aria-describedby="helpId">
+                    <input type="text" name="kusen[]" id="" class="form-control"
+                        placeholder="Masukan Kusen" aria-describedby="helpId">
 
                 </div>
                 <div class="form-group">
-                    <input type="text" name="daunPintu[]" id="" class="form-control" placeholder="Masukan Daun Pintu"
-                        aria-describedby="helpId">
+                    <input type="text" name="daunPintu[]" id="" class="form-control"
+                        placeholder="Masukan Daun Pintu" aria-describedby="helpId">
 
                 </div>
                 <div class="form-group">
 
-                    <input type="text" name="sanitary[]" id="" class="form-control" placeholder="Masukan sanitary"
-                        aria-describedby="helpId">
+                    <input type="text" name="sanitary[]" id="" class="form-control"
+                        placeholder="Masukan sanitary" aria-describedby="helpId">
 
                 </div>
                 <div class="form-group">
@@ -172,14 +165,14 @@
                 </div>
                 <div class="form-group">
 
-                    <input type="text" name="handle[]" id="" class="form-control" placeholder="Masukan Handle"
-                        aria-describedby="helpId">
+                    <input type="text" name="handle[]" id="" class="form-control"
+                        placeholder="Masukan Handle" aria-describedby="helpId">
 
                 </div>
                 <div class="form-group">
 
-                    <input type="text" name="lighting[]" id="" class="form-control" placeholder="Masukan Lighting "
-                        aria-describedby="helpId">
+                    <input type="text" name="lighting[]" id="" class="form-control"
+                        placeholder="Masukan Lighting " aria-describedby="helpId">
 
                 </div>
                 <div class="form-group">
@@ -190,14 +183,14 @@
                 </div>
                 <div class="form-group">
 
-                    <input type="text" name="carport[]" id="" class="form-control" placeholder="Masukan Carport"
-                        aria-describedby="helpId">
+                    <input type="text" name="carport[]" id="" class="form-control"
+                        placeholder="Masukan Carport" aria-describedby="helpId">
 
                 </div>
                 <div class="form-group">
 
-                    <input type="text" name="tangga[]" id="" class="form-control" placeholder="Masukan Tangga"
-                        aria-describedby="helpId">
+                    <input type="text" name="tangga[]" id="" class="form-control"
+                        placeholder="Masukan Tangga" aria-describedby="helpId">
 
                 </div>
 
@@ -220,27 +213,19 @@
                 <button type="button" class="btn btn-info" onclick="createForm()">Create Form</button>
                 <div id="formsContainer"></div>
 
-                <br>
+<br>
                 <button class="btn btn-primary" type="submit">Submit</button>
 
-            </form>
+                </form>
+            </div>
         </div>
-    </div>
 
 
-    <!-- Modal order information-->
+            <!-- Modal order information-->
 
-    <script>
+            <script>
 
-
-            function isNumberKey(evt) {
-                var charCode = (evt.which) ? evt.which : event.keyCode;
-                if (charCode > 31 && (charCode < 48 || charCode > 57))
-                    return false;
-                return true;
-            }
-
-        function addFile(id) {
+                function addFile(id) {
 
                     const fileInputContainer = document.createElement("div");
                     fileInputContainer.innerHTML = `
@@ -304,11 +289,6 @@
                 <div class="form-group">
                     <input type="number" name="harga[]" id="" class="form-control" placeholder="Masukan Harga"
                         aria-describedby="helpId">
-                </div>
-                <div class="form-group">
-                    <label for="hargaFreePPN">Harga Free PPN</label>
-                    <input type="text" name="hargaFreePPN[]" id="hargaFreePPN" class="form-control" placeholder="Enter numbers only" aria-describedby="helpId" onkeypress="return isNumberKey(event)">
-
                 </div>
                 <div class="form-group">
                     <input type="text" name="hargaText[]" id="" class="form-control" placeholder="Masukan Harga Perkiraan"
@@ -420,7 +400,6 @@
                         <option value="">---Pilih Jenis Gambar---</option>
                         <option value="Denah">Denah</option>
                         <option value="Gambar">Gambar</option>
-                        <option velue="Video">Video</option>
                     </select>
 
                 </div>
@@ -442,10 +421,10 @@
                         formToRemove.remove();
                     }
                 }
-    </script>
+            </script>
 
-    <script type="text/javascript">
-        $('#rumahSubmit').click(function(e) {
+            <script type="text/javascript">
+                $('#rumahSubmit').click(function(e) {
                     e.preventDefault();
 
                     let cluster = $('#inputCluster').val();
@@ -506,6 +485,8 @@
                         url: '/ubah-rumah-action-admin/' + id_rumah,
                         type: "POST",
 
+
+
                         data: {
                             _token: '{{ csrf_token() }}',
                             id_rumah: id_rumah,
@@ -536,12 +517,12 @@
                         },
                     });
                 });
-    </script>
+            </script>
 
-    <script>
-        $(document).ready(function() {
+            <script>
+                $(document).ready(function() {
                     $('#formulirPesanan').DataTable();
                 });
-    </script>
+            </script>
 
-    @endsection
+        @endsection

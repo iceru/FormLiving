@@ -15,7 +15,7 @@ use PDF;
 
 
 
-class Ceo_Dashboard extends Controller
+class CEO_Dashboard extends Controller
 {
     //
     public function __construct()
@@ -104,7 +104,7 @@ class Ceo_Dashboard extends Controller
                 ->where('user_admin.id_user_admin', '=', session::get('user'))
                 ->get();
 
-            return view('Ceo.dashboard', compact(
+            return view('CEO.dashboard', compact(
                 'user',
                 'fp',
                 'promo',
@@ -147,7 +147,7 @@ class Ceo_Dashboard extends Controller
                 ->where('user_admin.id_user_admin', '=', session::get('user'))
                 ->get();
 
-            return view('Ceo.addPromoRumah', compact(
+            return view('CEO.addPromoRumah', compact(
                 'user',
 
                 'rumah',
@@ -162,6 +162,7 @@ class Ceo_Dashboard extends Controller
     public function addPromoRumahAction(Request $request)
     {
         if (session()->has('user')) {
+
             $user = DB::table('user_admin')
                 ->join('ktgr_admin', 'user_admin.id_kategori', '=', 'ktgr_admin.id_kategori')
 
@@ -173,8 +174,8 @@ class Ceo_Dashboard extends Controller
                 ->join('user_admin', 'user_projek.id_user_admin', '=', 'user_admin.id_user_admin')
                 ->where('user_admin.id_user_admin', '=', session::get('user'))
                 ->get();
-            $dataInputRumahPromo = array();
-            for ($i = 1; $i < count($request->rumah); $i++) {
+            $dataInputRumahPromo = "";
+            for ($i = 0; $i < count($request->rumah); $i++) {
 
                 $rumah = DB::table('rumah')
                     ->join('cluster', 'rumah.codecluster', '=', 'cluster.codecluster')
@@ -184,10 +185,11 @@ class Ceo_Dashboard extends Controller
 
                 $dataInputRumahPromo = array(
                     'id_rumah'  => $request->rumah,
+
                 );
             }
             // dd($rumah);
-            return view('Ceo.addPromo', compact(
+            return view('CEO.addPromo', compact(
                 'user',
                 'rumah',
                 'projekUser',
@@ -228,7 +230,7 @@ class Ceo_Dashboard extends Controller
                 ->where('user_admin.id_user_admin', '=', session::get('user'))
                 ->get();
 
-            return view('Ceo.promo', compact(
+            return view('CEO.promo', compact(
                 'user',
                 'promo',
                 'projekUser',
@@ -285,8 +287,8 @@ class Ceo_Dashboard extends Controller
 
 
 
-            return redirect('/Ceo/promo');
-            // return view('Ceo.addPromo', compact('user', 'cluster', 'rumah'));
+            return redirect('/CEO/promo');
+            // return view('CEO.addPromo', compact('user', 'cluster', 'rumah'));
         } else {
 
             return redirect('/login');

@@ -273,7 +273,7 @@
 
             <div class="centercore">
                 <p>setelah melakukan pembayaran, silahkan konfirmasi pada tombol dibawah ini </p>
-                <a class="btn" href="{{ route('userConfirmed',$data['id']) }}">Klik Disini</a>
+                <a class="btn" href="https://webtest.formsliving.com/selamat/{{$data['id']}}">Klik Disini</a>
             </div>
 
 

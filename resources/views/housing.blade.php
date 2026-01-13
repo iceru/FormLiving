@@ -11,12 +11,12 @@
 
 
 <div class="header">
-    <div class="ornament one">
-        <img src="{{ asset('Home') }}/images/img-ornament1.png" alt="">
-    </div>
-    <div class="ornament two">
-        <img src="{{ asset('Home') }}/images/img-ornament1.png" alt="">
-    </div>
+    <!--<div class="ornament one">-->
+    <!--    <img src="{{ asset('Home') }}/images/img-ornament1.png" alt="">-->
+    <!--</div>-->
+    <!--<div class="ornament two">-->
+    <!--    <img src="{{ asset('Home') }}/images/img-ornament1.png" alt="">-->
+    <!--</div>-->
     <div class="container">
         <div class="row mb-3 mb-lg-5">
             <div class="col-12 col-lg-6">
@@ -73,11 +73,12 @@
                 </div> --}}
                 <div class="sliders">
                     <div class="slider-image">
-                        <img src="{{ asset('Home') }}/images/cluster/A-11.jpg" class="w-100" alt="">
+                        <img src="{{ asset('Home') }}/images/cluster/A-11.jpg" class="w-100" style=" object-fit: cover; 
+    object-position: center bottom; max-height: 80vh; /* Adjust the position as needed */" alt="">
                     </div>
                     <div class="text-blur-bg d-none d-lg-block">
                         <h5>Beautiful Green themed House</h5>
-                        <p>TGreenlandmengkombinasikan gaya arsitektur kontemporer dengan alam yang memanjakan
+                        <p>Greenland mengkombinasikan gaya arsitektur kontemporer dengan alam yang memanjakan
                             pemiliknya
                         </p>
                     </div>
@@ -95,7 +96,7 @@
         <div class="row">
             @foreach ($cluster1 as $cluster)
             <div class="col-6 col-lg-3">
-                <a href="{{ route('simulationCluster') }}">
+                <a href="{{ route('simulationCluster', 1) }}">
                     <div class="item">
                         <div class="item-image">
                             <?php
@@ -161,10 +162,10 @@
                     <div class="item-text">
 
                         @if(!empty($cluster->logo_img))
-                        <a href="{{ route('simulationCluster') }}"> <img style="width: 50%"
+                        <a href="{{ route('simulationCluster', 1) }}"> <img style="width: 50%"
                                 src="{{ asset('Home') }}/images/logo_cluster/{{$cluster->logo_img}}" alt=""> </a>
                         @else
-                        <a href="{{ route('simulationCluster') }}">
+                        <a href="{{ route('simulationCluster', 1) }}">
                             {{ $cluster->nama_cluster }}
                         </a>
 
@@ -260,84 +261,6 @@
     </div>
 </div> --}}
 
-<div class="testimoni">
-    <div class="container-fluid px-0">
-        <div class="testimoni-items">
-            <div class="item-slider">
-                <div class="row">
-                    <div class="col-12 col-lg-6 pe-0 d-none d-lg-block" data-aos="fade-right">
-                        <div class="image-sliders">
-                            <div class="image-item">
-                                <img src="{{ asset('Home') }}/images/img-testimonial.png" class="w-100" alt="">
-                                <div class="text-blur-bg">
-                                    <h5>Alex Boston</h5>
-                                    <p>Residence</p>
-                                </div>
-                            </div>
-                            <div class="image-item">
-                                <img src="{{ asset('Home') }}/images/img-food-court.png" class="w-100" alt="">
-                                <div class="text-blur-bg">
-                                    <h5>Food Court</h5>
-                                    <p>upcoming Soon</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-lg-6 right-side" data-aos="fade-left">
-                        <div class="testimoni-sliders">
-                            <div class="item">
-                                <div class="quotes-icon">
-                                    <img src="{{ asset('Home') }}/images/ic-quote.png" alt="">
-                                </div>
-                                <h2 class="testimoni-text">
-                                    Hunian Berkelas dimana anda dan keluarga menatap masa depan nan gemilang
-                                </h2>
-                                <div class="until-tablet">
-                                    <div class="items">
-                                        <div class="user">
-                                            <div><img src="{{ asset('Home') }}/images/img-testimonial.png" alt=""></div>
-                                            <div>
-                                                <h6>Alex Boston</h6>
-                                                <small>Residence</small>
-                                            </div>
-                                        </div>
-                                        <div class="quote">
-                                            <img src="{{ asset('Home') }}/images/ic-quote.png" alt="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="quotes-icon">
-                                    <img src="{{ asset('Home') }}/images/ic-quote.png" alt="">
-                                </div>
-                                <h3 class="testimoni-text">
-                                    -- coming soon --
-                                </h3>
-                                <div class="until-tablet">
-                                    <div class="items">
-                                        <div class="user">
-                                            <div><img src="{{ asset('Home') }}/images/img-testimonial.png" alt=""></div>
-                                            <div>
-                                                <h6>Alex Boston</h6>
-                                                <small>Residence</small>
-                                            </div>
-                                        </div>
-                                        <div class="quote">
-                                            <img src="{{ asset('Home') }}/images/ic-quote.png" alt="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
 
 <script>
     $('.image-sliders').slick({
@@ -368,7 +291,7 @@
         </h2>
         <div class="row">
             <div class="col-12 col-lg-4 feature">
-                <img src="{{ asset('Home') }}/images/one-way.png" alt="">
+                <img src="{{ asset('Home') }}/images/page-picture/gateway.png" alt="">
                 <h3>One Gate System</h3>
                 <p>Keamanan lingkungan
                     perumahan lebih terjamin
@@ -377,7 +300,7 @@
                 {{-- <a href="" class="more">Learn More <i class="bi bi-chevron-right"></i></a> --}}
             </div>
             <div class="col-12 col-lg-4 feature">
-                <img src="{{ asset('Home') }}/images/img-cctv.png" alt="">
+                <img src="{{ asset('Home') }}/images/page-picture/pic-cctv.png" alt="">
                 <h3>CCTV 24 Hours</h3>
                 <p>Perlindungan penuh dengan pengawasan CCTV dan
                     penjagaan security selama 24
@@ -386,7 +309,7 @@
 
             </div>
             <div class="col-12 col-lg-4 feature">
-                <img src="{{ asset('Home') }}/images/img-gate.png" alt="">
+                <img src="{{ asset('Home') }}/images/page-picture/park.png" alt="">
                 <h3>Taman Bermain</h3>
                 <p>Meningkatkan kenyamanan
                     keluarga besar Greenland
@@ -582,12 +505,86 @@
 
 <div class="locations" data-aos="fade-up">
     <div class="container-fluid left-side">
-        <h5 class="subtitle">Locations
-        </h5>
-        <h2 class="title">Ya, sedekat ini
-        </h2>
+        <h4 class="subtitle">Iya, sedekat ini
+        </h4>
 
         <div class="items" id="items_locations">
+            <div class="item">
+                <a href="https://maps.app.goo.gl/HWsJhNHjjxDyaD3YA">
+                <img src="{{ asset('Home') }}/images/page-picture/elpico.webp" alt="Elpico Mall">
+                </a>
+                <div class="text-blur-bg">
+                    <h5 class="text">Elpico Mall</h5>
+                    <div class="d-flex">
+                        <p class="type">Supermall</p>
+                        <div class="eta">
+                            <img src="{{ asset('Home') }}/images/ic-car.png" alt="">
+                            <p>7 Menit</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <a href="https://maps.app.goo.gl/ouoBwYccsYsVg1oy5">
+                <img src="{{ asset('Home') }}/images/page-picture/machung.webp" alt="Ma chung">
+                </a>
+                <div class="text-blur-bg">
+                    <h5 class="text">Ma Chung University</h5>
+                    <div class="d-flex">
+                        <p class="type">Pendidikan</p>
+                        <div class="eta">
+                            <img src="{{ asset('Home') }}/images/ic-car.png" alt="">
+                            <p>7 Menit</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <a href="https://maps.app.goo.gl/i6rFPwC3GrGt27Bj8">
+                <img src="{{ asset('Home') }}/images/page-picture/RSIA.webp" alt="Ma chung">
+                </a>
+                <div class="text-blur-bg">
+                    <h5 class="text">RSIA Husada Bunda</h5>
+                    <div class="d-flex">
+                        <p class="type">Layanan Kesehatan</p>
+                        <div class="eta">
+                            <img src="{{ asset('Home') }}/images/ic-car.png" alt="">
+                            <p>11 Menit</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <a href="https://maps.app.goo.gl/czexhVhavbZ7oN6Y6">
+                    
+                <img src="{{ asset('Home') }}/images/page-picture/stellar.webp" alt="Ma chung">
+                </a>
+                <div class="text-blur-bg">
+                    <h5 class="text">Stellar Powerhouse VPT</h5>
+                    <div class="d-flex">
+                        <p class="type">Training Gym</p>
+                        <div class="eta">
+                            <img src="{{ asset('Home') }}/images/ic-car.png" alt="">
+                            <p>11 Menit</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <a href="https://maps.app.goo.gl/aRaVpWbAkxG1wjnA9">
+                <img src="{{ asset('Home') }}/images/page-picture/UMM.webp" alt="Ma chung">
+                </a>
+                <div class="text-blur-bg">
+                    <h5 class="text">Universitas Muhammadiyah Malang</h5>
+                    <div class="d-flex">
+                        <p class="type">Pendidikan</p>
+                        <div class="eta">
+                            <img src="{{ asset('Home') }}/images/ic-car.png" alt="">
+                            <p>10 Menit</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="item">
                 <a href="https://www.google.com/maps/dir/Greenland+at+Tidar+Office,+Jalan+Raya+Candi+VI+C,+Karangbesuki,+Kota+Malang,+Jawa+Timur/Malang+Town+Square,+Jalan+Veteran+Malang,+Penanggungan,+Kota+Malang,+Jawa+Timur/@-7.9557682,112.5996403,15.25z/data=!3m1!5s0x2e788278b4d0264b:0x6ea2fbe63af5a350!4m13!4m12!1m5!1m1!1s0x2e788289bdf718e1:0x57f3943c27c6ee37!2m2!1d112.5974764!2d-7.9523291!1m5!1m1!1s0x2e78831c3bed0e97:0x2ae9e42172003648!2m2!1d112.6185925!2d-7.9569786?entry=ttu">
                 <img src="{{ asset('Home') }}/images/img-nearby1.png" alt="Malang Town Square (MATOS)">
@@ -598,7 +595,7 @@
                         <p class="type">Supermall</p>
                         <div class="eta">
                             <img src="{{ asset('Home') }}/images/ic-car.png" alt="">
-                            <p>7 Minutes</p>
+                            <p>7 Menit</p>
                         </div>
                     </div>
                 </div>
@@ -613,30 +610,14 @@
                         <p class="type">Supermall</p>
                         <div class="eta">
                             <img src="{{ asset('Home') }}/images/ic-car.png" alt="">
-                            <p>8 Minutes</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="item">
-                <a href="https://www.google.com/maps/dir/Greenland+at+Tidar+Office,+Jalan+Raya+Candi+VI+C,+Karangbesuki,+Kota+Malang,+Jawa+Timur/Persada+Hospital,+Jalan+Raden+Panji+Suroso+KAV.II-IV,+Purwodadi,+Kota+Malang,+Jawa+Timur/@-7.9545825,112.6032947,14z/data=!3m2!4b1!5s0x2e788278b4d0264b:0x6ea2fbe63af5a350!4m13!4m12!1m5!1m1!1s0x2e788289bdf718e1:0x57f3943c27c6ee37!2m2!1d112.5974764!2d-7.9523291!1m5!1m1!1s0x2dd62996acc421e3:0xbba5df37aaf2a921!2m2!1d112.6502085!2d-7.9349858?entry=ttu">
-
-                <img src="{{ asset('Home') }}/images/img-nearby3.png" alt="Sport Center">
-                </a>
-                <div class="text-blur-bg">
-                    <h5 class="text">Persada Hospital</h5>
-                    <div class="d-flex">
-                        <p class="type">Layanan Kesehatan</p>
-                        <div class="eta">
-                            <img src="{{ asset('Home') }}/images/ic-car.png" alt="">
-                            <p>27 Minutes</p>
+                            <p>8 Menit</p>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="item">
                 <a href="https://www.google.com/maps/dir/Greenland+at+Tidar+Office,+Jalan+Raya+Candi+VI+C,+Karangbesuki,+Kota+Malang,+Jawa+Timur/Universitas+Brawijaya,+Jalan+Veteran+Malang,+Ketawanggede,+Kota+Malang,+Jawa+Timur/@-7.9551814,112.6004157,16z/data=!3m2!4b1!5s0x2e788278b4d0264b:0x6ea2fbe63af5a350!4m13!4m12!1m5!1m1!1s0x2e788289bdf718e1:0x57f3943c27c6ee37!2m2!1d112.5974764!2d-7.9523291!1m5!1m1!1s0x2e78827f2d620975:0xf19b7459bbee5ed5!2m2!1d112.613677!2d-7.952465?entry=ttu">
-
+                    
                 <img src="{{ asset('Home') }}/images/img-nearby4.png" alt="Food Court">
                 </a>
                 <div class="text-blur-bg">
@@ -645,7 +626,7 @@
                         <p class="type">Pendidikan</p>
                         <div class="eta">
                             <img src="{{ asset('Home') }}/images/ic-car.png" alt="">
-                            <p>7 Minutes</p>
+                            <p>7 Menit</p>
                         </div>
                     </div>
                 </div>

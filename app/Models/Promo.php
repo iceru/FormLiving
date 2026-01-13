@@ -17,13 +17,6 @@ class Promo extends Model{
         ->where($where,$eq,$value)
         ->get();
     }
-    function getPromoWhereAllProjek($select,$where,$eq,$value) {
-        return Promo::select($select)
-        // ->join('rumah','promo.id_rumah', '=','rumah.id_rumah')
-        // ->join('projek','rumah.id_projek','=','projek.id_projeka')
-        ->where($where,$eq,$value)
-        ->get();
-    }
 
     function getPromoWhereArr($select,$where) {
         return Promo::select($select)
@@ -43,6 +36,8 @@ class Promo extends Model{
         return Promo::select('*')
         ->where('status','=','aktif')
         ->where('tipe_promo','=','standart')
+        ->where('showcase','=','yes')
+         ->where('tgl_berakhir', '>=', NOW())
         ->get();
     }
     public function firstPromoDataPelanggan($id_rumah,$kode_promo) {
@@ -61,8 +56,6 @@ class Promo extends Model{
         ->where($where)
         ->first();
     }
-
-
 
 
 }

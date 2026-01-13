@@ -29,9 +29,9 @@ class ListPromo extends Model
             ->where('promo.status', '=', "aktif")
 
             ->where('list_promo.id_rumah', '=', $id)
-            ->where('promo.tipe_promo', '=', 'standart')
-            ->where('tgl_aktif', '<=', NOW())
-            ->where('tgl_berakhir', '>=', NOW())
+            ->where('promo.tipe_promo', '=', "standart")
+            ->where('promo.tgl_aktif', '<=', date('Y-m-d') )
+            ->where('promo.tgl_berakhir', '>=', date('Y-m-d'))
             ->get();
 
     }
@@ -46,8 +46,7 @@ class ListPromo extends Model
         return ListPromo::where($where,$id)
         ->delete();
     }
-
-    function getPromoCostumPromo($getProjek) {
+      function getPromoCostumPromo($getProjek) {
         return ListPromo::select('*')
         ->join('promo', 'list_promo.id_promo', '=', 'promo.id_promo')
         ->leftJoin('cluster', 'list_promo.codecluster', '=', 'cluster.codecluster')
@@ -62,4 +61,5 @@ class ListPromo extends Model
         ->get();
 
     }
+
 }

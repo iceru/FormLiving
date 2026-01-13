@@ -27,20 +27,19 @@ class PembayaranRumah extends Model{
         ->where($where,$eq,$value)
         ->first();
         }
-
     function firstPembayaranRumahWhereArr($select,$where) {
         return PembayaranRumah::select($select)
         ->where($where)
         ->first();
     }
-
-    function firstPembayaranRumahWhereMonthAndYearArr($select,$where,$whereMonth,$valueMonth,$whereYear,$valueYear) {
+     function firstPembayaranRumahWhereMonthAndYearArr($select,$where,$whereMonth,$valueMonth,$whereYear,$valueYear) {
         return PembayaranRumah::select($select)
         ->where($where)
         ->whereMonth($whereMonth,$valueMonth)
         ->whereYear($whereYear,$valueYear)
         ->first();
     }
+
 
     function getPembayaranRumahRincianJoinWhereAll($select,$where,$eq,$value)  {
        return PembayaranRumah::select($select)

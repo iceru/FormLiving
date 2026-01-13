@@ -27,9 +27,8 @@
                     </div>
 
 
-                    <form method="POST" action="{{ route('login.action') }}">
+                    <form method="POST" action="{{ route('login') }}">
                         @csrf
-
                         <div class="forms">
                             <h5>Login</h5>
                             <div class="mb-3 form-group">
@@ -42,6 +41,7 @@
                                 <div class="input-group">
                                      <input type="password" class="form-control" name="password" id="password"
                                     placeholder="Password">
+                                 <input type="hidden" name="link-direct" value="{{ request()->get('redirect_url') }}">
                                    <button type="button" class="btn btn-outline-secondary" id="password-toggle">
                                         <i class="bi bi-eye-slash" id="password-icon"></i>
                                     </button>

@@ -78,7 +78,6 @@
 
 
     <div class="container">
-
         <center>
             <table class="table table-borderless no-space" style="width: 100%">
                 <tr>
@@ -93,13 +92,22 @@
             </table>
             <br>
             <h4> SURAT PEMESANAN RUMAH </h4>
-            <p>Nomor : {{ $fp->no_fp }} </p>
+            <p>Nomor : {{$fp->no_fp}} </p>
         </center>
+        
         <p>Yang bertanda tangan dibawah ini :</p>
         <table>
             <tr>
                 <td style="width:40%;">Nama</td>
                 <td>: {{ $fp->nama_plgn }} </td>
+            </tr>
+            <tr>
+                <td style="width:40%;">NPWP</td>
+                <td>: {{ $fp->npwp_plgn }} </td>
+            </tr>
+            <tr>
+                <td style="width:40%;">KTP/SIM No.</td>
+                <td>: {{ $fp->no_ktp_plgn }} </td>
             </tr>
             <tr>
                 <td style="width:40%;">Alamat</td>
@@ -118,12 +126,16 @@
                     Tempat & Tanggal. Lahir
                 </td>
                 <td>
-                    : {{ $fp->tempat_lahir_plgn }}, <?= tgl_indo(date('Y-m-d', strtotime($fp->tgl_lahir_plgn))) ?>
+                    : {{ $fp->tempat_lahir_plgn }},  <?= tgl_indo(date('Y-m-d', strtotime($fp->tgl_lahir_plgn)))?>
                 </td>
             </tr>
             <tr>
+                <td style="width:40%;">Pekerjaan</td>
+                <td>: {{$fp->pekerjaan_plgn}}</td>
+            </tr>
+            <tr>
                 <td style="width:40%;">Sumber Dana</td>
-                <td>: {{ $fp->sumber_dana_plgn }}</td>
+                <td>: {{$fp->sumber_dana_plgn}}</td>
             </tr>
             <tr>
                 <td style="width:40%;">Tujuan transaksi</td>

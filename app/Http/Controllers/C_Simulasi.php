@@ -63,10 +63,10 @@ class C_Simulasi extends Controller
         $this->pembayaranRumah = new PembayaranRumah();
         // $this->middleware('guest')->except('logout');
         // $this->middleware('guest:admin')->except('logout');
-        // $this->middleware('guest:writer')->except('logout');
+        // // $this->middleware('guest:writer')->except('logout');
     }
 
-    public function SimCluster($id_projek = null)
+     public function SimCluster($id_projek = null)
     {
         if (!session()->has('guest') && !session()->has('user')) {
             // $hasilSess = Session::get('guest');
@@ -120,7 +120,7 @@ class C_Simulasi extends Controller
                 'cluster',
                 'rumah',
                 'rumahAll',
-                'id_projek'
+                 'id_projek'
             ));
         }
 
@@ -146,7 +146,7 @@ class C_Simulasi extends Controller
         // die();
         $tipe = DB::table('tipe_rumah')
             ->where('id_rumah', '=', $id_rumah)
-            ->where('deleted_tr', '=', 'false')
+            ->where('deleted_tr','=','false')
             ->get();
         // dd($tipe);
         if (session()->has('user')) {
@@ -160,7 +160,7 @@ class C_Simulasi extends Controller
             return view('simType', compact(
                 'user',
                 'tipe',
-                'rumah',
+                'rumah'
 
             ));
         }
@@ -395,8 +395,8 @@ class C_Simulasi extends Controller
                             'luas_bangunan_kkpr' => $tipeRumah->luas_bangunan_tr,
                             'harga_awal' => (float) $tipeRumah->harga_tr,
                             'total_harga' => (float) $request->jumlah,
-                            'total_diskon' => $request->diskonInputKPR,
-                            'harga_netto_kkpr' => $request->jumlah / 1.11,
+                            'total_diskon'  => $request->diskonInputKPR,
+                            'harga_netto_kkpr' => $request->jumlah/1.11,
                             'harga_ppn_kkpr' => $request->jumlah * 0.11,
                             'booking_fee_kkpr' => str_replace(['.', ','], '', $request->bookingFeeKPR),
                             'uang_muka' => (float) (($request->jumlah * ($request->persentase / 100)) - str_replace(['.', ','], '', $request->bookingFeeKPR)) - $request->diskonInputKPR,
@@ -411,8 +411,8 @@ class C_Simulasi extends Controller
                             'luas_bangunan_kkpr' => $tipeRumah->luas_bangunan_tr,
                             'harga_awal' => (float) $tipeRumah->harga_tr,
                             'total_harga' => (float) $request->jumlah,
-                            'total_diskon' => $request->diskonInputKPR,
-                            'harga_netto_kkpr' => $request->jumlah / 1.11,
+                            'total_diskon'  => $request->diskonInputKPR,
+                            'harga_netto_kkpr' => $request->jumlah/1.11,
                             'harga_ppn_kkpr' => $request->jumlah * 0.11,
                             'booking_fee_kkpr' => str_replace(['.', ','], '', $request->bookingFeeKPR),
                             'uang_muka' => (float) ($request->jumlah * ($request->persentase / 100)) - str_replace(['.', ','], '', $request->bookingFeeKPR),
@@ -428,8 +428,8 @@ class C_Simulasi extends Controller
                             'luas_bangunan_kkpr' => $tipeRumah->luas_bangunan_tr,
                             'harga_awal' => (float) $tipeRumah->harga_tr,
                             'total_harga' => (float) $request->jumlah,
-                            'total_diskon' => $request->diskonInputKPR,
-                            'harga_netto_kkpr' => $request->jumlah / 1.11,
+                            'total_diskon'  => $request->diskonInputKPR,
+                            'harga_netto_kkpr' => $request->jumlah/1.11,
                             'harga_ppn_kkpr' => $request->jumlah * 0.11,
                             'booking_fee_kkpr' => str_replace(['.', ','], '', $request->bookingFeeKPR),
                             'uang_muka' => (float) (($request->jumlah * ($request->persentase / 100)) - str_replace(['.', ','], '', $request->bookingFeeKPR)) - $request->diskonInputKPR,
@@ -444,8 +444,8 @@ class C_Simulasi extends Controller
                             'luas_bangunan_kkpr' => $tipeRumah->luas_bangunan_tr,
                             'harga_awal' => (float) $tipeRumah->harga_tr,
                             'total_harga' => (float) $request->jumlah,
-                            'total_diskon' => $request->diskonInputKPR,
-                            'harga_netto_kkpr' => $request->jumlah / 1.11,
+                            'total_diskon'  => $request->diskonInputKPR,
+                            'harga_netto_kkpr' => $request->jumlah/1.11,
                             'harga_ppn_kkpr' => $request->jumlah * 0.11,
                             'booking_fee_kkpr' => str_replace(['.', ','], '', $request->bookingFeeKPR),
                             'uang_muka' => (float) ($request->jumlah * ($request->persentase / 100)) - str_replace(['.', ','], '', $request->bookingFeeKPR),
@@ -462,8 +462,8 @@ class C_Simulasi extends Controller
                         'luas_bangunan_kkpr' => $tipeRumah->luas_bangunan_tr,
                         'harga_awal' => (float) $tipeRumah->harga_tr,
                         'total_harga' => (float) $request->jumlah,
-                        'total_diskon' => $request->diskonInputCicilan,
-                        'harga_netto_kkpr' => $request->jumlah / 1.11,
+                        'total_diskon'  => $request->diskonInputCicilan,
+                        'harga_netto_kkpr' => $request->jumlah/1.11,
                         'harga_ppn_kkpr' => $request->jumlah * 0.11,
                         'booking_fee_kkpr' => str_replace(['.', ','], '', $request->bookingFeeCicilan),
                         'uang_muka' => (float) str_replace(['.', ','], '', $request->bookingFeeCicilan),
@@ -477,8 +477,8 @@ class C_Simulasi extends Controller
                         'luas_tanah_kkpr' => $rumah->luas_tanah,
                         'luas_bangunan_kkpr' => $tipeRumah->luas_bangunan_tr,
                         'harga_awal' => (float) $tipeRumah->harga_tr,
-                        'total_harga' => (float) $request->jumlah,
-                        'harga_netto_kkpr' => $request->jumlah / 1.11,
+                        'total_harga' => (float)  $request->jumlah,
+                        'harga_netto_kkpr' => $request->jumlah/1.11,
                         'harga_ppn_kkpr' => $request->jumlah * 0.11,
                         'booking_fee_kkpr' => str_replace(['.', ','], '', $request->bookingFeeCicilan),
                         'uang_muka' => (float) str_replace(['.', ','], '', $request->bookingFeeCicilan),
@@ -765,15 +765,15 @@ class C_Simulasi extends Controller
                 // ->where('tgl_aktif', '<=', NOW())
 
                 ->first();
-            if ($promo) {
-                $dataUpdatePromo = [
-                    'kuota_promo' => $promo->kuota_promo - 1,
-                ];
-                DB::table('promo')
-                    ->where('kode_promo', '=', $voucher)
-                    ->update(
-                        $dataUpdatePromo
-                    );
+            if($promo) {
+            $dataUpdatePromo = [
+                'kuota_promo' => $promo->kuota_promo - 1,
+            ];
+            DB::table('promo')
+                ->where('kode_promo', '=', $voucher)
+                ->update(
+                    $dataUpdatePromo
+                );
             }
 
         }
@@ -856,7 +856,7 @@ class C_Simulasi extends Controller
             'tipe_rumah.id_tipe_rumah'
         );
 
-        $userNotif = $this->userAdmin->getUserAdminWhereKategori('*', [
+        $userNotif = $this->userAdmin->getUserAdminWhereKategori('*',[
             'kategori' => 'AdminAccounting',
             'status_ua' => 'Aktif'
         ]);
@@ -888,11 +888,71 @@ class C_Simulasi extends Controller
             );
             $this->validate($request, [
                 'harga' => 'required',
+
+                // 'phone' => 'required|numeric',
+
+                // 'kelamin'   => 'required',
             ]);
             $dataInputDetail = '';
+            // if($jenis == "KPR"){
+            //     if (!empty($promo)) {
+            //         $dataInputDetail = [
+            //             'luas_tanah_kkpr' => $rumah->luas_tanah,
+            //             'tipe_kkpr' => $tipeRumah->jenis_tr,
+            //             'harga_awal' => (float) $tipeRumah->harga_tr,
+            //             'total_diskon' => (float) $promo->diskon_promo,
+
+            //             'total_harga' => (float) $kkpr->total_harga,
+            //             'terbilang' => terbilang($tipeRumah->harga_tr),
+            //         ];
+            //     }
+            //     if (empty($promo)) {
+            //         $dataInputDetail = [
+            //             'luas_tanah_kkpr' => $rumah->luas_tanah,
+            //             'tipe_kkpr' => $tipeRumah->jenis_tr,
+            //             'harga_awal' => (float) $tipeRumah->harga_tr,
+
+            //             'terbilang' => terbilang($tipeRumah->harga_tr),
+            //         ];
+            //     }
+            // }else{
+            //     if (!empty($promo)) {
+            //         $dataInputDetail = [
+            //             'luas_tanah_kkpr' => $rumah->luas_tanah,
+            //             'tipe_kkpr' => $tipeRumah->jenis_tr,
+            //             'harga_awal' => (float) $tipeRumah->harga_tr,
+            //             'total_diskon' => (float) $promo->diskon_promo,
+
+            //             'total_harga' => (float) $kkpr->total_harga,
+            //             'terbilang' => terbilang($tipeRumah->harga_tr - $promo->diskon_promo),
+            //         ];
+            //     }
+            //     if (empty($promo)) {
+            //         $dataInputDetail = [
+            //             'luas_tanah_kkpr' => $rumah->luas_tanah,
+            //             'tipe_kkpr' => $tipeRumah->jenis_tr,
+            //             'harga_awal' => (float) $tipeRumah->harga_tr,
+
+            //             'terbilang' => terbilang($tipeRumah->harga_tr),
+            //         ];
+            //     }
+            // }
+
+            // $kkpr = '';
+
+            // dd($dataInputDetail);
+            // DB::table('kalkulator_kpr')
+            //     ->where('id_kkpr', $id_kkpr)
+            //     ->update(
+            //         $dataInputDetail
+            //     );
+
             $kkpr = $this->kalkulatorKPR->firstKalkulatorKPRArr('*', [
                 'id_kkpr' => $id_kkpr,
             ]);
+            // $id = DB::table('kalkulator_kpr')->insertGetId(
+            //     $dataInputDetail
+            // );
 
             if (!empty($promo)) {
                 $dataInput = [
@@ -1118,6 +1178,22 @@ class C_Simulasi extends Controller
                     }
                 }
             }
+
+            // echo "<pre>";
+            // print_r ("diskon = ".$kkpr->total_diskon);
+            // echo "<br>";
+            // print_r ("uangmuka = ".$kkpr->uang_muka);
+            // echo "<br>";
+            // print_r ( "dibagi = ".$kkpr->cicilan_um);
+            // echo "<br>";
+            // print_r ($dataCicilKPR);
+            // echo "<br>";
+            // print_r ($sumCicilKPR);
+            // echo "<br>";
+
+            // echo "</pre>";
+
+            // dd($dtPembayaran);
             $this->pembayaranRumah->insertPembayaranRumah($dtPembayaran);
 
             $fpJadi = DB::table('formulir_pesanan')
@@ -1141,6 +1217,16 @@ class C_Simulasi extends Controller
                     ->where('id_promo', '=', $fpJadi->id_promo)
                     ->first();
             }
+            // ---------------------- JIKA ONLINE AKTIFKAN INI >>>>>>>>>>>>>>>
+            // $dtUpdate = [
+            //     'status' => "Keep"
+            // ];
+            // DB::table('rumah')
+            // ->where('id_rumah',"=",$id_rumah)
+            // ->update(
+            //     $dtUpdate
+            // );
+            // sendWhatsappMessage('082229997190',$userNotif->no_tlp_ua, "ada pembelian rumah di ".$rumah->no."-".$rumah->blok." oleh ".$userAdmin->nama_ua );
             $accounting = DB::table('user_admin')
                 ->join('ktgr_admin', 'user_admin.id_kategori', '=', 'ktgr_admin.id_kategori')
                 ->join('departemen', 'ktgr_admin.id_departemen', '=', 'departemen.id_departemen')
@@ -1148,17 +1234,81 @@ class C_Simulasi extends Controller
                 ->where('user_admin.email_ua', '!=', null)
                 ->get();
 
+            // ->where('tgl_aktif', '<=', NOW())
+            // dd($fpJadi);
+
+            // return view('pdf.PrintSPR', compact('fp','dtPembayaran'));
 
             $getDataPembayaran = $this->pembayaranRumah->getPembayaranRumahWhereAllArr(
                 '*',
                 [
                     'id_rumah' => $id_rumah,
                     'id_pelanggan' => $pelanggan->id_pelanggan,
-                    'id_formulir' => $fp,
+                    'id_formulir'   => $fp,
                 ]
             )->collect();
             $getDataPembayaran = $getDataPembayaran->sortBy('id_pem_rumah');
             $getDataPembayaran = $getDataPembayaran->first();
+
+            // $generatePayment = $this->generatePayment(
+            //     $getDataPembayaran->id_pem_rumah,
+            //     $pelanggan->id_pelanggan,
+            //     $id_rumah,
+            //     $fp,
+            //     "Greenland",
+            //     1000,
+            //     10080,
+            //     $pelanggan->nama_pelanggan,
+            //     $pelanggan->email_plgn,
+            //     $pelanggan->no_wa_plgn,
+            //     $pelanggan->alamat_plgn,
+            //     "ID"
+
+            // );
+
+            // $checkRequestID = $this->pembayaranRumah->getPembayaranRumahWhereAllArr(
+            //     '*',
+            //     [
+            //         'request_id_pr' => $generatePayment['request_id'],
+            //         'invoice_pr'    => $generatePayment['invoice']
+            //     ]
+            // );
+            // if (!empty($checkRequestID)) {
+            //     $generatePayment = $this->generatePayment(
+            //         $getDataPembayaran->id_pem_rumah,
+            //         $pelanggan->id_pelanggan,
+            //         $id_rumah,
+            //         $fp,
+            //         "Greenland",
+            //         1000,
+            //         10080,
+            //         $pelanggan->nama_pelanggan,
+            //         $pelanggan->email_plgn,
+            //         $pelanggan->no_wa_plgn,
+            //         $pelanggan->alamat_plgn,
+            //         "ID"
+
+            //     );
+            //     # code...
+            // }
+
+            // $dataSuccess = json_decode($generatePayment[0], true);
+
+            // $dataUpdatePembayaran = array(
+            //     'request_id_pr' => $generatePayment['request_id'],
+            //     'invoice_pr'    => $generatePayment['invoice'],
+            //     'exp_time_pr'   => $generatePayment['expTime'],
+            //     'signature_pr'     => $generatePayment['signature']
+            // );
+
+            // dd($dtPembayaran);
+            // dd($dataUpdatePembayaran);
+
+            // DB::table('pembayaran_rumah')
+            //     ->where('id_pem_rumah', $getDataPembayaran->id_pem_rumah)
+            //     ->update(
+            //         $dataUpdatePembayaran
+            //     );
 
             $pdf = \PDF::loadView('pdf.printSPR-ttd-non-promo', ['fp' => $fpJadi, 'dtPembayaran' => $dataPembayaran, 'promo' => $promo]);
             // $pdf = PDF::loadView('mail.index');
@@ -1181,28 +1331,60 @@ class C_Simulasi extends Controller
                 'attachment' => $filename,
                 // 'url-pembayaran' => $dataSuccess['payment']['url'],
             ];
+            // $dataEmail2 = [
+            //     'to' => $user->email_ua,
+            //     'subject' => 'Form Living',
+            //     'body' => '',
+            //     'body' => '',
+            //     'nama' => $pelanggan->nama_plgn,
+            //     'attachment' => $filename,
+            // ];
+            // $dataEmail3 = null;
+            // foreach ($accounting as $accounting) {
+            //     $dataEmail3 = [
+            //         'to' => $accounting->email_ua,
+            //         'subject' => 'Form Living',
+            //         'body' => '',
+            //         'body' => '',
+            //         'nama' => $pelanggan->nama_plgn,
+            //         'attachment' => $filename,
+            //         'url-pembayaran' => $this->generatePayment(1000,10080,$pelanggan->nama_plgn,$pelanggan->email_plgn,$pelanggan->no_wa_plgn,$pelanggan->alamat_plgn,"ID"),
+            //     ];
+            //     try {
+            //         // $MailAtt = ();
+            //         // Mail::to($pelanggan->email_plgn)->send(new MailAttachment($dataEmail1, $template));
+
+            //         \Mail::to($accounting->email_ua)->send(new MailAttachment($dataEmail3, $template));
+            //     } catch (Exception $e) {
+            //         // return response()->json(['Sorry! Please try again latter']);
+            //     }
+            // }
+
             $template = 'mail.mailFP';
             // // $template2 = 'pdf.salesFP';
             // // MailNotify class that is extend from Mailable class.
-            if ($pelanggan->email_plgn) {
+            if($pelanggan->email_plgn) {
                 try {
-                    // $MailAtt = ();
-                    \Mail::to($pelanggan->email_plgn)->send(new MailAttachment($dataEmail1, $template));
+                // $MailAtt = ();
+                \Mail::to($pelanggan->email_plgn)->send(new MailAttachment($dataEmail1, $template));
 
-                    // \Mail::to($user->email_ua)->send(new MailAttachment($dataEmail2, $template));
-                } catch (Exception $e) {
-                    // return response()->json(['Sorry! Please try again latter']);
-                }
+                // \Mail::to($user->email_ua)->send(new MailAttachment($dataEmail2, $template));
+            } catch (Exception $e) {
+                // return response()->json(['Sorry! Please try again latter']);
+            }
 
             }
 
-            if ($fpJadi->status !== 'Sold') {
+
+            if($fpJadi->status !== 'Sold') {
                 DB::table('rumah')
-                    ->where('id_rumah', $fpJadi->id_rumah)
-                    ->update(['status' => 'Sold']);
+                ->where('id_rumah', $fpJadi->id_rumah)
+                ->update(['status' => 'Sold']);
             }
-
+            
             return redirect('/congratulation/' . $fp)->with('success', 'Data has been send!');
+            // dd($user);
+            // die();
         }
         if (session()->has('guest')) {
             $userPelanggan = $this->userPelanggan->firstUserPelangganWhere(
@@ -1533,14 +1715,22 @@ class C_Simulasi extends Controller
             } catch (Exception $e) {
                 // return response()->json(['Sorry! Please try again latter']);
             }
-
-            if ($fpJadi->status !== 'Sold') {
+            
+            if($fpJadi->status !== 'Sold') {
                 DB::table('rumah')
-                    ->where('id_rumah', $fpJadi->id_rumah)
-                    ->update(['status' => 'Sold']);
+                ->where('id_rumah', $fpJadi->id_rumah)
+                ->update(['status' => 'Sold']);
             }
 
             return redirect('/congratulation')->with('success', 'Data has been send!');
+            // dd($dataInput);
+            // die();
+
+            // DB::table('user_pelanggan')
+            // ->where('id_pelanggan', session::get('guest'))
+            // ->update(
+            //     $dataInput
+            // );
         }
 
         return view('simSummary');
@@ -1714,11 +1904,11 @@ class C_Simulasi extends Controller
         $componentSignature = "Client-Id:" . $clientId . "\n" .
             "Request-Id:" . $requestId . "\n" .
             "Request-Timestamp:" . $dateTimeFinal . "\n" .
-            "Request-Target:/orders/v1/status/" . $orderId . "\n";
+            "Request-Target:/orders/v1/status/" . $orderId."\n";
 
         $signature = base64_encode(hash_hmac('sha256', $componentSignature, $sharedKey, true));
 
-        $url = $apiBaseUrl . "/orders/v1/status/" . $orderId;
+        $url = $apiBaseUrl."/orders/v1/status/".$orderId;
 
         // Create a Guzzle HTTP client
         $client = new Client();

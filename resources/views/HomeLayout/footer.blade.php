@@ -8,7 +8,7 @@
 
         <div class="copyright">
             <div class="copy-year">
-                &#169; 2022 FORMS.Inc
+                &#169; 2023 FORMS
             </div>
             <!--<div class="links">-->
             <!--    <a href="/privacy">Kebijakan privasi</a>-->

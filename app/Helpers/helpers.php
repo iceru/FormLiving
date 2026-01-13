@@ -2,8 +2,6 @@
 
 use Illuminate\Support\Facades\Http;
 
-
-
 if (!function_exists('rupiah')) {
     function rupiah($angka)
     {
@@ -11,6 +9,7 @@ if (!function_exists('rupiah')) {
         return $hasil_rupiah;
     }
 }
+
 if (!function_exists('rupiahNon')) {
     function rupiahNon($angka)
     {
@@ -18,6 +17,7 @@ if (!function_exists('rupiahNon')) {
         return $hasil_rupiah;
     }
 }
+
 if (!function_exists('penyebut')) {
     function penyebut($nilai)
     {

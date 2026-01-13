@@ -99,7 +99,7 @@
                     <!-- Logo -->
                     <!-- ============================================================== -->
                     <div class="navbar-brand">
-                        <a href="/" class="logo">
+                        <a href="index.html" class="logo">
                             <!-- Logo icon -->
                             <b class="logo-icon">
                                 <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
@@ -310,7 +310,7 @@
                                 </span>
                                 <div class="d-flex no-block align-items-center p-15 bg-primary text-white m-b-10">
                                     <div class="">
-                                        <img src="<img src="/path/to/icons/example-icon.svg" alt="An example icon" style="width:24px;height:24px" />" alt="user"
+                                        <img src="{{ url('Home') }}/images/logo-website/fo-favicon.png" alt="user"
                                             class="rounded-circle" width="60">
                                     </div>
                                     <div class="m-l-10">
@@ -397,6 +397,8 @@
                             <span class="hide-menu">Managemen User</span>
                         </li>
                         @foreach ($getUserMenu as $userMenu)
+
+
                             @if ($userMenu->status_menu == 'optional')
                                 <li class="sidebar-item ">
                                     <a class="sidebar-link waves-effect waves-dark sidebar-link @if (request()->segment(1) != $userMenu->url_menu) collapsed @endif active"

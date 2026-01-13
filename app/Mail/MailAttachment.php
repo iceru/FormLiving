@@ -38,7 +38,7 @@ class MailAttachment extends Mailable
     public function build()
     {
         
-        return $this->from('formliving@greenlandtidar.net','Surat Pemesanan Rumah Sementara')
+        return $this->from('admin@formsliving.com','Surat Pemesanan Rumah Sementara')
                     
                     ->view($this->template)
                     ->with($this->data)

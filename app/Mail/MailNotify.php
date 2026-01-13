@@ -8,7 +8,6 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use Carbon\Carbon;
 
 class MailNotify extends Mailable
 {
@@ -22,13 +21,13 @@ class MailNotify extends Mailable
     public $data=[];
     // protected $pdfPath;
 
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
     // protected $data;
-    
     protected $template;
 
     public function __construct($data, $template)
@@ -39,8 +38,9 @@ class MailNotify extends Mailable
 
     public function build()
     {
-        
-        return $this->from('formliving@greenlandtidar.net','Forms Living Greenland')         
+        return $this->from('admin@formsliving.com','Forms Living')
+                    ->subject($this->data['subject'])
+                    
                     ->view($this->template)
                     ->with($this->data);
     }

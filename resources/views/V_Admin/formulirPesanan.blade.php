@@ -213,11 +213,6 @@
                                                 <a href="{{ route('listPembayaranRumah.admin', [$getProjek->nama_projek, Crypt::encrypt($fp->id_formulir)]) }}" class="btn btn-outline-info">
                                                     <i class="fas fa-edit    ">Pembayaran</i>
                                                 </a>
-                                                <a href="" class="btn btn-outline-info"><i class="fa fa-plus"
-                                                    aria-hidden="true"></i> SPP</a>
-                                                    <a
-                                                    href="{{ route('cetakSuratPemesananRumahCostum.admin', [$getProjek->nama_projek, Crypt::encrypt($fp->id_formulir)]) }}"  class="btn btn-outline-info">
-                                                    <i class="fas fa-edit    "></i> Costum Print</a>
 
                                             @else
                                             @endif
@@ -299,32 +294,49 @@
 
                                             </div>
                                             <div>
-                                                @if ($user->kategori == 'SuperAdmin' || $user->kategori ==
-                                                'AdminAccounting' || $user->kategori == 'StafAcc')
-                                                <a href="{{ route('editSuratPemesananRumah.admin', [$getProjek->nama_projek, Crypt::encrypt($fpMobile->id_formulir)]) }}"
-                                                    class="btn btn-outline-info">
-                                                    <i class="fas fa-edit    "></i> Formulir
-                                                </a>
-                                                <a href="" class="btn btn-outline-info"><i class="fa fa-plus"
-                                                    aria-hidden="true"></i> SPP</a>
-                                                    <a
-                                                    href="{{ route('listPembayaranRumah.admin', [$getProjek->nama_projek, Crypt::encrypt($fpMobile->id_formulir)]) }}"  class="btn btn-outline-info">
-                                                    <i class="fas fa-edit    "></i> Pembayaran</a>
-                                                <a href="" class="btn btn-outline-info"><i class="fa fa-plus"
-                                                        aria-hidden="true"></i> SPP</a>
-                                                        <a
-                                                        href="{{ route('cetakSuratPemesananRumahCostum.admin', [$getProjek->nama_projek, Crypt::encrypt($fpMobile->id_formulir)]) }}"  class="btn btn-outline-info">
-                                                        <i class="fas fa-edit    "></i> Costum Print</a>
-                                                @else
-                                                @endif
-                                                <a href="{{ route('cetakSuratPemesananRumah.admin', Crypt::encrypt($fpMobile->id_formulir)) }}"
-                                                    class="btn btn-outline-info">
-                                                    <i class="fa fa-print" aria-hidden="true"></i>
+                                                <center>
+                                                <div class="row">
+                                                    @if ($user->kategori == 'SuperAdmin' || $user->kategori ==
+                                                            'AdminAccounting' || $user->kategori == 'StafAcc')
+                                                            <div class="col-md-4 m-10">
+                                                                <a href="{{ route('editSuratPemesananRumah.admin', [$getProjek->nama_projek, Crypt::encrypt($fpMobile->id_formulir)]) }}"
+                                                                    class="btn btn-outline-info">
+                                                                    <i class="fas fa-edit    "></i>
+                                                                </a>
+                                                            </div>
+                                                            
+                                                          <div class="col-md-4 ">
+                                                            <a
+                                                            href="{{ route('listPembayaranRumah.admin', [$getProjek->nama_projek, Crypt::encrypt($fpMobile->id_formulir)]) }}"  class="btn btn-outline-info">
+                                                            <i class="fas fa-edit    "></i>Pembayaran
+                                                        </a>
+                                                          </div>
+                                                          <br>
 
-                                                    </i>
-                                                </a>
+                                                         
+                                                            @else
+                                                            @endif
+                                                          <div class="col-md-3 m-10">
+                                                            <a href="{{ route('cetakSuratPemesananRumah.admin', Crypt::encrypt($fpMobile->id_formulir)) }}"
+                                                                class="btn btn-outline-info">
+                                                                <i class="fa fa-print" aria-hidden="true"></i>
 
+                                                                </i>
+                                                            </a>
+                                                          </div>
+                                                          <br>
+                                                          <div class="col-md-3 ">
+                                                            @if ($user->kategori == 'SuperAdmin' || $user->kategori ==
+                                                            'AdminAccounting' || $user->kategori == 'StafAcc')
+                                                            <a href="" class="btn btn-outline-info"><i class="fa fa-plus"
+                                                                    aria-hidden="true"></i>SPP</a>
+                                                            @else
+                                                            @endif
 
+                                                          </div>
+                                                    
+                                                </div>
+                                            </center>
                                             </div>
                                         </div>
 

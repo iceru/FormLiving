@@ -194,7 +194,7 @@ IF(a.id_pengawas2 IS NULL,'N/A',b.nama_ua) as pengawas2")
 
 
             return view(
-                'V_Guest\listChecklist',
+                'V_Guest.listChecklist',
                 compact(
                     'userPelanggan',
                     'getPelangganProjek',

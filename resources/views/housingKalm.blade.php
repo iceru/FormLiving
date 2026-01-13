@@ -193,6 +193,7 @@
 
 
             <div class="col-12 col-lg-6">
+            
                 <div class="item" data-aos="fade-right">
                     <?php
                     if(!empty($cluster->nama_img))
@@ -208,22 +209,24 @@
                     <?php
                     }
                     ?>
+                    
                     <div class="item-text">
                         @if(!empty($cluster->logo_img))
                         <a href="/PreOrderSelect"> <img style="width: 50%"
                                 src="{{ asset('Home') }}/images/logo_cluster/{{$cluster->logo_img}}" alt=""> </a>
-                        <div class="item-avail">{{ $cluster->count }} Available</div>
+                                <div class="item-avail">{{ $cluster->count }} Available</div>
                         @else
                         <h4>
                             <a href="/PreOrderSelect">
-                                {{ $cluster->nama_cluster }}
-                            </a>
+                            {{ $cluster->nama_cluster }}
+                        </a>
                         </h4>
                         <div class="item-avail">{{ $cluster->count }} Available</div>
                         @endif
                     </div>
                     <div class="until-tablet">
                         <div class="item-text">
+
                             @if(!empty($cluster->logo_img))
                             <a href="/PreOrderSelect"> <img style="width: 50%"
                                     src="{{ asset('Home') }}/images/logo_cluster/{{$cluster->logo_img}}" alt=""> </a>
