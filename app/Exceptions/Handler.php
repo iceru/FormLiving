@@ -46,5 +46,10 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+
+        $this->renderable(function (\Illuminate\Session\TokenMismatchException $e, $request) {
+            // Redirect to homepage when CSRF token expires (419 Page Expired)
+            return redirect('/');
+        });
     }
 }

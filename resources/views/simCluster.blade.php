@@ -143,7 +143,7 @@
                 <br>
                 <div class="content__row">
                     @if ($rumah != null && $rumah != '')
-                                               @php
+                        @php
 
                             $fileSVG = $id_projek == 1 ? 'views/Greenland.svg' : 'views/Verdant Grove.svg';
                         @endphp
@@ -173,8 +173,9 @@
 
 
                                             var data = {!! json_encode($rumahAll) !!};
-                                            $(document).ready(function() {
-                                                data.forEach(function(item) {
+                                            console.log(data);
+                                            $(document).ready(function () {
+                                                data.forEach(function (item) {
                                                     var block = item.blok;
                                                     var nomor = item.nomor;
 
@@ -185,11 +186,11 @@
                                                         idrumah.style.fill = color(item.status);
                                                         idrumah.setAttribute('fill', color(item.status));
 
-                                                        idrumah.addEventListener('click', function() {
+                                                        idrumah.addEventListener('click', function () {
                                                             // Show the modal or perform other actions
                                                             showModal(idrumah, item); // Pass idrumah to the showModal function
                                                         });
-                                                        idrumah.addEventListener('touchend', function() {
+                                                        idrumah.addEventListener('touchend', function () {
                                                             // Show the modal or perform other actions
                                                             event.preventDefault();
                                                             showModal(idrumah, item); // Pass idrumah to the showModal function
@@ -266,7 +267,7 @@
                                         var maxZoom = 6;
 
                                         // Pinch zoom functionality
-                                        hammer.on('pinchstart pinchmove pinchend', function(e) {
+                                        hammer.on('pinchstart pinchmove pinchend', function (e) {
                                             if (e.type === 'pinchstart') {
                                                 // Store initial scale
                                                 initScale = currentScale || 1;
@@ -281,7 +282,7 @@
                                         });
 
                                         // Pan functionality
-                                        hammer.on('panstart panmove panend', function(e) {
+                                        hammer.on('panstart panmove panend', function (e) {
                                             if (e.type === 'panstart') {
                                                 // Store initial translation
                                                 initPan = {
@@ -410,33 +411,33 @@
                 </h2>
                 <br>
                 {{-- <div class="row">
-                @foreach ($cluster as $cluster)
-                <div class="col-6 col-lg-3">
-                    <a href="/simulation-select-unit/{{ $cluster->codecluster }}">
-                    <div class="item">
-                        <div class="item-image">
-                            <?php
-                            if(!empty($cluster->nama_img)){
-                                ?>
-                                <img  src="{{ asset('Home') }}/images/cluster/{{$cluster->nama_img}}" alt="">
-                                <?php
-                            }else{
-                            ?>
+                    @foreach ($cluster as $cluster)
+                    <div class="col-6 col-lg-3">
+                        <a href="/simulation-select-unit/{{ $cluster->codecluster }}">
+                            <div class="item">
+                                <div class="item-image">
+                                    <?php
+                                    if(!empty($cluster->nama_img)){
+                                        ?>
+                                    <img src="{{ asset('Home') }}/images/cluster/{{$cluster->nama_img}}" alt="">
+                                    <?php
+                                    }else{
+                                    ?>
 
-                            <img src="{{ asset('Home') }}/images/img-cluster-large3.png" alt="">
-                            <?php
-                            }
-                            ?>
+                                    <img src="{{ asset('Home') }}/images/img-cluster-large3.png" alt="">
+                                    <?php
+                                    }
+                                    ?>
 
-                        </div>
-                        <div class="item-avail">{{ $cluster->count }} Available</div>
-                        <h5 class="item-title">{{ $cluster->nama_cluster }}</h5>
-                        <p class="item-sub">Cluster</p>
+                                </div>
+                                <div class="item-avail">{{ $cluster->count }} Available</div>
+                                <h5 class="item-title">{{ $cluster->nama_cluster }}</h5>
+                                <p class="item-sub">Cluster</p>
+                            </div>
+                        </a>
                     </div>
-                </a>
-                </div>
-                @endforeach
-            </div> --}}
+                    @endforeach
+                </div> --}}
                 @foreach ($cluster as $cluster)
                     <div class="collapsible">
                         <button class="collapsible-btn">
@@ -446,7 +447,6 @@
                             @else
                                 <b>
                                     {{ $cluster->nama_cluster }}
-
                                 </b>
                             @endif
 
@@ -457,22 +457,20 @@
                                     @foreach ($rumah as $home)
                                         @if ($home->codecluster == $cluster->codecluster)
                                             <div class="col-6 col-lg-3">
-                                                <a
-                                                    href="{{ route('simulationTipe', $home->id_rumah) }}">
+                                                <a href="{{ route('simulationTipe', $home->id_rumah) }}">
                                                     <div class="item">
                                                         <div class="item-image">
                                                             @if ($home->img_rumah != null)
-                                                                <img src="{{ asset('Home') }}/images/rumah/{{ $home->img_rumah }}"
-                                                                    alt="">
+                                                                <img src="{{ asset('Home') }}/images/rumah/{{ $home->img_rumah }}" alt="">
                                                             @else
-                                                                <img src="{{ asset('Home') }}/images/60.jpg"
-                                                                    alt="">
+                                                                <img src="{{ asset('Home') }}/images/60.jpg" alt="">
                                                             @endif
                                                         </div>
                                                         <div class="item-title">{{ $home->blok }} - {{ $home->nomor }}
                                                         </div>
                                                         <div class="avail">Luas Tanah :
-                                                            {{ $home->luas_tanah }}m<sup>2</sup></div>
+                                                            {{ $home->luas_tanah }}m<sup>2</sup>
+                                                        </div>
                                                     </div>
                                                 </a>
                                             </div>
@@ -487,19 +485,19 @@
 
             </div>
 
-            {{--  <div class="btn-groups">
-            <a href="/cluster" type="button" class="btn btn-grey">Kembali</a>
-            <a href="/simulation-select-unit" type="button" class="btn btn-primary">Lanjutkan</a>
-        </div>  --}}
+            {{-- <div class="btn-groups">
+                <a href="/cluster" type="button" class="btn btn-grey">Kembali</a>
+                <a href="/simulation-select-unit" type="button" class="btn btn-primary">Lanjutkan</a>
+            </div> --}}
         </div>
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const buttons = document.querySelectorAll(".collapsible-btn");
 
             buttons.forEach(button => {
-                button.addEventListener("click", function() {
+                button.addEventListener("click", function () {
                     const content = this.nextElementSibling;
                     content.style.display = content.style.display === "block" ? "none" : "block";
                 });

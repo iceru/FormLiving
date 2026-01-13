@@ -25,13 +25,13 @@ use PDF;
 class C_Login extends Controller
 {
     public $userProjek;
-     public $userAdmin;
-     public $pelangganProjek;
+    public $userAdmin;
+    public $pelangganProjek;
     public function __construct()
     {
         $this->userAdmin = new UserAdmin();
-         $this->userProjek = new UserProjek();
-          $this->pelangganProjek = new PelangganProjek();
+        $this->userProjek = new UserProjek();
+        $this->pelangganProjek = new PelangganProjek();
     }
     public function Login()
     {
@@ -86,25 +86,26 @@ class C_Login extends Controller
         $redirectUrl = $request->input('redirect_url');
 
         if (!empty($user)) {
-        if (Auth::guard('admin')->attempt(['username_ua' => $request->username, 'password' => md5($request->password)], $request->get('remember'))) {
+            if (Auth::guard('admin')->attempt(['username_ua' => $request->username, 'password' => md5($request->password)], $request->get('remember'))) {
 
-            Session::put('user', $user->id_user_admin);
-            
-            // pengecekan project yang dimiliki user
+                Session::put('user', $user->id_user_admin);
+
+                // pengecekan project yang dimiliki user
                 $getProjekUser = $this->userProjek->firstProjectUserWhere(['user_admin.id_user_admin' => $user->id_user_admin]);
-                if (empty($getProjekUser) || $getProjekUser ==null ) {
-                                return back()->with('error','Harap hubungi pihak admin projek anda belum ditambahkan ');
-                            }
-                             Session::push('selectedProjeks', $getProjekUser->nama_projek);
-                             Session::push('link-direct',$redirectUrl);
-                             
-            return true; // Indicating a successful login
-        }
+                if (empty($getProjekUser) || $getProjekUser == null) {
+                    return back()->with('error', 'Harap hubungi pihak admin projek anda belum ditambahkan ');
+                }
+                Session::put('selectedProjekName', $getProjekUser->nama_projek);
+                Session::push('selectedProjeks', $getProjekUser->nama_projek);
+                Session::push('link-direct', $redirectUrl);
+
+                return true; // Indicating a successful login
+            }
         }
         if (!empty($userPelanggan)) {
             if (Auth::guard('guest')->attempt(['username_plgn' => $request->username, 'password' => md5($request->password)], $request->get('remember'))) {
                 Session::put('guest', $userPelanggan->id_pelanggan);
-                $getPelangganProjek = $this->pelangganProjek->firstProjectPelangganWhere(['user_pelanggan.id_pelanggan'=>$userPelanggan->id_pelanggan]);
+                $getPelangganProjek = $this->pelangganProjek->firstProjectPelangganWhere(['user_pelanggan.id_pelanggan' => $userPelanggan->id_pelanggan]);
                 if ($getPelangganProjek == null) {
                     // Get the project and house ID from the order form
                     $formulirPesanan = DB::table('formulir_pesanan')
@@ -129,70 +130,74 @@ class C_Login extends Controller
                     }
                 }
                 Session::push('selectedProjeks', $getPelangganProjek->nama_projek);
-                // dd($getPelangganProjek);
-                return redirect('/dashboard-guest/'.$getPelangganProjek->nama_projek)->with('success','')
+                return redirect('/dashboard-guest/' . $getPelangganProjek->nama_projek)->with('success', '')
                     ->with('success', 'Anda berhasil masuk!');
             }
         }
 
-    
 
-    // If authentication fails, return false
-     return redirect('login')->with('error', 'Login details are not valid');
-    
-     
+
+        // If authentication fails, return false
+        return redirect('login')->with('error', 'Login details are not valid');
+
+
     }
-                
-public function redirectLogin(Request $request){
-    //dd($request->all());
-    // Attempt to log in using the LoginAction function
-    $loginSuccess = $this->LoginAction($request);
-    if ($loginSuccess) {
-        // Get the redirect URL from the request
-        $redirectUrl = $request->input('link-direct');
 
-        // If a redirect URL is provided, redirect to it
-        if ($redirectUrl) {
-            return redirect($redirectUrl)->with('success', "Berhasil Masuk");
+    public function redirectLogin(Request $request)
+    {
+        //dd($request->all());
+        // Attempt to log in using the LoginAction function
+        $loginSuccess = $this->LoginAction($request);
+        if ($loginSuccess) {
+            // Get the redirect URL from the request
+            $redirectUrl = $request->input('link-direct');
+
+            // If a redirect URL is provided, redirect to it
+            if ($redirectUrl) {
+                return redirect($redirectUrl)->with('success', "Berhasil Masuk");
+            }
+
+
+            // If no redirect URL is provided, use role-based redirection
+
+            // dd($getProjekUser);
+            $userRole = $this->Role(Session::get('user'));
+
+            $projectName = Session::get('selectedProjekName') ?? 'Greenland';
+
+            switch ($userRole) {
+                case 'AdminAccounting':
+                case 'Admin':
+                    return redirect('/dashboard-admin/' . $projectName)->with('success', "You're signed in!");
+                case 'CEO':
+                    return redirect('/dashboard-admin/' . $projectName)->with('success', "You're signed in!");
+                case 'SuperAdmin':
+                    return redirect('/dashboard-admin/' . $projectName)->with('success', "You're signed in!");
+                case 'AdminFormsLiving':
+                    return redirect('/dashboard-admin/' . $projectName)->with('success', "You're signed in!");
+                default:
+                    return redirect('/')->with('success', "You're signed in!");
+            }
         }
 
-    
-        // If no redirect URL is provided, use role-based redirection
-                       
-                // dd($getProjekUser);
-                $userRole = $this->Role(Session::get('user'));
-
-        switch ($userRole) {
-            case 'AdminAccounting':
-            case 'Admin':
-                return redirect('/dashboard-admin/Greenland')->with('success', "You're signed in!");
-            case 'CEO':
-                return redirect('/dashboard-admin/Greenland')->with('success', "You're signed in!");
-            case 'SuperAdmin':
-                return redirect('/dashboard-admin/Greenland')->with('success', "You're signed in!");
-            case 'AdminFormsLiving':
-                return redirect('/dashboard-admin/Greenland')->with('success', "You're signed in!");
-            default:
-                return redirect('/')->with('success', "You're signed in!");
-        }
-    }
-    
-    if (!empty($userPelanggan)) {
+        if (!empty($userPelanggan)) {
             if (Auth::guard('guest')->attempt(['username_plgn' => $request->username, 'password' => md5($request->password)], $request->get('remember'))) {
                 Session::put('guest', $userPelanggan->id_pelanggan);
 
-                return redirect('/Greenland')
+                $getPelangganProjek = $this->pelangganProjek->firstProjectPelangganWhere(['user_pelanggan.id_pelanggan' => $userPelanggan->id_pelanggan]);
+                $projectName = $getPelangganProjek->nama_projek ?? 'Greenland';
 
+                return redirect('/' . $projectName)
                     ->with('success', 'Anda berhasil masuk!');
             }
         }
 
-    // If login fails, redirect back with an error
-    return redirect()->back()->withErrors(['login' => 'Username atau Password Salah, silahkan coba lagi']);
-}
+        // If login fails, redirect back with an error
+        return redirect()->back()->withErrors(['login' => 'Username atau Password Salah, silahkan coba lagi']);
+    }
 
 
-   public function Role($idUser)
+    public function Role($idUser)
     {
         $user = DB::table('user_admin')
             ->join('ktgr_admin', 'user_admin.id_kategori', '=', 'ktgr_admin.id_kategori')
@@ -203,36 +208,39 @@ public function redirectLogin(Request $request){
 
         // dd($user->kategori);
         // die();
-        if(!empty($user)){
+        if (!empty($user)) {
             return $user->kategori;
         }
 
     }
-    public function emailForgot(){
+    public function emailForgot()
+    {
         return view('forgotPassword');
     }
 
-    public function emailForgotAction(Request $request){
-        $dataEmail = UserAdmin::where('email_ua','=', $request->email_ua)->exists();
-        $dataEmailList = UserAdmin::where('email_ua','=', $request->email_ua)->first();
+    public function emailForgotAction(Request $request)
+    {
+        $dataEmail = UserAdmin::where('email_ua', '=', $request->email_ua)->exists();
+        $dataEmailList = UserAdmin::where('email_ua', '=', $request->email_ua)->first();
         $template = 'mail.mailForgot';
         $request->validate([
-            'email_ua' => ['required','email']
-        ],[
+            'email_ua' => ['required', 'email']
+        ], [
             'email_ua.required' => 'Email Perlu Diisi'
         ]);
 
-        if(!$dataEmail){
-            Session::flash('error_message','Email belum terdaftar. Silahkan registrasi terlebih dahulu.');
+        if (!$dataEmail) {
+            Session::flash('error_message', 'Email belum terdaftar. Silahkan registrasi terlebih dahulu.');
             return redirect()->back();
-        }else{
+        } else {
             Mail::to($dataEmail->email_plgn)->send(new MailNotify($dataEmailList, $template));
         }
         return redirect('/login')->with('success-forgot', 'reset password link telah dikirim ke email Anda');
     }
 
     //page forgot password
-    public function forgotPassword($email){
+    public function forgotPassword($email)
+    {
         // if(!session()->has('guest') || session()->has('user')){
         //     Session::flush('guest');
         //     Session::flush('user');
@@ -240,12 +248,13 @@ public function redirectLogin(Request $request){
         $user = DB::table('user_admin')
             ->where('user_admin.email_ua', '=', $email)
             ->first();
-            // dd($user);
-       return view('forgotPassword',compact('user'));
+        // dd($user);
+        return view('forgotPassword', compact('user'));
     }
 
     //aksi dari forgot password
-    public function forgotAction(request $request){
+    public function forgotAction(request $request)
+    {
 
         $validator = Validator::make($request->all(), [
             'password' => 'required|min:6|confirmed'
@@ -262,8 +271,8 @@ public function redirectLogin(Request $request){
 
         return redirect()->back()->withErrors($validator)->withInput();
     }
-    
-    
+
+
     public function checkUsernameAvailability(Request $request)
     {
         $username = $request->input('username');
@@ -296,7 +305,7 @@ public function redirectLogin(Request $request){
         Session::flush('user');
         return redirect('/')->with('success', "You're sign out!");
     }
-    
+
     public function SignUp()
     {
         return view('signUp');
@@ -375,17 +384,17 @@ public function redirectLogin(Request $request){
                 // 'no_wa_plgn'            => $request->wa,
                 // 'jenis_kelamin_status' => $request->kelamin,
             );
-             $getIDUser = DB::table('user_admin')->insertGetId(
+            $getIDUser = DB::table('user_admin')->insertGetId(
                 $dataInput
             );
 
-         
-            $dataUserProjek =  [
-                'id_projek'    => 1,
+
+            $dataUserProjek = [
+                'id_projek' => 1,
                 'id_user_admin' => $getIDUser
             ];
 
-           
+
             DB::table('user_projek')->insert(
                 $dataUserProjek
             );
@@ -408,12 +417,12 @@ public function redirectLogin(Request $request){
                 $dataInput
             );
 
-            $dataUserProjek =  [
-                'id_projek'    => 1,
+            $dataUserProjek = [
+                'id_projek' => 1,
                 'id_user_admin' => $getIDUser
             ];
 
-          
+
             DB::table('user_projek')->insert(
                 $dataUserProjek
             );
@@ -432,13 +441,13 @@ public function redirectLogin(Request $request){
                 // 'no_wa_plgn'            => $request->wa,
                 // 'jenis_kelamin_status' => $request->kelamin,
             );
-              $getIDUser = DB::table('user_admin')->insertGetId(
+            $getIDUser = DB::table('user_admin')->insertGetId(
                 $dataInput
             );
 
-          
-            $dataUserProjek =  [
-                'id_projek'    => 1,
+
+            $dataUserProjek = [
+                'id_projek' => 1,
                 'id_user_admin' => $getIDUser
             ];
 
@@ -455,10 +464,10 @@ public function redirectLogin(Request $request){
         $template = 'mail.mailRegister';
         // MailNotify class that is extend from Mailable class.
         // try {
-            // Mail::to($request->email)->send(new MailNotify($data, $template));
-            // return response()->json(['Great! Successfully send in your mail']);
+        // Mail::to($request->email)->send(new MailNotify($data, $template));
+        // return response()->json(['Great! Successfully send in your mail']);
         // } catch (Exception $e) {
-            // return response()->json(['Sorry! Please try again latter']);
+        // return response()->json(['Sorry! Please try again latter']);
         //}
         return redirect('/login')->with('success', 'Your Account ' . $request->username . ' has been created');
         // return view('signUp');
