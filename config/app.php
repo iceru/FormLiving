@@ -124,7 +124,13 @@ return [
     'key' => env('APP_KEY'),
 
     'cipher' => 'AES-256-CBC',
+    
+    /*
+    |public path declaration for dompdf
+    */
 
+    'public_path' => public_path(),
+    
     /*
     |--------------------------------------------------------------------------
     | Maintenance Mode Driver
@@ -182,8 +188,8 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
-        Spatie\Permission\PermissionServiceProvider::class,
         Jenssegers\Agent\AgentServiceProvider::class,
+
 
         /*
          * Package Service Providers...
@@ -215,9 +221,10 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         'Image' => Intervention\Image\Facades\Image::class,
         'PDF'   => Barryvdh\DomPDF\Facade::class,
+        'Input' => Illuminate\Support\Facades\Request::class,
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
-
-    'Agent' => Jenssegers\Agent\Facades\Agent::class,
+    
+     'Agent' => Jenssegers\Agent\Facades\Agent::class,
 
 ];
