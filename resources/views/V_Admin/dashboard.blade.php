@@ -45,7 +45,7 @@
                     <div class="greeting__text">
                         <?php
                         $time = date('H:i');
-
+                        
                         if ($time >= '05:00' && $time < '11:00') {
                             echo 'Good morning 🌅';
                         } elseif ($time >= '11:00' && $time < '15:00') {
@@ -261,12 +261,12 @@
                                             </div>
                                         `;
 
-                                        var headingPop =`Rumah <a href="#" class="close-popover float-right" data-dismiss="alert">&times;</a>`;
+                                        var headingPop = `Rumah <a href="#" class="close-popover float-right" data-dismiss="alert">&times;</a>`;
 
                                         // Create and display a dismissible popover
                                         $(idrumah).popover({
 
-                                            title : headingPop,
+                                            title: headingPop,
                                             content: popoverContent,
 
                                             html: true,
@@ -285,7 +285,7 @@
                                             $(idrumah).popover('dispose');
                                         });
 
-                                        $(document).on('click touchend', function (e) {
+                                        $(document).on('click touchend', function(e) {
                                             // Check if the click event is outside of the popover and the element that triggers the popover
                                             if (!$(e.target).closest('.popover').length && !$(e.target).is(idrumah)) {
                                                 // Close the popover
@@ -295,7 +295,6 @@
                                     }
 
                                     // Function to close the popover
-
                                 </script>
 
 
@@ -359,6 +358,7 @@
                                     // Add click event listeners for your custom buttons
 
                                 };
+                            </script>
 
 
                             </script>
