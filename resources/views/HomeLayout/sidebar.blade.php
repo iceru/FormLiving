@@ -1,79 +1,5 @@
 @section('sidebar')
 
-<div class="offcanvas offcanvas-end sidebar" tabindex="-1" id="sidebar" aria-labelledby="sidebar">
-    <div class="offcanvas-header">
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-        <div class="menu">
-            <ul>
-                <li class="active">
-                    <a href="/">Home</a>
-                </li>
-
-                <li class="nav-item dropdown">
-                    <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        Perumahan
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li>
-                            <a class="dropdown-item" href="/Housing/Greenland">
-                                <div>
-
-                                    <img style="width:40%; height:100%" src="{{ asset('Home') }}/images/logo-tidar-green-large.png" alt="">
-
-                                </div>
-                            </a>
-                        </li>
-                        <!--<li>-->
-                        <!--    <a class="dropdown-item" href="/Housing/Kalm">-->
-                        <!--        <div>-->
-                        <!--            <img style="width:40%" src="{{ asset('Home') }}/images/logo-kalm.png" alt="">-->
-
-                        <!--        </div>-->
-                        <!--    </a>-->
-                        <!--</li>-->
-                    </ul>
-                </li>
-                <li>
-                    <a href="">About Forms</a>
-                </li>
-            </ul>
-        </div>
-
-        @if (!empty(Session::get('guest')))
-
-        <div class="action">
-
-            <a href="/dashboard-admin/Greenland" type="button" class="btn btn-outline-secondary">{{
-                $userPelanggan->nama_plgn
-                }}</a>
-            <!--<a href="/my-cart">-->
-            <!--    <img src="{{ asset('Home') }}/images/ic-cart.png" alt="">-->
-            <!--</a>-->
-
-        </div>
-        @elseif (!empty(Session::get('user')))
-        <div class="action">
-
-            <a href="/dashboard-admin/Greenland" class="btn btn-outline-secondary">{{ $user->nama_ua }}</a>
-            {{-- <a href="/my-cart">
-                <img src="{{ asset('Home') }}/images/ic-cart.png" alt="">
-            </a> --}}
-        </div>
-        @else
-        <div class="action">
-            <a href="/login" type="button" class="btn btn-outline-secondary">Login/Register</a>
-            <!--<a href="/my-cart">-->
-            <!--    <img src="{{ asset('Home') }}/images/ic-cart.png" alt="">-->
-            <!--</a>-->
-        </div>
-        @endif
-    </div>
-</div>
-
-<div class="mobile-only">
     <div class="offcanvas offcanvas-end sidebar" tabindex="-1" id="sidebar" aria-labelledby="sidebar">
         <div class="offcanvas-header">
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -94,8 +20,9 @@
                             <li>
                                 <a class="dropdown-item" href="/Housing/Greenland">
                                     <div>
-                                        <img style="width:40%" src="{{ asset('Home') }}/images/logo-tidar-green-large.png"
-                                            alt="">
+
+                                        <img style="width:40%; height:100%"
+                                            src="{{ asset('Home') }}/images/logo-tidar-green-large.png" alt="">
 
                                     </div>
                                 </a>
@@ -118,33 +45,111 @@
 
             @if (!empty(Session::get('guest')))
 
-            <div class="action">
+                <div class="action">
 
-                <a href="/dashboard-admin/Greenland" type="button" class="btn btn-outline-secondary">{{
-                    $userPelanggan->nama_plgn
-                    }}</a>
-                <!--<a href="/my-cart">-->
-                <!--    <img src="{{ asset('Home') }}/images/ic-cart.png" alt="">-->
-                <!--</a>-->
+                    <a href="/dashboard-admin/{{ Session::get('selectedProjekName') ?? 'Greenland' }}" type="button"
+                        class="btn btn-outline-secondary">{{
+                $userPelanggan->nama_plgn
+                        }}</a>
+                    <!--<a href="/my-cart">-->
+                    <!--    <img src="{{ asset('Home') }}/images/ic-cart.png" alt="">-->
+                    <!--</a>-->
 
-            </div>
+                </div>
             @elseif (!empty(Session::get('user')))
-            <div class="action">
+                <div class="action">
 
-                <a href="/dashboard-admin/Greenland" class="btn btn-outline-secondary">{{ $user->nama_ua }}</a>
-            </div>
+                    <a href="/dashboard-admin/{{ Session::get('selectedProjekName') ?? 'Greenland' }}"
+                        class="btn btn-outline-secondary">{{ $user->nama_ua }}</a>
+                    {{-- <a href="/my-cart">
+                        <img src="{{ asset('Home') }}/images/ic-cart.png" alt="">
+                    </a> --}}
+                </div>
             @else
-            <div class="action">
-
-                <a href="/login" type="button" class="btn btn-outline-secondary">Login/Register</a>
-                <!--<a href="/my-cart">-->
-                <!--    <img src="{{ asset('Home') }}/images/ic-cart.png" alt="">-->
-                <!--</a>-->
-            </div>
+                <div class="action">
+                    <a href="/login" type="button" class="btn btn-outline-secondary">Login/Register</a>
+                    <!--<a href="/my-cart">-->
+                    <!--    <img src="{{ asset('Home') }}/images/ic-cart.png" alt="">-->
+                    <!--</a>-->
+                </div>
             @endif
-
         </div>
     </div>
-</div>
+
+    <div class="mobile-only">
+        <div class="offcanvas offcanvas-end sidebar" tabindex="-1" id="sidebar" aria-labelledby="sidebar">
+            <div class="offcanvas-header">
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <div class="menu">
+                    <ul>
+                        <li class="active">
+                            <a href="/">Home</a>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Perumahan
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li>
+                                    <a class="dropdown-item" href="/Housing/Greenland">
+                                        <div>
+                                            <img style="width:40%"
+                                                src="{{ asset('Home') }}/images/logo-tidar-green-large.png" alt="">
+
+                                        </div>
+                                    </a>
+                                </li>
+                                <!--<li>-->
+                                <!--    <a class="dropdown-item" href="/Housing/Kalm">-->
+                                <!--        <div>-->
+                                <!--            <img style="width:40%" src="{{ asset('Home') }}/images/logo-kalm.png" alt="">-->
+
+                                <!--        </div>-->
+                                <!--    </a>-->
+                                <!--</li>-->
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="">About Forms</a>
+                        </li>
+                    </ul>
+                </div>
+
+                @if (!empty(Session::get('guest')))
+
+                        <div class="action">
+
+                            <a href="/dashboard-admin/{{ Session::get('selectedProjekName') ?? 'Greenland' }}" type="button"
+                                class="btn btn-outline-secondary">{{
+                    $userPelanggan->nama_plgn
+                                }}</a>
+                            <!--<a href="/my-cart">-->
+                            <!--    <img src="{{ asset('Home') }}/images/ic-cart.png" alt="">-->
+                            <!--</a>-->
+
+                        </div>
+                @elseif (!empty(Session::get('user')))
+                    <div class="action">
+
+                        <a href="/dashboard-admin/{{ Session::get('selectedProjekName') ?? 'Greenland' }}"
+                            class="btn btn-outline-secondary">{{ $user->nama_ua }}</a>
+                    </div>
+                @else
+                    <div class="action">
+
+                        <a href="/login" type="button" class="btn btn-outline-secondary">Login/Register</a>
+                        <!--<a href="/my-cart">-->
+                        <!--    <img src="{{ asset('Home') }}/images/ic-cart.png" alt="">-->
+                        <!--</a>-->
+                    </div>
+                @endif
+
+            </div>
+        </div>
+    </div>
 
 @endsection

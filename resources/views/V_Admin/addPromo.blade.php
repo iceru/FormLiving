@@ -160,7 +160,7 @@
                             </select>
 
                         </div>
-                        <input type="text" name="kode_promo" class="form-control" readonly hidden value="{{ $kodePromo }}">
+                        <input type="text" name="kode_promo" class="form-control" readonly value="{{ $kodePromo }}">
                         <div class="form-group">
                             <label for="">Jenis Promo</label>
 

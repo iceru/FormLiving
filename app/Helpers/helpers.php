@@ -107,11 +107,14 @@ function RandomCode($counter, $projek)
     $kodePromo = "";
     switch ($projek) {
         case 'Greenland':
-            $kodePromo = 'GL' .  $randomString;
+            $kodePromo = 'GL' . $randomString;
             break;
 
         case "Kalm":
-            $kodePromo = 'KR' .  $randomString;
+            $kodePromo = 'KR' . $randomString;
+            break;
+        case "Verdant Grove":
+            $kodePromo = 'VG' . $randomString;
             break;
     }
     return $kodePromo;
@@ -155,7 +158,8 @@ if (!function_exists('sendWhatsappMessage')) {
 }
 
 if (!function_exists('removePeriods')) {
-    function removePeriods($number) {
+    function removePeriods($number)
+    {
         // Use str_replace to remove periods (.) from the number
         return str_replace('.', '', $number);
     }

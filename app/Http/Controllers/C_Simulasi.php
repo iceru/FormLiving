@@ -1309,7 +1309,7 @@ class C_Simulasi extends Controller
             //     ->update(
             //         $dataUpdatePembayaran
             //     );
-
+            dd($fpJadi);
             $pdf = \PDF::loadView('pdf.printSPR-ttd-non-promo', ['fp' => $fpJadi, 'dtPembayaran' => $dataPembayaran, 'promo' => $promo]);
             // $pdf = PDF::loadView('mail.index');
             $pdf->setPaper('F4', 'potrait');
