@@ -165,17 +165,14 @@
 <body>
 
     <center>
-       <table class="table table-borderless no-space" style="width: 100%">
+        <table class="table table-borderless no-space" style="width: 100%">
             <tr>
                 <td style="width: 70%"><img style=""
                         src="{{ asset('Dashboard') }}/images/content/logo-forms-living1.png" alt=""></td>
-                <td><img style="float: right;" class="float-right"
-                        @if ($fp->id_projek == '1') src="{{ asset('Home') }}/images/logotidargreen.png"
-                        @elseif ($fp->id_projek == '3')
-
-                        src="{{ asset('Home') }}/images/verdant/logo.png" style="width: 350px;"
-                        alt=""> @endif
-                        </td>
+                <td><img style="float: right;" class="float-right" @if ($fp->id_projek == '1')
+                src="{{ asset('Home') }}/images/logotidargreen.png" @elseif ($fp->id_projek == '3')
+                        src="{{ asset('Home') }}/images/verdant/logo.png" style="width: 350px;" alt=""> @endif
+                </td>
             </tr>
         </table>
         <br>
@@ -197,7 +194,7 @@
                 <td>: {{ $fp->npwp_plgn }} </td>
             </tr>
             <tr>
-                <td style="width:40%;">KTP/SIM No.</td>
+                <td style="width:40%;">NIK</td>
                 <td>: {{ $fp->no_ktp_plgn }} </td>
             </tr>
             <tr>
@@ -298,7 +295,8 @@
                             <td style="width:86pt">
                                 <p class="s2"
                                     style="padding-right: 5pt;text-indent: 0pt;line-height: 11pt;text-align: right;">
-                                    {{ rupiah($dataHarga['hargaPricelist']) }},-</p>
+                                    {{ rupiah($dataHarga['hargaPricelist']) }},-
+                                </p>
                             </td>
                         </tr>
                         <tr style="height:14pt">
@@ -317,7 +315,8 @@
                             <td style="width:86pt">
                                 <p class="s2"
                                     style="padding-right: 5pt;text-indent: 0pt;line-height: 11pt;text-align: right;">
-                                    {{ rupiah($dataHarga['hargaDiskon']) }},-</p>
+                                    {{ rupiah($dataHarga['hargaDiskon']) }},-
+                                </p>
                             </td>
                         </tr>
                         <tr style="height:14pt">
@@ -337,7 +336,8 @@
                             <td style="width:86pt">
                                 <p class="s2"
                                     style="padding-right: 5pt;text-indent: 0pt;line-height: 11pt;text-align: right;">
-                                    {{ rupiah($dataHarga['hargaNetto']) }},-</p>
+                                    {{ rupiah($dataHarga['hargaNetto']) }},-
+                                </p>
                             </td>
                         </tr>
                         <tr style="height:14pt">
@@ -361,6 +361,65 @@
                                 </p>
                             </td>
                         </tr>
+                        @if ($fp->id_projek == '3')
+                            <tr style="height:14pt">
+                                <td style="width:215pt">
+                                    <p class="s2"
+                                        style="padding-left: 2pt;text-indent: 0pt;line-height: 11pt;text-align: left;">
+                                        e. BPHTB</p>
+                                </td>
+                                <td style="width:29pt">
+                                    <p class="s2"
+                                        style="padding-left: 3pt;text-indent: 0pt;line-height: 11pt;text-align: left;">
+                                        Rp.
+                                    </p>
+                                </td>
+                                <td style="width:86pt">
+                                    <p class="s2"
+                                        style="padding-right: 5pt;text-indent: 0pt;line-height: 11pt;text-align: right;">
+                                        {{ isset($dataHarga['hargaBPHTB']) ? rupiah($dataHarga['hargaBPHTB']) : '-' }},-
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr style="height:14pt">
+                                <td style="width:215pt">
+                                    <p class="s2"
+                                        style="padding-left: 2pt;text-indent: 0pt;line-height: 11pt;text-align: left;">
+                                        f. Biaya Notaris/PPAT (AJB dan BBN)</p>
+                                </td>
+                                <td style="width:29pt">
+                                    <p class="s2"
+                                        style="padding-left: 3pt;text-indent: 0pt;line-height: 11pt;text-align: left;">
+                                        Rp.
+                                    </p>
+                                </td>
+                                <td style="width:86pt">
+                                    <p class="s2"
+                                        style="padding-right: 5pt;text-indent: 0pt;line-height: 11pt;text-align: right;">
+                                        {{ isset($dataHarga['hargaNotaris']) ? rupiah($dataHarga['hargaNotaris']) : '-' }},-
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr style="height:14pt">
+                                <td style="width:215pt">
+                                    <p class="s2"
+                                        style="padding-left: 2pt;text-indent: 0pt;line-height: 11pt;text-align: left;">
+                                        g. Biaya Administrasi</p>
+                                </td>
+                                <td style="width:29pt">
+                                    <p class="s2"
+                                        style="padding-left: 3pt;text-indent: 0pt;line-height: 11pt;text-align: left;">
+                                        Rp.
+                                    </p>
+                                </td>
+                                <td style="width:86pt">
+                                    <p class="s2"
+                                        style="padding-right: 5pt;text-indent: 0pt;line-height: 11pt;text-align: right;">
+                                        {{ isset($dataHarga['hargaAdmin']) ? rupiah($dataHarga['hargaAdmin']) : '-' }},-
+                                    </p>
+                                </td>
+                            </tr>
+                        @endif
 
                         <tr style="height:17pt">
                             <td style="width:215pt">
@@ -382,14 +441,23 @@
                                 </p>
                             </td>
                         </tr>
+                        @if ($fp->id_projek == '3')
+                            <tr style="height:14pt">
+                                <td style="width:330pt" colspan="3">
+                                    <p class="s2"
+                                        style="padding-left: 2pt;text-indent: 0pt;line-height: 13pt;text-align: left;">
+                                        Terbilang : ___________________________________________</p>
+                                </td>
+                            </tr>
+                        @endif
                     </table>
                 @endforeach
             </li>
-            {{--  <li data-list-text="6.">
+            {{-- <li data-list-text="6.">
                 <p class="s3" style="padding-top: 1pt;padding-left: 40pt;text-indent: -17pt;text-align: left;">
                     Untuk
                     penyerahan bangunan tanggal :</p>
-            </li>  --}}
+            </li> --}}
         </ol>
         <div class="page-break"></div>
         @if ($fp->id_projek == '1')
@@ -510,16 +578,13 @@
                     </ol>
                 </li>
             </ol>
-            <p class="ListParagraph"
-                style="margin-left:72pt; margin-bottom:0pt; text-align:justify; line-height:115%">
+            <p class="ListParagraph" style="margin-left:72pt; margin-bottom:0pt; text-align:justify; line-height:115%">
                 <span><b>Cabang Galunggung, Malang</b></span>
             </p>
-            <p class="ListParagraph"
-                style="margin-left:72pt; margin-bottom:0pt; text-align:justify; line-height:115%">
+            <p class="ListParagraph" style="margin-left:72pt; margin-bottom:0pt; text-align:justify; line-height:115%">
                 <span>Atas Nama : <b>PT. CITRA ARGO TIRTA</b></span>
             </p>
-            <p class="ListParagraph"
-                style="margin-left:72pt; margin-bottom:8pt; text-align:justify; line-height:115%">
+            <p class="ListParagraph" style="margin-left:72pt; margin-bottom:8pt; text-align:justify; line-height:115%">
                 <span><b>Nomor Rekening : 4403014446</b> </span>
             </p>
             <ol start="2" type="a" style="margin:0pt; padding-left:0pt">
@@ -533,20 +598,16 @@
                         Anak), dengan mencantumkan nama pemesan, Nomor Blok/Kavling, pembayaran ditujukan ke :</span>
                 </li>
             </ol>
-            <p class="ListParagraph"
-                style="margin-left:72pt; margin-bottom:0pt; text-align:justify; line-height:115%">
+            <p class="ListParagraph" style="margin-left:72pt; margin-bottom:0pt; text-align:justify; line-height:115%">
                 <span><b>BANK CENTRAL ASIA</b></span>
             </p>
-            <p class="ListParagraph"
-                style="margin-left:72pt; margin-bottom:0pt; text-align:justify; line-height:115%">
+            <p class="ListParagraph" style="margin-left:72pt; margin-bottom:0pt; text-align:justify; line-height:115%">
                 <span><b>Cabang Galunggung, Malang</b></span>
             </p>
-            <p class="ListParagraph"
-                style="margin-left:72pt; margin-bottom:0pt; text-align:justify; line-height:115%">
+            <p class="ListParagraph" style="margin-left:72pt; margin-bottom:0pt; text-align:justify; line-height:115%">
                 <span><b>Atas Nama : PT. CITRA ARGO TIRTA</b></span>
             </p>
-            <p class="ListParagraph"
-                style="margin-left:72pt; margin-bottom:8pt; text-align:justify; line-height:115%">
+            <p class="ListParagraph" style="margin-left:72pt; margin-bottom:8pt; text-align:justify; line-height:115%">
                 <span><b>Nomor Rekening : 4403014446 </b></span><span style="-aw-import:spaces">&#xa0;</span>
             </p>
             <ol start="9" type="I" style="margin:0pt; padding-left:0pt">
@@ -669,8 +730,7 @@
                         (lima belas persen) dari harga pembelian rumah.</span>
                 </li>
             </ol>
-            <p class="ListParagraph"
-                style="margin-left:108pt; margin-bottom:0pt; text-align:justify; line-height:115%">
+            <p class="ListParagraph" style="margin-left:108pt; margin-bottom:0pt; text-align:justify; line-height:115%">
                 <span style="-aw-import:ignore">&#xa0;</span>
             </p>
             <ol start="2" type="A" style="margin:0pt; padding-left:0pt">
@@ -998,8 +1058,7 @@
                     </ol>
                 </li>
             </ol>
-            <p class="ListParagraph"
-                style="margin-left:72pt; margin-bottom:0pt; text-align:justify; line-height:115%">
+            <p class="ListParagraph" style="margin-left:72pt; margin-bottom:0pt; text-align:justify; line-height:115%">
                 <span style="-aw-import:ignore">&#xa0;</span>
             </p>
             <ol start="15" type="I" style="margin:0pt; padding-left:0pt">
@@ -1070,68 +1129,61 @@
                 <tr style="height:16pt">
                     <td
                         style="width:28pt;border-top-style:solid;border-top-width:1pt;border-left-style:solid;border-left-width:1pt;border-bottom-style:solid;border-bottom-width:1pt;border-right-style:solid;border-right-width:1pt">
-                        <p class="s2"
-                            style="padding-left: 5pt;text-indent: 0pt;line-height: 13pt;text-align: left;">
+                        <p class="s2" style="padding-left: 5pt;text-indent: 0pt;line-height: 13pt;text-align: left;">
                             No.
                         </p>
                     </td>
                     <td
                         style="width:215pt;border-top-style:solid;border-top-width:1pt;border-left-style:solid;border-left-width:1pt;border-bottom-style:solid;border-bottom-width:1pt;border-right-style:solid;border-right-width:1pt">
-                        <p class="s2"
-                            style="padding-left: 5pt;text-indent: 0pt;line-height: 13pt;text-align: left;">
+                        <p class="s2" style="padding-left: 5pt;text-indent: 0pt;line-height: 13pt;text-align: left;">
                             Keterangan</p>
                     </td>
                     <td
                         style="width:122pt;border-top-style:solid;border-top-width:1pt;border-left-style:solid;border-left-width:1pt;border-bottom-style:solid;border-bottom-width:1pt;border-right-style:solid;border-right-width:1pt">
-                        <p class="s2"
-                            style="padding-left: 5pt;text-indent: 0pt;line-height: 13pt;text-align: left;">
+                        <p class="s2" style="padding-left: 5pt;text-indent: 0pt;line-height: 13pt;text-align: left;">
                             Tanggal</p>
                     </td>
                     <td
                         style="width:122pt;border-top-style:solid;border-top-width:1pt;border-left-style:solid;border-left-width:1pt;border-bottom-style:solid;border-bottom-width:1pt;border-right-style:solid;border-right-width:1pt">
-                        <p class="s2"
-                            style="padding-left: 5pt;text-indent: 0pt;line-height: 13pt;text-align: left;">
+                        <p class="s2" style="padding-left: 5pt;text-indent: 0pt;line-height: 13pt;text-align: left;">
                             Nominal</p>
                     </td>
                 </tr>
-                <?php $no = 1; ?>
+                <?php    $no = 1; ?>
                 @foreach ($dtPembayaran as $dtpem)
-                    <tr style="height:16pt">
-                        <td
-                            style="width:28pt;border-top-style:solid;border-top-width:1pt;border-left-style:solid;border-left-width:1pt;border-bottom-style:solid;border-bottom-width:1pt;border-right-style:solid;border-right-width:1pt">
-                            <p class="s2"
-                                style="padding-left: 5pt;text-indent: 0pt;line-height: 13pt;text-align: left;">
-                                {{ $no }}
-                            </p>
-                        </td>
-                        <td
-                            style="width:215pt;border-top-style:solid;border-top-width:1pt;border-left-style:solid;border-left-width:1pt;border-bottom-style:solid;border-bottom-width:1pt;border-right-style:solid;border-right-width:1pt">
-                            <p class="s2"
-                                style="padding-left: 5pt;text-indent: 0pt;line-height: 13pt;text-align: left;">
-                                {{ $dtpem->detail_pr }}</p>
-                        </td>
-                        <td
-                            style="width:122pt;border-top-style:solid;border-top-width:1pt;border-left-style:solid;border-left-width:1pt;border-bottom-style:solid;border-bottom-width:1pt;border-right-style:solid;border-right-width:1pt">
-                            <p class="s2"
-                                style="padding-left: 5pt;text-indent: 0pt;line-height: 13pt;text-align: left;">
-                                @if ($dtpem->tgl_pr != '0000-00-00')
-                                    <?= tgl_indo(date('Y-m-d', strtotime($dtpem->tgl_pr))) ?>
-                                @else
-                                    -
-                                @endif
-                            </p>
-                        </td>
-                        <td
-                            style="width:122pt;border-top-style:solid;border-top-width:1pt;border-left-style:solid;border-left-width:1pt;border-bottom-style:solid;border-bottom-width:1pt;border-right-style:solid;border-right-width:1pt">
-                            <p class="s2"
-                                style="padding-left: 5pt;text-indent: 0pt;line-height: 13pt;text-align: left;">
-                                Rp {{ rupiah($dtpem->harga_pr) }}</p>
-                        </td>
-                    </tr>
-                    <?php
-                    
+                        <tr style="height:16pt">
+                            <td
+                                style="width:28pt;border-top-style:solid;border-top-width:1pt;border-left-style:solid;border-left-width:1pt;border-bottom-style:solid;border-bottom-width:1pt;border-right-style:solid;border-right-width:1pt">
+                                <p class="s2" style="padding-left: 5pt;text-indent: 0pt;line-height: 13pt;text-align: left;">
+                                    {{ $no }}
+                                </p>
+                            </td>
+                            <td
+                                style="width:215pt;border-top-style:solid;border-top-width:1pt;border-left-style:solid;border-left-width:1pt;border-bottom-style:solid;border-bottom-width:1pt;border-right-style:solid;border-right-width:1pt">
+                                <p class="s2" style="padding-left: 5pt;text-indent: 0pt;line-height: 13pt;text-align: left;">
+                                    {{ $dtpem->detail_pr }}
+                                </p>
+                            </td>
+                            <td
+                                style="width:122pt;border-top-style:solid;border-top-width:1pt;border-left-style:solid;border-left-width:1pt;border-bottom-style:solid;border-bottom-width:1pt;border-right-style:solid;border-right-width:1pt">
+                                <p class="s2" style="padding-left: 5pt;text-indent: 0pt;line-height: 13pt;text-align: left;">
+                                    @if ($dtpem->tgl_pr != '0000-00-00')
+                                        <?= tgl_indo(date('Y-m-d', strtotime($dtpem->tgl_pr))) ?>
+                                    @else
+                                        -
+                                    @endif
+                                </p>
+                            </td>
+                            <td
+                                style="width:122pt;border-top-style:solid;border-top-width:1pt;border-left-style:solid;border-left-width:1pt;border-bottom-style:solid;border-bottom-width:1pt;border-right-style:solid;border-right-width:1pt">
+                                <p class="s2" style="padding-left: 5pt;text-indent: 0pt;line-height: 13pt;text-align: left;">
+                                    Rp {{ rupiah($dtpem->harga_pr) }}</p>
+                            </td>
+                        </tr>
+                        <?php
+
                     $no++;
-                    ?>
+                                            ?>
                 @endforeach
 
             </table>
@@ -1139,10 +1191,10 @@
             <p style="padding-left: 5pt;text-indent: 0pt;text-align: left;">NOTES</p>
             <p style="padding-top: 1pt;padding-left: 5pt;text-indent: 0pt;line-height: 114%;text-align: left;">Harga
                 Sudah
-                Termasuk : SHGB, PPN, PBG, PLN dan Air bersih. </p>
+                Termasuk : SHGB, IMB, PLN, Air bersih, Pagar keliling, dan Taman depan. </p>
             <p style="padding-top: 1pt;padding-left: 5pt;text-indent: 0pt;line-height: 114%;text-align: left;">Harga
                 Belum
-                Termasuk : BPHTB, Biaya KPR.</p>
+                Termasuk : ________________________________________________</p>
         @elseif ($fp->id_projek == '3')
             <div class="title">KETENTUAN DAN TATA CARA PEMBELIAN <br />
                 TANAH DAN BANGUNAN
@@ -1150,14 +1202,13 @@
 
             <div class="content">
                 <p>Untuk pemesanan Tanah dan Bangunan, maka dengan ini pemesan menyetujui syarat dan ketentuan pembelian
-                    sebagai berikut :</p>
+                    sebagai berikut:</p>
 
                 <div class="section">
                     <span class="section-title">I.</span> Menandatangani Perjanjian Pengikatan Jual Beli (PPJB) Tanah
                     dan Bangunan/Kavling dalam waktu 30 (tiga puluh) hari sejak tanggal Surat Pemesanan Rumah. Apabila
-                    setelah lewatnya jangka waktu tersebut, maka PT. GADING MAS LAND berhak membatalkan Surat Pemesanan
-                    Rumah sesuai butir XI di bawah, maka seluruh pembayaran yang telah dilakukan pemesan tidak dapat
-                    dituntut kembali atau ditarik dari PT. GADING MAS LAND.
+                    setelah lewatnya jangka waktu tersebut, maka segala hal yang menjadi dasar aturan dalam surat
+                    ketentuan ini, berlaku sebagai PPJB.
                 </div>
 
                 <div class="section">
@@ -1170,7 +1221,7 @@
                 <div class="section">
                     <span class="section-title">III.</span> Penandatanganan Akta Jual Beli untuk proses Balik Nama
                     Sertifikat splitsing ke atas nama pembeli di hadapan Pejabat Pembuat Akta Tanah (PPAT)/NOTARIS
-                    dilaksanakan setelah pembayaran lunas atau saat penandatanganan Realisasi KPR.
+                    dilaksanakan setelah pembayaran lunas dan atau saat penandatanganan Realisasi KPR.
                 </div>
 
                 <div class="section">
@@ -1306,7 +1357,8 @@
         @endif
         @if ($promo)
             <p style="padding-top: 1pt;padding-left: 5pt;text-indent: 0pt;line-height: 114%;text-align: left;">Promo :
-                {{ $promo->promo }} - {{ $promo->kode_promo }}</p>
+                {{ $promo->promo }} - {{ $promo->kode_promo }}
+            </p>
             <p style="padding-top: 1pt;padding-left: 5pt;text-indent: 0pt;line-height: 114%;text-align: left;">Detail
                 Promo
                 : {{ $promo->keterangan }}</p>
@@ -1319,17 +1371,16 @@
         <table style="width: 100%;">
             <tr>
                 <td style="text-align:center;">
-                    <p style="">Sales Executive
-                    </p>
+                    <p style="">Sales Executive</p>
                     <br />
                     <br />
                     <p style="">{{ $fp->nama_ua }}</p>
                 </td>
                 <td style="text-align:center;">
-                    <p style="padding-top: 6pt;padding-left: 18pt;text-indent: 0pt;text-align: left;"></p>
-                    <p style="text-indent: 0pt;text-align: left;"><br /></p>
-                    <p style="text-indent: 0pt;text-align: left;"><br /></p>
-                    <p style="padding-left: 19pt;text-indent: 0pt;text-align: left;"></p>
+                    <p style="">Sales Manager</p>
+                    <br />
+                    <br />
+                    <p style="">………………………</p>
                 </td>
                 <td style="text-align:center;">
                     <p style="">Pemesan</p>
@@ -1339,21 +1390,20 @@
                 </td>
             </tr>
             <tr>
-                <td>
+                <td colspan="3">
                     <br />
                     <br />
                 </td>
             </tr>
             <tr>
                 <td style="text-align:center;">
-                    <p style="">Accounting
-                        Manager</p>
+                    <p style="">Accounting Manager</p>
                     <p style="text-indent: 0pt;text-align: left;"><br /></p>
                     <p style="text-indent: 0pt;text-align: left;"><br /></p>
                     <p style="">Andreas Wibisono Lugito</p>
                 </td>
                 <td style="text-align:center;">
-                    <p style="">Legal Manager
+                    <p style="">Legal</p>
                     <p style="text-indent: 0pt;text-align: left;"><br /></p>
                     <p style="text-indent: 0pt;text-align: left;"><br /></p>
                     <p style="">Dian Yunitasari</p>
@@ -1363,11 +1413,6 @@
                     <p style="text-indent: 0pt;text-align: left;"><br /></p>
                     <p style="text-indent: 0pt;text-align: left;"><br /></p>
                     <p style="">Gilbert Setiawan</p>
-
-                </td>
-                <td>
-
-                    <p style="text-indent: 0pt;text-align: left;"><br /></p>
                 </td>
             </tr>
 
