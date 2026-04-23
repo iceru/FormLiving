@@ -70,19 +70,15 @@
 
 
     </style>
-    <div class="col-md-6">
+    <div class="col-md-6 p-0">
         <div class="pagetitle card">
             <div class="card-body">
                 <div class="">
                     <div class="row">
                         <div class="col-md-12">
-
                             <p> {{ date('l, j F Y') }} <span id="clock"></span></p>
                         </div>
-
-
                     </div>
-
                     <h3>
                         <?php
                         $time = date('H:i');
@@ -99,8 +95,7 @@
                         ?>
                         , {{ $user->nama_ktgr }}
                     </h3>
-
-                </div><!-- End Page Title -->
+                </div>
             </div>
 
         </div>

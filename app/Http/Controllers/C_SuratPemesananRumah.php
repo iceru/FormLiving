@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\helpers;
+use App\Mail\PendingApprovalMail;
 use App\Models\Clusters;
 use App\Models\FormulirPesanan;
 use App\Models\PembayaranRumah;
@@ -16,6 +17,7 @@ use App\Models\UserProjek;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use PDF; // Gunakan facade PDF
 
@@ -64,7 +66,6 @@ class C_SuratPemesananRumah extends Controller
                 'user_menu.status_um' => 'aktif',
                 'user_menu.id_kategori' => $user->id_kategori
             ])->collect();
-            // dd($getUserMenu);
             $foundMatchingMenu = false;
 
 
@@ -197,35 +198,41 @@ class C_SuratPemesananRumah extends Controller
                     break;
                 }
             }
-            $dataHarga = array([
-                'hargaPricelist' => $getFormulirPesanan->harga_awal,
-                'hargaDiskon' => $getFormulirPesanan->total_diskon,
-                'hargaNetto' => $getFormulirPesanan->harga_netto,
-                'hargaPPN' => $getFormulirPesanan->harga_ppn,
-                'hargaTotal' => $getFormulirPesanan->total_harga,
-                'hargaBPHTB'    => $getFormulirPesanan->harga_bphtb
-            ]);
+            $dataHarga = array(
+                [
+                    'hargaPricelist' => $getFormulirPesanan->harga_awal,
+                    'hargaDiskon' => $getFormulirPesanan->total_diskon,
+                    'hargaNetto' => $getFormulirPesanan->harga_netto,
+                    'hargaPPN' => $getFormulirPesanan->harga_ppn,
+                    'hargaTotal' => $getFormulirPesanan->total_harga,
+                    'hargaBPHTB' => $getFormulirPesanan->harga_bphtb
+                ]
+            );
 
             if (!empty($getPromo)) {
                 if ($getPromo->free_ppn_promo == "yes") {
-                    $dataHarga = array([
-                        'hargaPricelist' => $getFormulirPesanan->harga_awal,
-                        'hargaDiskon' => $getFormulirPesanan->total_diskon,
-                        'hargaNetto' => $getFormulirPesanan->harga_netto,
-                        'hargaPPN' => $getFormulirPesanan->harga_ppn,
-                        'hargaTotal' => $getFormulirPesanan->total_harga,
-                        'hargaBPHTB'    => $getFormulirPesanan->harga_bphtb
-                    ]);
+                    $dataHarga = array(
+                        [
+                            'hargaPricelist' => $getFormulirPesanan->harga_awal,
+                            'hargaDiskon' => $getFormulirPesanan->total_diskon,
+                            'hargaNetto' => $getFormulirPesanan->harga_netto,
+                            'hargaPPN' => $getFormulirPesanan->harga_ppn,
+                            'hargaTotal' => $getFormulirPesanan->total_harga,
+                            'hargaBPHTB' => $getFormulirPesanan->harga_bphtb
+                        ]
+                    );
                 } else {
                     // Adjust these values based on your requirements
-                    $dataHarga = array([
-                        'hargaPricelist' => $getFormulirPesanan->harga_awal,
-                        'hargaDiskon' => $getFormulirPesanan->total_diskon,
-                        'hargaNetto' => $getFormulirPesanan->harga_netto,
-                        'hargaPPN' => $getFormulirPesanan->harga_ppn,
-                        'hargaTotal' => $getFormulirPesanan->total_harga,
-                        'hargaBPHTB'    => $getFormulirPesanan->harga_bphtb
-                    ]);
+                    $dataHarga = array(
+                        [
+                            'hargaPricelist' => $getFormulirPesanan->harga_awal,
+                            'hargaDiskon' => $getFormulirPesanan->total_diskon,
+                            'hargaNetto' => $getFormulirPesanan->harga_netto,
+                            'hargaPPN' => $getFormulirPesanan->harga_ppn,
+                            'hargaTotal' => $getFormulirPesanan->total_harga,
+                            'hargaBPHTB' => $getFormulirPesanan->harga_bphtb
+                        ]
+                    );
                 }
             }
             // dd($dataHarga);
@@ -279,7 +286,7 @@ class C_SuratPemesananRumah extends Controller
         }
     }
 
-      public function editSuratPemesananRumahAction(Request $request, $projek, $id)
+    public function editSuratPemesananRumahAction(Request $request, $projek, $id)
     {
         $getProjek = $this->projek->firstProjek('*', 'nama_projek', '=', $projek);
         $decryptedID = Crypt::decrypt($id);
@@ -293,17 +300,17 @@ class C_SuratPemesananRumah extends Controller
             $getPromo = '';
         }
         $dataPembayaranUpdate = array();
-        if($request->input('id_pembayaran')) {
+        if ($request->input('id_pembayaran')) {
             for ($i = 0; $i < count($request->input('id_pembayaran')); $i++) {
                 // if ($request->in) {
                 //     # code...
                 // }
                 $dataPembayaranUpdate[] = array(
                     'id_pem_rumah' => $request->input('id_pembayaran')[$i],
-                    'detail_pr'    => $request->input('keterangan')[$i],
-                    'tgl_pr'       => $request->input('tglPembayaran')[$i],
-                    'harga_pr'     => removePeriods($request->input('nominal')[$i]),
-                    'sisa_pr'      => removePeriods($request->input('nominal')[$i]),
+                    'detail_pr' => $request->input('keterangan')[$i],
+                    'tgl_pr' => $request->input('tglPembayaran')[$i],
+                    'harga_pr' => removePeriods($request->input('nominal')[$i]),
+                    'sisa_pr' => removePeriods($request->input('nominal')[$i]),
                 );
             }
         }
@@ -314,21 +321,21 @@ class C_SuratPemesananRumah extends Controller
                 ->where('id_pem_rumah', $data['id_pem_rumah'])
                 ->update([
                     'detail_pr' => $data['detail_pr'],
-                    'tgl_pr'    => $data['tgl_pr'],
-                    'harga_pr'  => $data['harga_pr'],
-                    'sisa_pr'   => $data['sisa_pr']
+                    'tgl_pr' => $data['tgl_pr'],
+                    'harga_pr' => $data['harga_pr'],
+                    'sisa_pr' => $data['sisa_pr']
                 ]);
         }
-        if($request->input('tipePembayaran') != null){
+        if ($request->input('tipePembayaran') != null) {
             $dataPembayaranNew = array();
-            for ($k = 0; $k < count($request->input('tipePembayaran')); $k++){
+            for ($k = 0; $k < count($request->input('tipePembayaran')); $k++) {
                 $dataPembayaranNew[] = array(
                     'id_rumah' => $getFormulirPesanan->id_rumah,
                     'id_formulir' => $decryptedID,
-                    'detail_pr'    => $request->input('tipePembayaran')[$k],
-                    'tgl_pr'       => $request->input('tglPembayaranBaru')[$k],
-                    'harga_pr'     => removePeriods($request->input('nominalBaru')[$k]),
-                    'sisa_pr'      => removePeriods($request->input('nominalBaru')[$k]),
+                    'detail_pr' => $request->input('tipePembayaran')[$k],
+                    'tgl_pr' => $request->input('tglPembayaranBaru')[$k],
+                    'harga_pr' => removePeriods($request->input('nominalBaru')[$k]),
+                    'sisa_pr' => removePeriods($request->input('nominalBaru')[$k]),
                 );
             }
             $this->pembayaranRumah->insertPembayaranRumah($dataPembayaranNew);
@@ -344,10 +351,10 @@ class C_SuratPemesananRumah extends Controller
             if ($user->kategori == "AdminFormsLiving" || $user->kategori == "SuperAdmin") {
                 $dataUpdate = [
                     'no_fp' => $request->nofp . $request->nofp2,
-                    'status_market_fp'   => "accept",
-                    'tgl_market_fp'  => date('d-m-y h:m:s'),
-                    'status_staf_acc_fp'   => "accept",
-                    'tgl_staff_acc_fp'  => date('d-m-y h:m:s'),
+                    'status_market_fp' => "accept",
+                    'tgl_market_fp' => date('d-m-y h:m:s'),
+                    'status_staf_acc_fp' => "accept",
+                    'tgl_staff_acc_fp' => date('d-m-y h:m:s'),
                 ];
 
                 $dataUpdateUSer = [
@@ -358,42 +365,42 @@ class C_SuratPemesananRumah extends Controller
                     'no_telp_plgn' => $request->tlp,
                     'email_plgn' => $request->email,
                     'tempat_lahir_plgn' => $request->tempat,
-                    'tgl_lahir_plgn'    => $request->tglLahir
+                    'tgl_lahir_plgn' => $request->tglLahir
                 ];
-                 $dataKKPR = [
-                    'harga_awal'    => removePeriods($request->hargaPricelist),
+                $dataKKPR = [
+                    'harga_awal' => removePeriods($request->hargaPricelist),
                     'total_diskon' => removePeriods($request->hargaDiskon),
-                    'harga_netto'  => removePeriods($request->hargaNetto),
+                    'harga_netto' => removePeriods($request->hargaNetto),
                     'harga_bphtb' => removePeriods($request->hargaBPHTB),
-                    'harga_ppn'     => removePeriods($request->hargaPPN),
-                    'total_harga'  => removePeriods($request->hargaTotal),
+                    'harga_ppn' => removePeriods($request->hargaPPN),
+                    'total_harga' => removePeriods($request->hargaTotal),
                 ];
             }
 
             if ($user->kategori == "StaffAcc" || $user->kategori == "SuperAdmin") {
                 $dataUpdate = [
                     'no_fp' => $request->nofp . $request->nofp2,
-                    'status_market_fp'   => "accept",
-                    'tgl_market_fp'  => date('d-m-y h:m:s'),
-                    'status_staf_acc_fp'   => "accept",
-                    'tgl_staff_acc_fp'  => date('d-m-y h:m:s'),
+                    'status_market_fp' => "accept",
+                    'tgl_market_fp' => date('d-m-y h:m:s'),
+                    'status_staf_acc_fp' => "accept",
+                    'tgl_staff_acc_fp' => date('d-m-y h:m:s'),
                 ];
             }
 
             if ($user->kategori == "AdminAccounting") {
                 $dataKKPR = [
-                    'harga_awal'    => removePeriods($request->hargaPricelist),
+                    'harga_awal' => removePeriods($request->hargaPricelist),
                     'total_diskon' => removePeriods($request->hargaDiskon),
-                    'harga_netto'  => removePeriods($request->hargaNetto),
+                    'harga_netto' => removePeriods($request->hargaNetto),
                     'harga_bphtb' => removePeriods($request->hargaBPHTB),
-                    'harga_ppn'     => removePeriods($request->hargaPPN),
-                    'total_harga'  => removePeriods($request->hargaTotal),
+                    'harga_ppn' => removePeriods($request->hargaPPN),
+                    'total_harga' => removePeriods($request->hargaTotal),
                 ];
                 $dataUpdate = [
 
                     'no_fp' => $request->nofp . $request->nofp2,
-                    'status_acc_fp'   => "accept",
-                    'tgl_acc_fp'  => date('d-m-y h:m:s'),
+                    'status_acc_fp' => "accept",
+                    'tgl_acc_fp' => date('d-m-y h:m:s'),
 
                 ];
                 $dataUpdateUSer = [
@@ -404,29 +411,29 @@ class C_SuratPemesananRumah extends Controller
                     'no_telp_plgn' => $request->tlp,
                     'email_plgn' => $request->email,
                     'tempat_lahir_plgn' => $request->tempat,
-                    'tgl_lahir_plgn'    => $request->tanggalLahir
+                    'tgl_lahir_plgn' => $request->tanggalLahir
                 ];
             }
-            // dd($dataKKPR);
+
             if ($user->kategori == "AdminLegal") {
 
                 $dataUpdate = [
-                    'status_legal_fp'   => "accept",
-                    'tgl_legal_fp'  => date('d-m-y h:m:s'),
+                    'status_legal_fp' => "accept",
+                    'tgl_legal_fp' => date('d-m-y h:m:s'),
                 ];
             }
 
             if ($user->kategori == "AdminLegal" || $user->kategori == "SuperAdmin") {
-                $dataRumah = ['luas_tanah'    => $request->luasTanah];
+                $dataRumah = ['luas_tanah' => $request->luasTanah];
                 DB::table('rumah')
                     ->where('id_rumah', $getFormulirPesanan->id_rumah)
                     ->update($dataRumah);
             }
 
-            if(!empty($dataKKPR)){
+            if (!empty($dataKKPR)) {
                 DB::table('kalkulator_kpr')
-                ->where('id_kkpr', $getFormulirPesanan->id_kkpr)
-                ->update($dataKKPR);
+                    ->where('id_kkpr', $getFormulirPesanan->id_kkpr)
+                    ->update($dataKKPR);
             }
 
             DB::table('formulir_pesanan')
@@ -476,47 +483,51 @@ class C_SuratPemesananRumah extends Controller
         }
 
         if ($promo && $promo->free_ppn_promo == "yes") {
-            $dataHarga = array([
-                'hargaPricelist' => $fpJadi->harga_awal,
-                'hargaDiskon' => $fpJadi->total_diskon,
-                'hargaNetto' => $fpJadi->harga_netto_kkpr,
-                'hargaPPN' => $fpJadi->harga_ppn_kkpr,
-                'hargaTotal' => $fpJadi->total_harga
-            ]);
+            $dataHarga = array(
+                [
+                    'hargaPricelist' => $fpJadi->harga_awal,
+                    'hargaDiskon' => $fpJadi->total_diskon,
+                    'hargaNetto' => $fpJadi->harga_netto_kkpr,
+                    'hargaPPN' => $fpJadi->harga_ppn_kkpr,
+                    'hargaTotal' => $fpJadi->total_harga
+                ]
+            );
         } else {
             // Adjust these values based on your requirements
-            $dataHarga = array([
-                'hargaPricelist' => $fpJadi->harga_awal,
-                'hargaDiskon' => $fpJadi->total_diskon,
-                'hargaNetto' => $fpJadi->harga_netto,
-                'hargaPPN' => $fpJadi->harga_ppn,
-                'hargaTotal' => $fpJadi->total_harga
-            ]);
+            $dataHarga = array(
+                [
+                    'hargaPricelist' => $fpJadi->harga_awal,
+                    'hargaDiskon' => $fpJadi->total_diskon,
+                    'hargaNetto' => $fpJadi->harga_netto,
+                    'hargaPPN' => $fpJadi->harga_ppn,
+                    'hargaTotal' => $fpJadi->total_harga
+                ]
+            );
         }
-        
-        if($fpJadi->status !== 'Sold') {
+
+        if ($fpJadi->status !== 'Sold') {
             DB::table('rumah')
-            ->where('id_rumah', $fpJadi->id_rumah)
-            ->update(['status' => 'Sold']);
+                ->where('id_rumah', $fpJadi->id_rumah)
+                ->update(['status' => 'Sold']);
         }
 
         $logo1Path = public_path('images/logo-forms-living1.png');
         $logo2Path = public_path('images/logo-tidar-gray.png');
         $logo1Base64 = base64_encode(file_get_contents($logo1Path));
         $logo2Base64 = base64_encode(file_get_contents($logo2Path));
-        
+
         $pdf = \PDF::setOptions([
             'isHtml5ParserEnabled' => true,
             'isRemoteEnabled' => true,
         ])
-        ->loadView('pdf.printSPR-dashboard', [
-            'fp' => $fpJadi,
-            'dtPembayaran' => $dataPembayaran,
-            'promo' => $promo,
-            'dataHarga' => $dataHarga,
-            'logo1' => $logo1Base64,
-            'logo2' => $logo2Base64,
-        ]);
+            ->loadView('pdf.printSPR-dashboard', [
+                'fp' => $fpJadi,
+                'dtPembayaran' => $dataPembayaran,
+                'promo' => $promo,
+                'dataHarga' => $dataHarga,
+                'logo1' => $logo1Base64,
+                'logo2' => $logo2Base64,
+            ]);
         $pdf->setPaper('F4', 'potrait');
         $pdf->render();
         $pdfData = $pdf->output();
@@ -530,7 +541,7 @@ class C_SuratPemesananRumah extends Controller
     {
         $getProjek = $this->projek->firstProjek('*', 'nama_projek', '=', $projek);
 
-        $dataUpdate  = array(
+        $dataUpdate = array(
             'id_promo' => $request->promo
         );
 
@@ -540,5 +551,114 @@ class C_SuratPemesananRumah extends Controller
             ->update($dataUpdate);
 
         return redirect()->route('editSuratPemesananRumah.admin', [$getProjek->nama_projek, Crypt::encrypt($decryptedID)])->with('success', 'promo telah di ubah!');
+    }
+    public function approve(Request $request, $id)
+    {
+        $user = $this->userAdmin->getUserKategoriWhere('user_admin.id_user_admin', '=', session::get('user'));
+
+        try {
+            $decryptedID = Crypt::decrypt($id);
+        } catch (\Exception $e) {
+            return back()->with('error', 'ID tidak valid.');
+        }
+
+        $fp = DB::table('formulir_pesanan')
+            ->join('rumah', 'formulir_pesanan.id_rumah', '=', 'rumah.id_rumah')
+            ->join('user_pelanggan', 'formulir_pesanan.id_pelanggan', '=', 'user_pelanggan.id_pelanggan')
+            ->where('id_formulir', $decryptedID)
+            ->first();
+
+        if (!$fp) {
+            return back()->with('error', 'Data tidak ditemukan.');
+        }
+
+        $level = $request->level;
+        $updateData = [];
+        $nextKategori = null;
+        $nextLevelLabel = null;
+
+        switch ($level) {
+            case 1: // Lead Sales -> Next: Accounting
+                if ($user->kategori !== 'LeadSales')
+                    return back()->with('error', 'Akses ditolak.');
+                $updateData = ['status_approval' => 1, 'approved_lead_sales_at' => now()];
+                $nextKategori = ['AdminAccounting', 'StafAcc'];
+                $nextLevelLabel = 'Admin Accounting';
+                break;
+
+            case 2: // Accounting -> Next: Head Accounting
+                if (!in_array($user->kategori, ['AdminAccounting', 'StafAcc']))
+                    return back()->with('error', 'Akses ditolak.');
+                if ($fp->status_approval < 1)
+                    return back()->with('error', 'Menunggu Lead Sales.');
+                $updateData = ['status_approval' => 2, 'approved_admin_acc_at' => now()];
+                $nextKategori = ['HeadAccounting']; // New Level
+                $nextLevelLabel = 'Head Accounting';
+                break;
+
+            case 3: // Head Accounting -> Next: Admin Legal
+                if ($user->kategori !== 'HeadAccounting')
+                    return back()->with('error', 'Akses ditolak.');
+                if ($fp->status_approval < 2)
+                    return back()->with('error', 'Menunggu Admin Accounting.');
+                $updateData = ['status_approval' => 3, 'approved_head_acc_at' => now()];
+                $nextKategori = ['AdminLegal']; // New Level
+                $nextLevelLabel = 'Admin Legal';
+                break;
+
+            case 4: // Admin Legal -> Next: Legal
+                if ($user->kategori !== 'AdminLegal')
+                    return back()->with('error', 'Akses ditolak.');
+                if ($fp->status_approval < 3)
+                    return back()->with('error', 'Menunggu Head Accounting.');
+                $updateData = ['status_approval' => 4, 'approved_admin_legal_at' => now()];
+                $nextKategori = ['ManagerLegal'];
+                $nextLevelLabel = 'Manager Legal';
+                break;
+
+            case 5: // Legal -> Next: CEO
+                if ($user->kategori !== 'ManagerLegal')
+                    return back()->with('error', 'Akses ditolak.');
+                if ($fp->status_approval < 4)
+                    return back()->with('error', 'Menunggu Admin Legal.');
+                $updateData = ['status_approval' => 5, 'approved_head_legal_at' => now()];
+                $nextKategori = ['CEO'];
+                $nextLevelLabel = 'CEO';
+                break;
+
+            case 6: // CEO (Final)
+                if ($user->kategori !== 'CEO')
+                    return back()->with('error', 'Akses ditolak.');
+                if ($fp->status_approval < 5)
+                    return back()->with('error', 'Menunggu Manager Legal.');
+                $updateData = ['status_approval' => 6, 'approved_ceo_at' => now()];
+                break;
+
+            default:
+                return back()->with('error', 'Level approval tidak valid.');
+        }
+
+        DB::table('formulir_pesanan')->where('id_formulir', $decryptedID)->update($updateData);
+
+        if ($nextKategori) {
+            $this->notifyNextApprovers($fp, $nextKategori, $nextLevelLabel);
+        }
+
+        return back()->with('success', 'Status approval berhasil diperbarui.');
+    }
+
+    private function notifyNextApprovers($fp, array $kategoriList, string $levelLabel)
+    {
+        $nextApprovers = DB::table('user_admin')
+            ->join('ktgr_admin', 'user_admin.id_kategori', '=', 'ktgr_admin.id_kategori')
+            ->whereIn('ktgr_admin.kategori', $kategoriList)
+            ->where('user_admin.status_ua', 'aktif')
+            ->pluck('user_admin.email_ua');
+
+        foreach ($nextApprovers as $email) {
+            if ($email) {
+                Mail::to($email)->send(new PendingApprovalMail($fp, $levelLabel));
+            }
+        }
     }
 }

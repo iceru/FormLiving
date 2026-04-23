@@ -1,13 +1,13 @@
 @extends('V_Admin.app')
 
 @extends('flashdata')
-@section('title','Form One | User')
-@section('pageTitle','User')
-@section('back',route('userKategori.admin') )
-@section('breadcrumb','User')
-{{--  @section('breadcrumb2','Rincian Pekerjaan Termin')
-@section('breadcrumb3','Rincian Pekerjaan')
-@section('breadcrumb4','Tambah Rincian Pekerjaan')  --}}
+@section('title', 'Form One | User')
+@section('pageTitle', 'User')
+@section('back', route('userKategori.admin'))
+@section('breadcrumb', 'User')
+{{-- @section('breadcrumb2', 'Rincian Pekerjaan Termin')
+@section('breadcrumb3', 'Rincian Pekerjaan')
+@section('breadcrumb4', 'Tambah Rincian Pekerjaan') --}}
 
 @section('content')
 
@@ -68,9 +68,9 @@
                                                 <i class="fa fa-eye" aria-hidden="true"></i>
                                             </button>
 
-                                            <div class="modal modal-form fade" id="seeKategori{{ $no }}"
-                                                data-backdrop="static" data-keyboard="false" tabindex="-1"
-                                                aria-labelledby="order-informationLabel" aria-hidden="true">
+                                            <div class="modal modal-form fade" id="seeKategori{{ $no }}" data-backdrop="static"
+                                                data-keyboard="false" tabindex="-1" aria-labelledby="order-informationLabel"
+                                                aria-hidden="true">
                                                 <div class="modal-dialog modal-lg modal-dialog-centered">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -109,8 +109,7 @@
                                                                                             <p
                                                                                                 class="badge text-bg-success badge--success mb-1 ">
 
-                                                                                                <i
-                                                                                                    class="{{ $menuKategori->icon_menu }}">
+                                                                                                <i class="{{ $menuKategori->icon_menu }}">
                                                                                                     {{ $menuKategori->menu }}
                                                                                                 </i>
                                                                                             </p>
@@ -120,8 +119,7 @@
                                                                                             <p
                                                                                                 class="badge text-bg-success badge--danger mb-1 ">
 
-                                                                                                <i
-                                                                                                    class="{{ $menuKategori->icon_menu }}">
+                                                                                                <i class="{{ $menuKategori->icon_menu }}">
                                                                                                     {{ $menuKategori->menu }}
                                                                                                 </i>
                                                                                             </p>
@@ -157,148 +155,116 @@
                                                 data-target=".bd-example-modal-lg{{ $no }}">
                                                 <i class="fas fa-edit    "></i>
                                             </button>
-
-                                            <div class="modal modal-form fade" id="editUserKategori{{ $no }}"
-                                                data-backdrop="static" data-keyboard="false" tabindex="-1"
-                                                aria-labelledby="order-informationLabel" aria-hidden="true">
-                                                <div class="modal-dialog modal-lg modal-dialog-centered">
+                                            <div class="modal fade" id="editUserKategori{{ $no }}" data-backdrop="static"
+                                                data-keyboard="false" tabindex="-1" role="dialog"
+                                                aria-labelledby="label{{ $no }}" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                                     <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">Ubah Detail User
-
+                                                        <div class="modal-header bg-light">
+                                                            <h5 class="modal-title" id="label{{ $no }}">
+                                                                <i class="bi bi-pencil-square mr-2"></i>Ubah Detail User
                                                             </h5>
                                                             <button type="button" class="close" data-dismiss="modal"
                                                                 aria-label="Close">
-                                                                <span aria-hidden="true"><i class="bi bi-x-lg"></i></span>
+                                                                <span aria-hidden="true">&times;</span>
                                                             </button>
                                                         </div>
-                                                        <div class="modal-body">
-                                                            <form
-                                                                action="{{ route('updateUserKategoriAction.admin', $getKategori->id_kategori) }}"
-                                                                method="POST" enctype="multipart/form-data">
-                                                                @csrf
-                                                                <div class="product-listing">
 
-                                                                    <div class="modal-body">
-                                                                        <center>
-                                                                            <h4 class="">
-                                                                                Menu
-                                                                            </h4>
-                                                                        </center>
-                                                                        <div class="row">
+                                                        <form
+                                                            action="{{ route('updateUserKategoriAction.admin', $getKategori->id_kategori) }}"
+                                                            method="POST" enctype="multipart/form-data">
+                                                            @csrf
+                                                            <div class="modal-body px-4 py-4">
 
-                                                                            @foreach ($getMenuKategori as $menuKategori)
-                                                                                @if ($getKategori->id_kategori == $menuKategori->id_kategori)
-                                                                                    <div class="col-md-3 mb-1">
-
-                                                                                        <a href="{{ route('changeStatusUserKategori.admin', $menuKategori->id_user_menu) }}"
-                                                                                            class="badge text-bg-success badge--{{ $menuKategori->status_um == 'aktif' ? 'success' : 'danger' }} mb-1 change-status-link"
-                                                                                            data-id="{{ $menuKategori->id_user_menu }}"
-                                                                                            data-status="{{ $menuKategori->status_um }}"
-                                                                                            id="badge{{ $menuKategori->id_user_menu }}">
-                                                                                            <i
-                                                                                                class="{{ $menuKategori->icon_menu }}">
-                                                                                                {{ $menuKategori->menu }}
-                                                                                            </i>
-                                                                                            @if ($menuKategori->status_um == 'aktif')
-                                                                                                <i id="toggle{{ $menuKategori->id_user_menu }}"
-                                                                                                    class="bi bi-toggle2-off"></i>
-                                                                                            @else
-                                                                                                <i id="toggle{{ $menuKategori->id_user_menu }}"
-                                                                                                    class="bi bi-toggle2-on"></i>
-                                                                                            @endif
-                                                                                        </a>
-                                                                                    </div>
-                                                                                @endif
-                                                                            @endforeach
-
-                                                                        </div>
-
-                                                                        <center>
-                                                                            <h4 class="">
-
-                                                                                @foreach ($getMenu as $menu)
-                                                                                    @php
-                                                                                        $matchFoundMenu = false;
-                                                                                    @endphp
-
-                                                                                    @foreach ($getMenuKategori as $menuKategori)
-                                                                                        {{--  {{ $menu->id_menu }} -
-                                                                                {{ $menuKategori->id_menu }}  --}}
-                                                                                        <!-- Debugging -->
-                                                                                        @if ($menu->id_menu == $menuKategori->id_menu && $getKategori->id_kategori == $menuKategori->id_kategori)
-                                                                                            @php
-                                                                                                $matchFoundMenu = true;
-                                                                                                break;
-                                                                                            @endphp
-                                                                                        @endif
-                                                                                    @endforeach
-                                                                                @endforeach
-                                                                                @if (!$matchFoundMenu)
-                                                                                    Tambah Menu
-                                                                                @else
-                                                                                    <p
-                                                                                        class="badge text-bg-info badge--success mb-1">
-                                                                                        Sudah di tambahkan semua menu
-                                                                                    </p>
-                                                                                @endif
-
-                                                                            </h4>
-                                                                        </center>
-                                                                        <div class="row">
-
-                                                                            @foreach ($getMenu as $menu)
-                                                                                @php
-                                                                                    $matchFound = false;
-                                                                                @endphp
-
-                                                                                @foreach ($getMenuKategori as $menuKategori)
-                                                                                    {{--  {{ $menu->id_menu }} -
-                                                                                    {{ $menuKategori->id_menu }}  --}}
-                                                                                    <!-- Debugging -->
-                                                                                    @if ($menu->id_menu == $menuKategori->id_menu && $getKategori->id_kategori == $menuKategori->id_kategori)
-                                                                                        @php
-                                                                                            $matchFound = true;
-                                                                                            break;
-                                                                                        @endphp
-                                                                                    @endif
-                                                                                @endforeach
-
-                                                                                @if (!$matchFound)
-                                                                                    <div class="col-md-3 mb-1">
-                                                                                        <p
-                                                                                            class="badge text-bg-success badge--success mb-1">
-                                                                                            <i
-                                                                                                class="{{ $menu->icon_menu }}">
-                                                                                                {{ $menu->menu }}
-                                                                                            </i>
-                                                                                            <input type="checkbox"
-                                                                                                name="menu[]"
-                                                                                                value="{{ $menu->id_menu }}">
-                                                                                        </p>
-                                                                                    </div>
-                                                                                @endif
-                                                                            @endforeach
-
-                                                                        </div>
-                                                                        <div class="row pt-4">
-                                                                            <div class="col-12 mb-1">
-                                                                                <button type="submit"
-                                                                                    class="btn-fd-primary w-100">Submit</button>
-                                                                            </div>
-                                                                            <div class="col-12 mb-1">
-                                                                                <button
-                                                                                    class="btn-fd-primary bg-danger w-100"
-                                                                                    data-dismiss="modal">Close</button>
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
+                                                                <div class="text-center mb-4">
+                                                                    <h6 class="text-uppercase text-muted font-weight-bold"
+                                                                        style="letter-spacing: 1px;">Menu Saat Ini</h6>
+                                                                    <hr style="width: 50px; border-top: 2px solid #007bff;">
                                                                 </div>
 
-                                                            </form>
-                                                        </div>
+                                                                <div class="row mb-4">
+                                                                    @foreach ($getMenuKategori as $menuKategori)
+                                                                        @if ($getKategori->id_kategori == $menuKategori->id_kategori)
+                                                                            <div class="col-md-4 col-sm-6 mb-2">
+                                                                                <div class="btn {{ $menuKategori->status_um == 'aktif' ? 'btn-success' : 'btn-danger' }} btn-sm btn-block d-flex justify-content-between align-items-center py-2 px-3 shadow-sm change-status-link"
+                                                                                    id="badge{{ $menuKategori->id_user_menu }}">
+                                                                                    <span><i
+                                                                                            class="{{ $menuKategori->icon_menu }} mr-2"></i>{{ $menuKategori->menu }}</span>
+                                                                                    <i class="bi {{ $menuKategori->status_um == 'aktif' ? 'bi-toggle2-on' : 'bi-toggle2-off' }}"
+                                                                                        style="font-size: 1.2rem;"></i>
+                                                                                </div>
+                                                                            </div>
+                                                                        @endif
+                                                                    @endforeach
+                                                                </div>
 
+                                                                <div class="text-center mb-4">
+                                                                    <h6 class="text-uppercase text-muted font-weight-bold"
+                                                                        style="letter-spacing: 1px;">Tambah Menu Baru</h6>
+                                                                    <hr style="width: 50px; border-top: 2px solid #28a745;">
+                                                                </div>
+
+                                                                <div class="row">
+                                                                    @php
+                                                                        // Using Laravel Collections to simplify logic and prevent formatter errors
+                                                                        $assignedMenuIds = $getMenuKategori
+                                                                            ->where(
+                                                                                'id_kategori',
+                                                                                $getKategori->id_kategori,
+                                                                            )
+                                                                            ->pluck('id_menu')
+                                                                            ->toArray();
+                                                                        $availableToAdd = $getMenu->reject(
+                                                                            fn($m) => in_array(
+                                                                                $m->id_menu,
+                                                                                $assignedMenuIds,
+                                                                            ),
+                                                                        );
+                                                                    @endphp
+
+                                                                    @forelse ($availableToAdd as $menu)
+                                                                        <div class="col-md-6 col-lg-4 mb-3">
+                                                                            <div class="custom-control custom-checkbox border rounded p-3 d-flex align-items-center hover-item"
+                                                                                style="min-height: 60px;">
+                                                                                <input type="checkbox" name="menu[]"
+                                                                                    value="{{ $menu->id_menu }}"
+                                                                                    class="custom-control-input"
+                                                                                    id="menuCheck{{ $menu->id_menu }}{{ $no }}">
+                                                                                <label
+                                                                                    class="custom-control-label d-flex align-items-center w-100 cursor-pointer ml-4"
+                                                                                    for="menuCheck{{ $menu->id_menu }}{{ $no }}">
+                                                                                    <i
+                                                                                        class="{{ $menu->icon_menu }} mr-2 text-primary"></i>
+                                                                                    <span
+                                                                                        class="font-weight-bold text-dark">{{ $menu->menu }}</span>
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                    @empty
+                                                                        <div class="col-12 text-center py-3">
+                                                                            <div class="alert alert-secondary d-inline-block px-5">
+                                                                                <i class="bi bi-info-circle mr-2"></i>Semua
+                                                                                menu sudah tersedia.
+                                                                            </div>
+                                                                        </div>
+                                                                    @endforelse
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="modal-footer bg-light">
+                                                                <div class="w-100">
+                                                                    <button type="submit"
+                                                                        class="btn btn-primary btn-block py-2 mb-2">
+                                                                        <i class="bi bi-save mr-2"></i>Simpan Perubahan
+                                                                    </button>
+                                                                    <button type="button"
+                                                                        class="btn btn-outline-secondary btn-block py-2"
+                                                                        data-dismiss="modal">
+                                                                        Batal
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>
@@ -324,8 +290,8 @@
 
 
         <script>
-            $(document).ready(function() {
-                $('.change-status-link').on('click', function(e) {
+            $(document).ready(function () {
+                $('.change-status-link').on('click', function (e) {
                     e.preventDefault();
                     var id = $(this).data('id');
                     var status = $(this).data('status');
@@ -336,9 +302,9 @@
                         url: '{{ route('changeStatusUserKategori.admin', ['id' => ':id']) }}'
                             .replace(':id', id),
 
-                        success: function(data) {
+                        success: function (data) {
                             // Handle success, update UI or show a success message
-                            {{--  console.log(data);  --}}
+                            { { --console.log(data); --} }
                             var badge = document.getElementById('badge' + id);
                             if (data.status_um == 'aktif') {
                                 badge.className = "badge text-bg-success badge--success mb-1";
@@ -357,7 +323,7 @@
 
 
                         },
-                        error: function(error) {
+                        error: function (error) {
                             // Handle error, show an error message or handle as needed
                             console.log(error);
                         }
@@ -367,7 +333,7 @@
         </script>
 
         <script>
-            $(document).ready(function() {
+            $(document).ready(function () {
                 $('#userAdmin').DataTable({
                     lengthMenu: [
                         [25, 50, 100, -1],
@@ -377,4 +343,4 @@
             });
         </script>
 
-    @endsection
+@endsection
