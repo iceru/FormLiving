@@ -294,7 +294,10 @@
             </div>
 
             <div class="cta">
-                <a href="{{ url('/login') }}" class="btn">Buka Sistem & Approve</a>
+                <a href="{{ url('/login') }}" class="btn"
+                    style="display: inline-block; background-color: #a47449; color: #ffffff; text-decoration: none; padding: 13px 32px; border-radius: 6px; font-size: 14px; font-weight: 600; letter-spacing: 0.3px;">
+                    <span style="color: #ffffff; text-decoration: none;">Buka Sistem & Approve</span>
+                </a>
             </div>
         </div>
 
