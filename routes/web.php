@@ -456,8 +456,9 @@ route::post('/costumTermin/{projek}/{id_rumah}', [C_Checklist::class, 'customTer
 route::get('/print-checklist/{projek}/{id_rumah}', [C_Checklist::class, 'printChecklist'])->name('printChecklist.admin');
 route::get('/terminChecklist/{projek}/{id_rumah}', [C_Checklist::class, 'getTerminChecklist'])->name('getTerminChecklist.admin');
 route::get('/listChecklist/{projek}/{id_rumah}/{termin}', [C_Checklist::class, 'getListChecklist'])->name('getListChecklist.admin');
-route::get('/editCheclist/{projek}/{id_rumah}/{termin}/{id_checklist}', [C_Checklist::class, 'editChecklist'])->name('editChecklist.admin');
-route::post('/editChecklistAction/{projek}/{id_rumah}/{termin}/{id_checklist}', [C_Checklist::class, 'editChecklistAction'])->name('editChecklistAction.admin');
+route::get('/editChecklist/{projek}/{id_rumah}/{termin}/{id_checklist}', [C_Checklist::class, 'editChecklist'])->name('editChecklist.admin');
+route::get('/editCheclist/{projek}/{id_rumah}/{termin}/{id_checklist}', [C_Checklist::class, 'editChecklist']);
+route::match(['get', 'post'], '/editChecklistAction/{projek}/{id_rumah}/{termin}/{id_checklist}', [C_Checklist::class, 'editChecklistAction'])->name('editChecklistAction.admin');
 route::post('/editPengawas/action/{projek}/{id_rumah}', [C_Checklist::class, 'EditPengawas'])->name('editPengawas.admin');
 route::post('/checkPinPendamping/{projek}/{id_rumah}/{termin}/{id_checklist}', [C_Checklist::class, 'checkPinPendamping'])->name('checkPinPendamping.admin');
 
@@ -506,8 +507,6 @@ route::post('/buat-harian-petugas-keamanan/action/{projek}', [C_PetugasKeamanan:
 route::get('/taman-REM/{projek}', [C_TamanREM::class, 'tamanREM'])->name('tamanREM.admin');
 Route::get('/buat-harian-taman-REM/{projek}', [C_TamanREM::class, 'addHarianTamanREM'])->name('addHarianTamanREM.admin');
 route::post('/buat-harian-taman-REM/action/{projek}', [C_TamanREM::class, 'addHarianTamanREMAction'])->name('addHarianTamanREMAction.admin');
-
-route::get('/pesandong/{param}', [LaporanRem::class, 'test_message'])->name('test.message');
 
 // TEST DOKU
 //Route::get('/payment', [C_Payment::class,'showPaymentForm'])->name('payment.admin');
@@ -574,5 +573,4 @@ Route::post('/edit-profile-guest-action/{projek}', [C_Profile::class, 'editUserP
 // GET NOTIFICATION
 Route::get('/notificationsPelanggan', [C_NotificationPelanggan::class, 'fetchNotifications'])->name('notifications.fetch');
 Route::post('/notificationsPelangganAsRead', [C_NotificationPelanggan::class, 'markAsRead'])->name('notifications.markAsRead');
-
 

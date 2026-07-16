@@ -1,11 +1,11 @@
 @extends('V_Admin.app')
 
 @extends('flashdata')
-@section('title','Form One | Dashboard')
-@section('pageTitle','Dashboard')
-@section('back',route('dashboard.admin',[$getProjek->nama_projek]) )
-@section('breadcrumb','Dashboard')
-{{--  @section('breadcrumb2','Ubah Rumah')  --}}
+@section('title', 'Form One | Dashboard')
+@section('pageTitle', 'Dashboard')
+@section('back', route('dashboard.admin', [$getProjek->nama_projek]))
+@section('breadcrumb', 'Dashboard')
+{{-- @section('breadcrumb2','Ubah Rumah') --}}
 @section('content')
 
 
@@ -67,8 +67,6 @@
                 display: none
             }
         }
-
-
     </style>
     <div class="col-md-6 p-0">
         <div class="pagetitle card">
@@ -81,18 +79,18 @@
                     </div>
                     <h3>
                         <?php
-                        $time = date('H:i');
+    $time = date('H:i');
 
-                        if ($time >= '05:00' && $time < '11:00') {
-                            echo 'Good morning';
-                        } elseif ($time >= '11:00' && $time < '15:00') {
-                            echo 'Good afternoon';
-                        } elseif ($time >= '15:00' && $time < '19:00') {
-                            echo 'Good evening';
-                        } else {
-                            echo 'Good night';
-                        }
-                        ?>
+    if ($time >= '05:00' && $time < '11:00') {
+        echo 'Good morning';
+    } elseif ($time >= '11:00' && $time < '15:00') {
+        echo 'Good afternoon';
+    } elseif ($time >= '15:00' && $time < '19:00') {
+        echo 'Good evening';
+    } else {
+        echo 'Good night';
+    }
+                            ?>
                         , {{ $user->nama_ktgr }}
                     </h3>
                 </div>
@@ -152,7 +150,7 @@
                                         Rumah</p>
                                 </div>
                                 <div class="col-5">
-                                    <h1 class="font-light text-right mb-0">  {{ $remainHouse->count }}</h1>
+                                    <h1 class="font-light text-right mb-0"> {{ $remainHouse->count }}</h1>
                                 </div>
                             </div>
                         </div>
@@ -187,7 +185,7 @@
                                     <p class="font-16 m-b-5">Agen</p>
                                 </div>
                                 <div class="col-5">
-                                    <h1 class="font-light text-right mb-0">  {{ $agentWithoutCompany->userCount }}</h1>
+                                    <h1 class="font-light text-right mb-0"> {{ $agentWithoutCompany->userCount }}</h1>
                                 </div>
                             </div>
                         </div>
@@ -231,22 +229,21 @@
 
                     <div class="table-responsive">
 
-                        <div class="map svg-container"
-                            style="background-color: white ;width: 100%;
-                                    ">
+                        <div class="map svg-container" style="background-color: white ;width: 100%; display: flex; justify-content: center; align-items: center; overflow: auto;
+                                            ">
 
 
-                            {{-- <img src="{{ asset('Home') }}/images/svg/map.svg" alt=""/> --}}
+                            {{-- <img src="{{ asset('Home') }}/images/svg/map.svg" alt="" /> --}}
                             {{-- @include('map.svg') --}}
-                    {!! file_get_contents(resource_path($fileSVG)) !!}
+                            {!! file_get_contents(resource_path($fileSVG)) !!}
                             <script>
                                 var svg = document.getElementById('Layer_1');
 
 
 
                                 var data = {!! json_encode($rumah) !!};
-                                $(document).ready(function() {
-                                    data.forEach(function(item) {
+                                $(document).ready(function () {
+                                    data.forEach(function (item) {
                                         var block = item.blok;
                                         var nomor = item.nomor;
 
@@ -257,11 +254,11 @@
                                             idrumah.style.fill = color(item.status);
                                             idrumah.setAttribute('fill', color(item.status));
 
-                                            idrumah.addEventListener('click', function() {
+                                            idrumah.addEventListener('click', function () {
                                                 // Show the modal or perform other actions
                                                 showModal(idrumah, item); // Pass idrumah to the showModal function
                                             });
-                                            idrumah.addEventListener('touchend', function() {
+                                            idrumah.addEventListener('touchend', function () {
                                                 // Show the modal or perform other actions
                                                 event.preventDefault();
                                                 showModal(idrumah, item); // Pass idrumah to the showModal function
@@ -309,17 +306,17 @@
                                     // Define the HTML content for the popover
                                     var popoverContent = `
 
-                                                    <div>
-                                                        No. Rumah: ${item.blok}-${item.nomor}<br>
-                                                        Luas Tanah: ${item.luas_tanah} m<sup>2</sup><br>
-                                                        Status: <span id="bg-status" style="color:${headingBgClass};"  class="btn btn-outline-white"> ${item.status} <span>
-                                                    </div>
-                                                    <br>
-                                                    <div class="float-right">
-                                                        <a href="#" class="btn btn-outline-danger close-popover" data-dismiss="alert">Close</a>
-                                                    </div>
+                                                            <div>
+                                                                No. Rumah: ${item.blok}-${item.nomor}<br>
+                                                                Luas Tanah: ${item.luas_tanah} m<sup>2</sup><br>
+                                                                Status: <span id="bg-status" style="color:${headingBgClass};"  class="btn btn-outline-white"> ${item.status} <span>
+                                                            </div>
+                                                            <br>
+                                                            <div class="float-right">
+                                                                <a href="#" class="btn btn-outline-danger close-popover" data-dismiss="alert">Close</a>
+                                                            </div>
 
-                                                `;
+                                                        `;
 
                                     var headingPop = `<h4 style="color: black;">Rumah </h4>`;
 
@@ -342,21 +339,21 @@
 
                                     $("h3.popover-header").addClass("text-center");
 
-                                    if(color(item.status) == "#f5fcb6"){
+                                    if (color(item.status) == "#f5fcb6") {
                                         $("h3.popover-header").css("color", "black");
-                                    }else{
+                                    } else {
                                         $("h3.popover-header").css("color", "white");
                                     }
-                                    if(color(item.status) == "#f5fcb6"){
+                                    if (color(item.status) == "#f5fcb6") {
                                         $("#bg-status").css("color", "#757a46");
                                     }
 
                                     // Event delegation for the button inside the popover
-                                    $(document).on('click', '.close-popover', function() {
+                                    $(document).on('click', '.close-popover', function () {
                                         $(idrumah).popover('dispose');
                                     });
 
-                                    $(document).on('click touchend', function(e) {
+                                    $(document).on('click touchend', function (e) {
                                         // Check if the click event is outside of the popover and the element that triggers the popover
                                         if (!$(e.target).closest('.popover').length && !$(e.target).is(idrumah)) {
                                             // Close the popover
@@ -409,7 +406,7 @@
 
 
 
-                            window.onload = function() {
+                            window.onload = function () {
                                 var panZoomInstance = svgPanZoom('#map', {
                                     zoomEnabled: false,
                                     controlIconsEnabled: false, // Disable default control icons
@@ -434,9 +431,9 @@
                             };
                         </script>
                 @endif
-            </div>
+                </div>
 
-        </div>
+            </div>
         </div>
 
 

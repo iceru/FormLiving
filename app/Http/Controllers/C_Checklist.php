@@ -688,6 +688,12 @@ class C_Checklist extends Controller
 
     function editChecklistAction(Request $request, $projek, $id_rumah, $termin, $id_checklist)
     {
+        // Prevent direct URL open on action endpoint (GET) and send user back to edit form.
+        if ($request->isMethod('get')) {
+            return redirect()->route('editChecklist.admin', [$projek, $id_rumah, $termin, $id_checklist])
+                ->with('error', 'Aksi ubah checklist harus melalui submit form.');
+        }
+
         $getProjek = $this->projek->firstProjek('*', 'nama_projek', '=', $projek);
 
         $decryptedID = Crypt::decrypt($id_rumah);

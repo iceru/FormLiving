@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use OpenAI;
 
 class homeAssistantChatController extends Controller
 {
@@ -12,7 +11,6 @@ class homeAssistantChatController extends Controller
 
     public function __construct()
     {
-        $this->openai = OpenAI::client(env('OPENAI_API_KEY'));
         $this->conversationHistory = [
             ["role" => "developer", "content" => "You are a helpful assistant for a housing company."],
             ["role" => "developer", "content" => "Do not give calculations. Give normal format. Just give final answers"],

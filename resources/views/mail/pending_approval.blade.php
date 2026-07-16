@@ -223,7 +223,7 @@
         </div>
 
         <div class="body">
-            <p class="greeting">Yth. Tim {{ $level }},</p>
+            <p class="greeting">Yth. {{ $level }},</p>
             <p class="description">
                 Terdapat Surat Pemesanan Rumah yang telah disetujui oleh level sebelumnya
                 dan kini memerlukan persetujuan dari Anda. Harap segera tindak lanjuti.
@@ -252,8 +252,10 @@
             <p class="section-title">Alur Persetujuan</p>
             <div class="timeline">
                 <div class="timeline-item">
-                    <div class="timeline-dot dot-done"></div>
-                    <div class="timeline-text">Lead Sales</div>
+                    <div
+                        class="timeline-dot {{ $level === 'Lead Sales' ? 'dot-active' : (($fp->status_approval ?? 0) >= 1 ? 'dot-done' : 'dot-pending') }}">
+                    </div>
+                    <div class="timeline-text {{ $level === 'Lead Sales' ? 'active' : '' }}">Lead Sales</div>
                 </div>
 
                 <div class="timeline-item">
