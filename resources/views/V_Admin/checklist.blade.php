@@ -80,7 +80,7 @@
                                                                     </div>
                                                                     <div class="form-group">
                                                                         <label for="">Subkon</label>
-                                                                        <select name="subkon" required
+                                                                        <select name="subkon"
                                                                             class="js-example-basic-single form-control"
                                                                             id="" style="width: 100%">
                                                                             <option value="">--subkon--</option>

@@ -181,7 +181,7 @@ class C_Checklist extends Controller
         foreach ($getJoblist as $joblist) {
             $data = [
                 'id_rumah' => $request->rumah,
-                'id_subkon' => $request->subkon,
+                'id_subkon' => $request->filled('subkon') ? $request->subkon : null,
                 'id_joblist' => $joblist->id_joblist,
                 'id_pengawas1' => $request->pengawas1,
                 'id_pengawas2' => $request->pengawas2,
