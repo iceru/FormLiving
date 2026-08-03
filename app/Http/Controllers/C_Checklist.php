@@ -59,7 +59,7 @@ class C_Checklist extends Controller
             'asc'
         )->collect();
 
-        
+
         // $getJob = $getJob->where('id_projek',$getProjek->id_projek)->groupBy('termin_job')->sortBy('termin_job');
         if (session()->has('user')) {
 
@@ -101,7 +101,6 @@ class C_Checklist extends Controller
                     ->orderByRaw('jl.termin_jl AND a.id_checklist DESC')
                     ->groupBy('r.id_rumah')
                     ->get();
-                
             } else {
                 $getChecklist = DB::table('checklist as a')
                     ->selectRaw("SUM(subbobot) as percentase,  a.*, r.*, jl.*, sub.*, clus.*,
@@ -122,7 +121,7 @@ class C_Checklist extends Controller
                     ->get();
             }
 
-            $getRumah = $this->rumah->getRumahProjekWhereAll('status', '=', 'Sold');
+            $getRumah = $this->rumah->getRumahProjekAll();
             $getSubkon = $this->subkon->getSubkon();
             $getPengawas = $this->userAdmin->getUserAdminWhere('*', ['ktgr_admin.kategori' => "Pengawas"]);
 
@@ -158,9 +157,9 @@ class C_Checklist extends Controller
     function addChecklistAction(Request $request, $projek)
     {
         $getChecklist = $this->checklist->getChecklistWhere(['checklist.id_rumah' => $request->rumah]);
-        
+
         $getProjek = $this->projek->firstProjek('*', 'nama_projek', '=', $projek);
-        
+
         if ($getChecklist->isEmpty()) {
             // $getChecklist is empty
         } else {
@@ -197,7 +196,7 @@ class C_Checklist extends Controller
         return redirect()->back()->with('success', 'Checklist berhasil ditambahkan!');
     }
 
-     public function nextTermin($projek, $id_rumah)
+    public function nextTermin($projek, $id_rumah)
     {
         $decryptedID = Crypt::decrypt($id_rumah);
 
@@ -520,7 +519,7 @@ class C_Checklist extends Controller
 
 
         $decryptedID = Crypt::decrypt($id_rumah);
-        
+
         $decryptedTermin = Crypt::decrypt($termin);
         $getRumah = $this->rumah->firstRumahWhereJoinCluster('*', 'rumah.id_rumah', '=', $decryptedID);
 
@@ -563,7 +562,6 @@ class C_Checklist extends Controller
                     ->Join('job as j', 'jl.id_job', '=', 'j.id_job')
                     ->orderByRaw('jl.sort_jl ASC')
                     ->get();
-                
             } else {
                 $getChecklist = DB::table('checklist as a')
                     ->selectRaw("a.*, jl.*, j.*,IF(a.id_pengawas1 IS NULL,'N/A',b.nama_ua) as pengawas1,
@@ -580,7 +578,6 @@ class C_Checklist extends Controller
 
                     ->orderByRaw('jl.sort_jl ASC')
                     ->get();
-                
             }
 
             return view(
@@ -652,7 +649,6 @@ class C_Checklist extends Controller
 
                     ->Join('job as j', 'jl.id_job', '=', 'j.id_job')
                     ->first();
-                
             } else {
                 $getChecklist = DB::table('checklist as a')
                     ->selectRaw("a.*, jl.*, j.*")
@@ -667,7 +663,7 @@ class C_Checklist extends Controller
                     ->Join('job as j', 'jl.id_job', '=', 'j.id_job')
                     ->first();
             }
-            
+
 
             return view(
                 'V_Admin.editChecklist',
@@ -712,7 +708,7 @@ class C_Checklist extends Controller
             ->first();
 
         $getRumah = $this->rumah->firstRumahWhereJoinCluster('*', 'rumah.id_rumah', '=', $decryptedID);
-        
+
         if (session()->has('user')) {
             $user = $this->userAdmin->getUserKategoriWhere('user_admin.id_user_admin', '=', Session::get('user'));
 
@@ -733,7 +729,7 @@ class C_Checklist extends Controller
             $dataInput = "";
             $foto = $request->file('foto');
             $checklist = $getChecklist->status_checklist;
-            if($request->status_cek_pengawas1 === 'selesai' &&  $request->status_cek_pengawas2 === 'selesai') {
+            if ($request->status_cek_pengawas1 === 'selesai' &&  $request->status_cek_pengawas2 === 'selesai') {
                 $checklist = 'selesai';
             }
             if (empty($foto)) {
@@ -781,8 +777,8 @@ class C_Checklist extends Controller
                     'id_pelanggan' => $getChecklist->id_pelanggan,
                     'from_pelanggan_notif' => "Teknik",
                     'icon_pelanggan_notif' => "fa fa-building",
-                    'title_pelanggan_notif' => "Pembangunan Rumah " .$getRumah->blok.' - '.$getRumah->nomor,
-                    'msg_notif' => "Pekerjaan pembangunan untuk proyek ".$getChecklist->nama_jl." di ".$getRumah->blok.' - '.$getRumah->nomor." telah mencapai Termin ".$getChecklist->termin_jl.". Pengawas proyek kami baru saja mengupdate statusnya. Mohon cek dashboard Anda untuk informasi lebih lanjut.",
+                    'title_pelanggan_notif' => "Pembangunan Rumah " . $getRumah->blok . ' - ' . $getRumah->nomor,
+                    'msg_notif' => "Pekerjaan pembangunan untuk proyek " . $getChecklist->nama_jl . " di " . $getRumah->blok . ' - ' . $getRumah->nomor . " telah mencapai Termin " . $getChecklist->termin_jl . ". Pengawas proyek kami baru saja mengupdate statusnya. Mohon cek dashboard Anda untuk informasi lebih lanjut.",
                     'tgl_notif' => Carbon::now(), // Set tanggal sekarang
                     'status_notif' => 'unread',
                 );
