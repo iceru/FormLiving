@@ -108,6 +108,76 @@
                                                         class="btn btn-outline-info"> {{ $status }}kan</a>
                                                 @endif
                                             @endforeach
+                                            <button type="button" class="btn btn-outline-info"
+                                                data-target="#changePasswordUser{{ $userSales->id_user_admin }}"
+                                                data-toggle="modal">
+                                                <i class="fa fa-key" aria-hidden="true"></i>
+                                            </button>
+
+                                            <div class="modal modal-form fade"
+                                                id="changePasswordUser{{ $userSales->id_user_admin }}"
+                                                data-backdrop="static" data-keyboard="false" tabindex="-1"
+                                                aria-labelledby="order-informationLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Ubah Password
+                                                                {{ $userSales->username_ua }}
+                                                            </h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true"><i
+                                                                        class="bi bi-x-lg"></i></span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form
+                                                                action="{{ route('updatePasswordUserAction.admin', Crypt::encrypt($userSales->id_user_admin)) }}"
+                                                                method="POST">
+                                                                @csrf
+                                                                <div class="form-group row">
+                                                                    <label class="col-sm-4 col-form-label align-self-center">
+                                                                        Username
+                                                                    </label>
+                                                                    <div class="col-sm-8 align-self-center">
+                                                                        <input type="text" class="form form-control"
+                                                                            value="{{ $userSales->username_ua }}" readonly>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <label class="col-sm-4 col-form-label align-self-center">
+                                                                        Password Baru
+                                                                    </label>
+                                                                    <div class="col-sm-8 align-self-center">
+                                                                        <input type="password" name="password"
+                                                                            class="form form-control" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <label class="col-sm-4 col-form-label align-self-center">
+                                                                        Tulis Ulang Password
+                                                                    </label>
+                                                                    <div class="col-sm-8 align-self-center">
+                                                                        <input type="password" name="password_confirmation"
+                                                                            class="form form-control" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row pt-4">
+                                                                    <div class="col-12 mb-1">
+                                                                        <button type="submit"
+                                                                            class="btn-fd-primary w-100">Submit</button>
+                                                                    </div>
+                                                                    <div class="col-12 mb-1">
+                                                                        <button type="button"
+                                                                            class="btn-fd-primary bg-danger w-100"
+                                                                            data-dismiss="modal">Close</button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </td>
                                     @endif
 
@@ -546,6 +616,83 @@
                                                                 </form>
                                                             </div>
 
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <button type="button" class="btn btn-outline-info"
+                                                    data-target="#changePasswordUser{{ $userSales->id_user_admin }}"
+                                                    data-toggle="modal">
+                                                    <i class="fa fa-key" aria-hidden="true"></i>
+                                                </button>
+
+                                                <div class="modal modal-form fade"
+                                                    id="changePasswordUser{{ $userSales->id_user_admin }}"
+                                                    data-backdrop="static" data-keyboard="false" tabindex="-1"
+                                                    aria-labelledby="order-informationLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Ubah Password
+                                                                    {{ $userSales->username_ua }}
+                                                                </h5>
+                                                                <button type="button" class="close"
+                                                                    data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true"><i
+                                                                            class="bi bi-x-lg"></i></span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form
+                                                                    action="{{ route('updatePasswordUserAction.admin', Crypt::encrypt($userSales->id_user_admin)) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    <div class="form-group row">
+                                                                        <label
+                                                                            class="col-sm-4 col-form-label align-self-center">
+                                                                            Username
+                                                                        </label>
+                                                                        <div class="col-sm-8 align-self-center">
+                                                                            <input type="text"
+                                                                                class="form form-control"
+                                                                                value="{{ $userSales->username_ua }}"
+                                                                                readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                        <label
+                                                                            class="col-sm-4 col-form-label align-self-center">
+                                                                            Password Baru
+                                                                        </label>
+                                                                        <div class="col-sm-8 align-self-center">
+                                                                            <input type="password" name="password"
+                                                                                class="form form-control" required>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                        <label
+                                                                            class="col-sm-4 col-form-label align-self-center">
+                                                                            Tulis Ulang Password
+                                                                        </label>
+                                                                        <div class="col-sm-8 align-self-center">
+                                                                            <input type="password"
+                                                                                name="password_confirmation"
+                                                                                class="form form-control" required>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row pt-4">
+                                                                        <div class="col-12 mb-1">
+                                                                            <button type="submit"
+                                                                                class="btn-fd-primary w-100">Submit</button>
+                                                                        </div>
+                                                                        <div class="col-12 mb-1">
+                                                                            <button type="button"
+                                                                                class="btn-fd-primary bg-danger w-100"
+                                                                                data-dismiss="modal">Close</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>

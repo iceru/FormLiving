@@ -316,6 +316,40 @@ class C_UserAdmin extends Controller
             return redirect('/login');
         }
     }
+
+    public function updatePasswordUserAction(Request $request, $id)
+    {
+        if (!session()->has('user')) {
+            return redirect('/login');
+        }
+
+        $request->validate([
+            'password' => 'required|confirmed',
+        ]);
+
+        $decryptedID = Crypt::decrypt($id);
+        $user = $this->userAdmin->getUserKategoriWhere('user_admin.id_user_admin', '=', Session::get('user'));
+        $targetUser = DB::table('user_admin')
+            ->where('id_user_admin', $decryptedID)
+            ->first();
+
+        if (!$targetUser) {
+            return redirect()->back()->with('danger', 'User tidak ditemukan');
+        }
+
+        if ($user->kategori != 'SuperAdmin' && $targetUser->id_kepala_ua != Session::get('user')) {
+            return redirect()->back()->with('danger', 'Anda tidak dapat mengubah password user ini');
+        }
+
+        DB::table('user_admin')
+            ->where('id_user_admin', $decryptedID)
+            ->update([
+                'password_ua' => md5($request->password),
+            ]);
+
+        return redirect()->back()->with('success', 'Password user berhasil diubah');
+    }
+
     public function changeStatusUser($id, $status)
     {
 

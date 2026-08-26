@@ -386,6 +386,7 @@ Route::get('/selamat/{id}', [C_PreOrder::class, 'selamatPage'])->name('userConfi
 Route::get('/user-sales-agent-admin', [C_UserAdmin::class, 'userAdminSalesAgent'])->name('userSalesAgent.admin');
 Route::get('/download-user-sales-admin', [C_UserAdmin::class, 'DownloadUserAdminSales'])->name('downloadUserAdminSales.admin');
 Route::get('/hapus-user-admin/{id}', [C_UserAdmin::class, 'deleteUserAdmin'])->name('deleteUserAdmin.admin');
+Route::post('/ubah-password-user-admin/action/{id}', [C_UserAdmin::class, 'updatePasswordUserAction'])->name('updatePasswordUserAction.admin');
 
 
 // PROMO
@@ -573,4 +574,3 @@ Route::post('/edit-profile-guest-action/{projek}', [C_Profile::class, 'editUserP
 // GET NOTIFICATION
 Route::get('/notificationsPelanggan', [C_NotificationPelanggan::class, 'fetchNotifications'])->name('notifications.fetch');
 Route::post('/notificationsPelangganAsRead', [C_NotificationPelanggan::class, 'markAsRead'])->name('notifications.markAsRead');
-
